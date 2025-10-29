@@ -1,0 +1,14 @@
+<h2>Lista Produktów</h2>
+<div>
+  <input type="text" name="newProduct" id="newProduct" [(ngModel)]="newProduct">
+  <button (click)="addProduct()">Dodaj</button>
+  
+  <ol>
+  @for (product of products; track $index) {
+    <div class="product-content">
+        <li>{{ product }}</li>
+        <button (click)="deleteProduct($index)">Usuń</button>
+    </div>
+  }
+  </ol>
+</div>

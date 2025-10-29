@@ -1,0 +1,45 @@
+<form #form="ngForm" (ngSubmit)="onSubmit(form)">
+    <div class="form-group">
+        <label for="firstName">FirstName</label>
+        <input type="text" name="firstName" id="firstName" [(ngModel)]="firstName"
+        required minlength="5" appFirstLetter>
+        @if (form.controls['firstName'] && form.controls['firstName'].touched) {
+            @if (form.controls['firstName'].errors?.['required']) {
+                Pole jest wymagane
+            }
+            @if (form.controls['firstName'].errors?.['minlength']) {
+                Minimalna długość wynosi 5
+            }
+            @if (form.controls['firstName'].errors?.['notFirstLetter']) {
+                Pierwszy znak powinien być wielką literą
+            }
+        }
+    </div>
+
+    <div class="form-group">
+        <label for="lastName">LastName</label>
+        <input type="text" name="lastName" id="lastName" [(ngModel)]="lastName"
+        required #lastNameFormControl="ngModel">
+        @if (lastNameFormControl.touched) {
+            @if (lastNameFormControl.errors?.["required"]) {
+                Pole jest wymagane
+            }
+            @if (lastNameFormControl.hasError('required')) {
+                Pole jest wymagane
+            }
+        }
+    </div>
+
+    <div ngModelGroup="address">
+        <div class="form-group">
+            <label for="street">Street</label>
+            <input type="text" name="street" id="street" [(ngModel)]="address.street">
+        </div>
+
+        <div class="form-group">
+            <label for="city">City</label>
+            <input type="text" name="city" id="city" [(ngModel)]="address.city">
+        </div>
+    </div>
+    <button type="submit" [disabled]="form.invalid">Wyślij</button>
+</form>
