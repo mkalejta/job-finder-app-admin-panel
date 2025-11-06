@@ -1,0 +1,13 @@
+.form {
+    display: flex;
+    gap: 1rem;
+}
+
+.add-content {
+    display: flex;
+    gap: 0.5rem;
+}
+
+.ng-invalid.ng-touched:not(form) {
+    border: 1px solid red;
+}

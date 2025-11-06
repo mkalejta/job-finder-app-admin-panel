@@ -1,0 +1,15 @@
+<form #form="ngForm" (ngSubmit)="addProduct(form)">
+    <div class="add-content">
+        <input type="text" name="productName" id="productName"
+        required [(ngModel)]="productName" appAlreadyExists>
+        @if (form.controls['productName'] && form.controls['productName'].touched) {
+            @if (form.controls['productName'].errors?.['required']) {
+                Pole jest wymagane
+            }
+            @if (form.controls['productName'].errors?.['appAlreadyExists']) {
+                Nie można dodać kolejnego produktu {{ productName }}
+            }
+        }
+        <button type="submit" [disabled]="form.invalid">Dodaj</button>
+    </div>
+</form>

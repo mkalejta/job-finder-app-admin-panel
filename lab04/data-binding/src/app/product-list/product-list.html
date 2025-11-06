@@ -1,14 +1,19 @@
-<h2>Lista Produktów</h2>
-<div>
-  <input type="text" name="newProduct" id="newProduct" [(ngModel)]="newProduct">
-  <button (click)="addProduct()">Dodaj</button>
-  
+<div>  
   <ol>
   @for (product of products; track $index) {
     <div class="product-content">
-        <li>{{ product }}</li>
+      <li [class.bought]="boughtProducts.has($index)">
+          <input
+            type="checkbox"
+            [id]="'product-' + $index"
+            [checked]="boughtProducts.has($index)"
+            (change)="toggleBought($index, $event.target.checked)"
+          />
+          <label [for]="'product-' + $index">{{ product }}</label>
+        </li>
         <button (click)="deleteProduct($index)">Usuń</button>
     </div>
   }
   </ol>
+  <button (click)="deleteBought()">Usuń kupione</button>
 </div>

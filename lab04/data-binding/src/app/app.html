@@ -4,4 +4,6 @@
 <hr>
 <app-form></app-form> -->
 
-<app-product-list></app-product-list>
+<h2>Lista Produktów</h2>
+<app-product-form [products]="products" (productAdded)="addProduct($event)"></app-product-form>
+<app-product-list [products]="products"></app-product-list>
