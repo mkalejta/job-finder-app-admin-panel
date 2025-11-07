@@ -1,0 +1,49 @@
+<h1>Dodaj użytkownika</h1>
+<form #form="ngForm" (ngSubmit)="addUser(form)">
+    <div ngModelGroup="personal">
+        <div class="form-group">                
+            <label for="name">Imię: </label>
+            <input type="text" name="name" id="name" required [(ngModel)]="name">
+            @if (form.controls['name'] && form.controls['name'].touched) {
+                @if (form.controls['name'].errors?.['required']) {
+                    Pole jest wymagane
+                }
+            }
+        </div>
+        <div class="form-group">                
+            <label for="surname">Nazwisko: </label>
+            <input type="text" name="surname" id="surname" required [(ngModel)]="surname">
+        </div>
+        <div class="form-group">
+            <label for="phoneNumber">Numer telefonu: </label>
+            <input type="text" name="phoneNumber" id="phoneNumber" required [(ngModel)]="phoneNumber">
+        </div>
+        <div class="form-group">                
+            <label for="yearOfBirth">Rok urodzenia: </label>
+            <input type="text" name="yearOfBirth" id="yearOfBirth"required [(ngModel)]="yearOfBirth">
+        </div>
+    </div>
+    <div ngModelGroup="addressDetails">
+        <div class="form-group">
+            <label for="street">Ulica: </label>
+            <input type="text" name="street" id="street" required [(ngModel)]="street">
+        </div>
+        <div class="form-group">
+            <label for="houseNumber">Numer domu: </label>
+            <input type="text" name="houseNumber" id="houseNumber" required [(ngModel)]="houseNumber">
+        </div>
+        <div class="form-group">
+            <label for="apartmentNumber">Numer mieszkania: </label>
+            <input type="text" name="apartmentNumber" id="apartmentNumber" required [(ngModel)]="apartmentNumber">
+        </div>
+        <div class="form-group">                
+            <label for="postalCode">Kod pocztowy: </label>
+            <input type="text" name="postalCode" id="postalCode" required [(ngModel)]="postalCode">
+        </div>
+        <div class="form-group">                
+            <label for="city">Miejscowość: </label>
+            <input type="text" name="city" id="city" required [(ngModel)]="city">
+        </div>
+    </div>
+    <button type="submit" [disabled]="form.invalid">Dodaj</button>
+</form>

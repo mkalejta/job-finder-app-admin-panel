@@ -1,0 +1,12 @@
+<h1>Lista użytkowników</h1>
+<div>
+    @for (user of users; track $index) {
+        <div class="user-content">
+            <p>{{user.name}} {{user.surname}} (Numer telefonu: {{user.phoneNumber}})</p>
+            <p>Rok urodzenia: {{user.yearOfBirth}}</p>
+            <p>{{user.address.street}} {{user.address.houseNumber}} {{user.address.apartmentNumber}},
+                {{user.address.postalCode}} {{user.address.city}}</p>
+            <button type="text" (click)="deleteUser($index)">Usuń</button>
+        </div>
+    }
+</div>
