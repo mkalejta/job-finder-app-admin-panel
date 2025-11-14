@@ -1,4 +1,4 @@
-import { Component, Input, OnInit, OnDestroy } from '@angular/core';
+import { Component, Input, OnInit, OnDestroy, OnChanges, SimpleChanges } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
 @Component({
@@ -7,10 +7,10 @@ import { CommonModule } from '@angular/common';
   templateUrl: './clock-component.html',
   styleUrl: './clock-component.scss',
 })
-export class ClockComponent implements OnInit, OnDestroy {
+export class ClockComponent implements OnInit, OnDestroy, OnChanges {
   @Input({ required: true }) public format!: '12' | '24';
 
-  protected time: string = '';
+  public time: string = '';
   private intervalId: any = null;
 
   ngOnInit(): void {
@@ -18,16 +18,22 @@ export class ClockComponent implements OnInit, OnDestroy {
     this.start();
   }
 
+  ngOnChanges(changes: SimpleChanges): void {
+    if (changes['format']) {
+      this.updateTime();
+    }
+  }
+
   ngOnDestroy(): void {
     this.stop();
   }
 
-  protected start(): void {
+  public start(): void {
     if (this.intervalId) return;
     this.intervalId = setInterval(() => this.updateTime(), 1000);
   }
 
-  protected stop(): void {
+  public stop(): void {
     if (!this.intervalId) return;
     clearInterval(this.intervalId);
     this.intervalId = null;

@@ -6,4 +6,8 @@
 
 @if (showClock) {
   <app-clock-component [format]="format"></app-clock-component>
+} @else {
+  <div>
+    <p>Ostatnio wyświetlana godzina: {{ lastTime }}</p>
+  </div>
 }
