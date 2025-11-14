@@ -1,0 +1,9 @@
+<button (click)="createClock()">Utwórz zegar</button>
+<button (click)="deleteClock()">Usuń zegar</button>
+
+<button (click)="toggleFormat()">Zmień format</button>
+<p>Aktualny format {{ format }}</p>
+
+@if (showClock) {
+  <app-clock-component [format]="format"></app-clock-component>
+}
