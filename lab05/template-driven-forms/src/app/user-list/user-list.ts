@@ -1,9 +1,10 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { CommonModule } from '@angular/common';
 import { User } from '../app';
 
 @Component({
   selector: 'app-user-list',
-  imports: [],
+  imports: [CommonModule],
   templateUrl: './user-list.html',
   styleUrl: './user-list.scss',
 })

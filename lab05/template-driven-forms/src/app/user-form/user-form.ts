@@ -1,10 +1,14 @@
 import { Component, Input, Output, EventEmitter } from '@angular/core';
 import { FormsModule, NgForm } from '@angular/forms';
 import { User } from '../app';
+import { LettersOnly } from "../directives/letters-only/letters-only";
+import { FirstLetterBig } from "../directives/first-letter-big/first-letter-big";
+import { NineDigits } from "../directives/nine-digits/nine-digits";
+import { YearBetween } from "../directives/year-between/year-between";
 
 @Component({
   selector: 'app-user-form',
-  imports: [FormsModule],
+  imports: [FormsModule, LettersOnly, FirstLetterBig, NineDigits, YearBetween],
   templateUrl: './user-form.html',
   styleUrl: './user-form.scss',
 })
