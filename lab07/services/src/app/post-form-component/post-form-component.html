@@ -1,0 +1,35 @@
+<h2>{{ editing ? 'Edytuj post' : 'Dodaj post' }}</h2>
+<form [formGroup]="userForm" (ngSubmit)="submitForm()">
+  <div>
+    <label for="title">Tytuł</label>
+    <input id="title" type="text" formControlName="title" />
+    <button type="button" (click)="resetTitle()">Reset</button>
+    @if (userForm.get('title')?.invalid && userForm.get('title')?.touched) {
+      <div>
+        @if (userForm.get('title')?.errors?.['required']) {
+          <small>Tytuł jest wymagany.</small>
+        }
+      </div>
+    }
+  </div>
+
+  <div>
+    <label for="content">Treść</label>
+    <textarea id="content" formControlName="content"></textarea>
+    @if (userForm.get('content')?.invalid && userForm.get('content')?.touched) {
+      <div>
+        @if (userForm.get('content')?.errors?.['required']) {
+          <small>Treść jest wymagana.</small>
+        }
+        @if (userForm.get('content')?.errors?.['minlength']) {
+          <small>Treść jest za krótka.</small>
+        }
+      </div>
+    }
+  </div>
+
+  <div>
+    <button type="submit" [disabled]="userForm.invalid">Zapisz</button>
+    <button type="button" (click)="onCancel()">Anuluj</button>
+  </div>
+</form>
