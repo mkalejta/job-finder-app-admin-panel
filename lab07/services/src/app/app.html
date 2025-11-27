@@ -12,7 +12,7 @@
 		@if (posts().length === 0) {
 			<div>Brak postów.</div>
 		}
-		@for (post of posts(); track post.id) {
+		@for (post of visiblePosts(); track post.id) {
             <div class="post">
                 <h4>{{ post.title | uppercase }}</h4>
                 <div class="meta">Dodano: {{ post.createdAt | date:'d MMMM yyyy, HH:mm' }}</div>
@@ -23,6 +23,19 @@
                     <button (click)="onDelete(post.id)">Usuń</button>
                 </div>
             </div>
-        }
+		}
+
+		<div class="pagination-controls">
+			<label for="pageSize">Postów na stronę:</label>
+			<select id="pageSize" (change)="setPageSize($any($event.target).value)" [value]="pageSize()">
+				@for (s of pageSizeOptions; track $index) {
+					<option [value]="s">{{ s }}</option>
+				}
+			</select>
+
+			<button (click)="prevPage()" [disabled]="currentPage() <= 1">Poprzednia</button>
+			<span>Strona {{ currentPage() }} / {{ totalPages() }}</span>
+			<button (click)="nextPage()" [disabled]="currentPage() >= totalPages()">Następna</button>
+		</div>
 	</section>
 </div>

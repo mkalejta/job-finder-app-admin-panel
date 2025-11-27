@@ -30,6 +30,10 @@ export class PostService {
     return posts.sort((a, b) => (b.createdAt > a.createdAt ? 1 : -1));
   }
 
+  getTotalCount(): number {
+    return this.readStorage().length;
+  }
+
   addPost(post: Omit<Post, 'id' | 'createdAt' | 'modifiedAt'>): Post {
     const now = new Date().toISOString();
     const newPost: Post = {
