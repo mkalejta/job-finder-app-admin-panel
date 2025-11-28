@@ -1,0 +1,30 @@
+<div [formGroup]="group" class="address-part">
+    <div>
+        <label for="street">Ulica: </label>
+        <input id="street" type="text" formControlName="street" />
+        <div *ngIf="group.get('street')?.invalid && group.get('street')?.touched">
+            <small *ngIf="group.get('street')?.errors?.['required']">Ulica jest wymagana</small>
+        </div>
+    </div>
+
+    <div>
+        <label for="city">Miasto: </label>
+        <input id="city" type="text" formControlName="city" />
+        <div *ngIf="group.get('city')?.invalid && group.get('city')?.touched">
+            <small *ngIf="group.get('city')?.errors?.['required']">Miasto jest wymagane</small>
+        </div>
+    </div>
+
+    <div>
+        <label for="postalCode">Kod pocztowy: </label>
+        <input id="postalCode" type="text" formControlName="postalCode" />
+        <div *ngIf="group.get('postalCode')?.invalid && group.get('postalCode')?.touched">
+            <small *ngIf="group.get('postalCode')?.errors?.['required']">Kod pocztowy jest wymagany</small>
+            <small *ngIf="group.get('postalCode')?.errors?.['pattern']">Kod pocztowy ma format 12345</small>
+        </div>
+    </div>
+
+    <div>
+        <button type="button" (click)="onRemove()">Usuń adres</button>
+    </div>
+</div>
