@@ -3,35 +3,14 @@
     <div>
         <label for="name">Imię: </label>
         <input id="name" type="text" formControlName="name" />
-        @if (userForm.get('name')?.invalid && userForm.get('name').touched) {
-            <div>
-                @if (userForm.get('name')?.errors?.['required']) {
-                    <small>Imię jest wymagane</small>
-                }
-            </div>
-        }
     </div>
     <div>
         <label for="surname">Nazwisko: </label>
         <input id="surname" type="text" formControlName="surname" />
-        @if (userForm.get('surname')?.invalid && userForm.get('surname').touched) {
-            <div>
-                @if (userForm.get('surname')?.errors?.['required']) {
-                    <small>Nazwisko jest wymagane</small>
-                }
-            </div>
-        }
     </div>
     <div>
         <label for="email">Email: </label>
         <input id="email" type="text" formControlName="email" />
-        @if (userForm.get('email')?.invalid && userForm.get('email').touched) {
-            <div>
-                @if (userForm.get('email')?.errors?.['required']) {
-                    <small>Email jest wymagane</small>
-                }
-            </div>
-        }
     </div>
 
     <div formArrayName="addresses">
@@ -40,13 +19,9 @@
             <small>Brak adresów. Możesz dodać nowy adres poniżej.</small>
         }
 
-        @for (addr of addresses.controls; track $index) {
-            <app-address-part [group]="addr" (remove)="removeAddress($index)"></app-address-part>"
+        @for (_ of addresses.controls; track $index) {
+            <app-address-part [group]="getAddressGroup($index)" (remove)="removeAddress($index)"></app-address-part>
         }
-
-        <!-- <div *ngFor="let addr of addresses.controls; let i = index" [formGroupName]="i">
-            <app-address-part [group]="addr" (remove)="removeAddress(i)"></app-address-part>
-        </div> -->
 
         <div>
             <button type="button" (click)="addAddress()">Dodaj adres</button>

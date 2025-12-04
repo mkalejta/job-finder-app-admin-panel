@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges } from '@angular/core';
 import { FormArray, FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { User, Address } from '../models/user.model';
 import { AddressPart } from '../address-part/address-part';
@@ -10,7 +10,7 @@ import { CommonModule } from '@angular/common';
   templateUrl: './user-form.html',
   styleUrl: './user-form.scss',
 })
-export class UserForm {
+export class UserForm implements OnInit, OnChanges {
   @Input() editing: User | null = null;
   @Output() save = new EventEmitter<User>();
   @Output() cancel = new EventEmitter<void>();
@@ -27,6 +27,16 @@ export class UserForm {
   }
 
   ngOnInit(): void {
+    this.applyEditing();
+  }
+
+  ngOnChanges(changes: SimpleChanges): void {
+    if (changes['editing']) {
+      this.applyEditing();
+    }
+  }
+
+  private applyEditing() {
     if (this.editing) {
       this.userForm.patchValue({
         name: this.editing.name,
@@ -34,18 +44,24 @@ export class UserForm {
         email: this.editing.email
       });
 
-      // populate addresses FormArray
       this.addresses.clear();
       if (this.editing.address && Array.isArray(this.editing.address)) {
         for (const addr of this.editing.address) {
           this.addAddress(addr);
         }
       }
+    } else {
+      this.userForm.reset();
+      this.addresses.clear();
     }
   }
 
   get addresses(): FormArray {
     return this.userForm.get('addresses') as FormArray;
+  }
+
+  getAddressGroup(index: number) {
+    return this.addresses.at(index) as FormGroup;
   }
 
   private createAddressGroup(addr?: Address): FormGroup {

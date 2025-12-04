@@ -11,7 +11,7 @@ import { CommonModule } from '@angular/common';
 })
 export class AddressPart {
   @Input() group!: FormGroup;
-  @Input() address: Address | null = null; // optional legacy
+  @Input() address: Address | null = null;
   @Output() remove = new EventEmitter<void>();
 
   onRemove() {
