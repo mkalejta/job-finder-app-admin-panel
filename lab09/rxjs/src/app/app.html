@@ -1,0 +1,31 @@
+<h1>{{ title() }}</h1>
+
+<section>
+  <h2>Zadanie 1: Losowe liczby co 5 sekund</h2>
+  <p>Pierwsze 5 wartości emitowanych przez observer:</p>
+  <div>
+    @for (num of randomNumbers(); track $index) {
+      <strong>Wylosowana liczba {{ $index + 1 }}:</strong> {{ num }}
+      <br />
+    }
+  </div>
+  <p style="margin-top: 16px; font-size: 13px; color: #666;">
+    Otwórz konsolę developerską (F12), aby zobaczyć wszystkie emitowane wartości.
+  </p>
+</section>
+
+<hr />
+
+<section>
+  <h2>Zadanie 2: Połączona lista Adult i Child</h2>
+
+  @if (combinedList().length > 0) {
+    <ol style="background: #f9f9f9; padding: 16px; border-radius: 4px;">
+      @for (person of combinedList(); track person.id) {
+        <li>{{ person.imie }} {{ person.nazwisko }}</li>
+      }
+    </ol>
+  } @else {
+    <p>Brak danych w połączonej liście</p>
+  }
+</section>
