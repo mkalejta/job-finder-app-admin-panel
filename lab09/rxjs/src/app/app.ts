@@ -6,10 +6,11 @@ import { take, combineLatest, map } from 'rxjs';
 import { Human } from './models/human';
 import { NavbarComponent } from './components/navbar-component/navbar-component/navbar-component';
 import { UserFormComponent } from './components/user-form-component/user-form-component/user-form-component';
+import { AlertComponent } from './components/alert-component/alert-component/alert-component';
 
 @Component({
   selector: 'app-root',
-  imports: [CommonModule, NavbarComponent, UserFormComponent],
+  imports: [CommonModule, NavbarComponent, UserFormComponent, AlertComponent],
   templateUrl: './app.html',
   styleUrl: './app.scss'
 })

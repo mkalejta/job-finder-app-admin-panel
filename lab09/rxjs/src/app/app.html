@@ -1,5 +1,6 @@
 <h1>{{ title() }}</h1>
 
+
 <section>
   <h2>Zadanie 1: Losowe liczby co 5 sekund</h2>
   <p>Pierwsze 5 wartości emitowanych przez observer:</p>
@@ -18,7 +19,7 @@
 
 <section>
   <h2>Zadanie 2: Połączona lista Adult i Child</h2>
-
+  
   @if (combinedList().length > 0) {
     <ol style="background: #f9f9f9; padding: 16px; border-radius: 4px;">
       @for (person of combinedList(); track person.id) {
@@ -33,9 +34,10 @@
 <hr />
 
 <section>
-  <h2>Zadanie 3: CurrentUserService z BehaviorSubject</h2>
+  <h2>Zadanie 3 & 4: CurrentUserService z BehaviorSubject + AlertComponent</h2>
   
   <app-navbar-component></app-navbar-component>
+  <app-alert-component></app-alert-component>
   
   <app-user-form-component></app-user-form-component>
 </section>

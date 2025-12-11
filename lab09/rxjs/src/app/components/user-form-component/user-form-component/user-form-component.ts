@@ -25,6 +25,6 @@ export class UserFormComponent {
     };
 
     this.currentUserService.setCurrentUser(user);
-    console.log('UserFormComponent - Zapisano użytkownika:', user);
+    this.currentUserService.showAlert('Dane zostały zmienione!');
   }
 }
