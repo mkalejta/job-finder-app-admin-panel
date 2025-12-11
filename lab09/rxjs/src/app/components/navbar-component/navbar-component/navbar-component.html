@@ -1,0 +1,13 @@
+<nav class="navbar">
+  <div class="navbar-content">
+    @if (currentUser()) {
+      <div class="user-info">
+        <strong>{{ currentUser()?.imie }} {{ currentUser()?.nazwisko }}</strong>
+      </div>
+    } @else {
+      <div class="user-info">
+        <span>Brak zalogowanego użytkownika</span>
+      </div>
+    }
+  </div>
+</nav>
