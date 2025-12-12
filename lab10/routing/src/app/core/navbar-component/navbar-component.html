@@ -1,1 +1,10 @@
-<p>navbar-component works!</p>
+<nav>
+    <div class="tab active"
+        routerLink=""
+        routerLinkActive="active"
+        [routerLinkActiveOptions]="{ exact: true }">
+        Home
+    </div>
+    <div class="tab" routerLink="books" routerLinkActive="active">Książki</div>
+    <div class="tab" routerLink="info" routerLinkActive="active">Info</div>
+</nav>

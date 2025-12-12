@@ -1,1 +1,60 @@
-<p>book-form-component works!</p>
+<div class="form-container">
+    <div class="header-section">
+        <button class="btn-back" (click)="goBack()">
+            <span class="arrow">←</span> Powrót
+        </button>
+    </div>
+
+    <div class="form-card">
+        <h2>{{ isEditMode ? 'Edytuj książkę' : 'Dodaj nową książkę' }}</h2>
+        
+        <form [formGroup]="bookForm" (ngSubmit)="onSubmit()" class="book-form">
+            <div class="form-group">
+                <label for="title">Tytuł <span class="required">*</span></label>
+                <input 
+                    type="text" 
+                    id="title" 
+                    formControlName="title"
+                    placeholder="Wprowadź tytuł książki"
+                    [class.invalid]="title?.invalid && title?.touched">
+                @if (title?.invalid && title?.touched) {
+                    <div class="error-message">
+                        @if (title?.errors?.['required']) {
+                            <span>Tytuł jest wymagany</span>
+                        }
+                        @if (title?.errors?.['minlength']) {
+                            <span>Tytuł musi mieć co najmniej 2 znaki</span>
+                        }
+                    </div>
+                }
+            </div>
+
+            <div class="form-group">
+                <label for="author">Autor <span class="required">*</span></label>
+                <input 
+                    type="text" 
+                    id="author" 
+                    formControlName="author"
+                    placeholder="Wprowadź autora"
+                    [class.invalid]="author?.invalid && author?.touched">
+                @if (author?.invalid && author?.touched) {
+                    <div class="error-message">
+                        @if (author?.errors?.['required']) {
+                            <span>Autor jest wymagany</span>
+                        }
+                        @if (author?.errors?.['minlength']) {
+                            <span>Autor musi mieć co najmniej 2 znaki</span>
+                        }
+                    </div>
+                }
+            </div>
+
+            <div class="form-actions">
+                <button type="button" class="btn-cancel" (click)="goBack()">Anuluj</button>
+                <button type="submit" class="btn-save" [disabled]="bookForm.invalid">
+                    {{ isEditMode ? 'Zapisz zmiany' : 'Dodaj książkę' }}
+                </button>
+            </div>
+        </form>
+    </div>
+</div>

@@ -1,1 +1,31 @@
-<p>book-list-component works!</p>
+<div class="list-header">
+    <h2>Lista książek</h2>
+    <button class="btn-add" (click)="goToAddBook()">
+        <span class="icon">+</span> Dodaj książkę
+    </button>
+</div>
+
+<table class="books-table">
+    <thead>
+        <tr>
+            <th>Id</th>
+            <th>Tytuł</th>
+            <th>Autor</th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @for (book of books(); track $index) {
+            <tr>
+                <td>{{ book.id }}</td>
+                <td>{{ book.title }}</td>
+                <td>{{ book.author }}</td>
+                <td class="actions">
+                    <button class="btn btn-view" (click)="goToBookDetails(book.id)">Podgląd</button>
+                    <button class="btn btn-edit" (click)="goToBookForm(book)">Edytuj</button>
+                    <button class="btn btn-delete" (click)="deleteBook(book.id)">Usuń</button>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

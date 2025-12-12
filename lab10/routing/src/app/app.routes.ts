@@ -1,18 +1,17 @@
 import { Routes } from '@angular/router';
-import { BookListComponent } from './modules/books/book-list-component/book-list-component';
 import { PageNotFoundComponent } from './core/page-not-found-component/page-not-found-component';
 import { InfoComponent } from './modules/info/info-component/info-component';
+import { HomeComponent } from './modules/home-component/home-component';
 
 export const routes: Routes = [
     {
         path: '',
         pathMatch: 'full',
-        redirectTo: '/book',
-        component: BookListComponent,
+        component: HomeComponent,
         title: 'Book List',
     },
     {
-        path: 'book',
+        path: 'books',
         loadChildren: () =>
             import('./modules/books/books.routes').then((m) => m.BOOK_ROUTES)
     },

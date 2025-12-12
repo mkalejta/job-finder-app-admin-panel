@@ -1,0 +1,144 @@
+.list-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 2rem;
+    padding: 1rem 1rem;
+
+    h2 {
+        font-size: 2rem;
+        color: #2c2c2c;
+        font-weight: 700;
+        margin: 0;
+    }
+}
+
+.btn-add {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.9rem 1.8rem;
+    background: #4a90e2;
+    border: none;
+    border-radius: 8px;
+    color: white;
+    font-size: 1rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+
+    .icon {
+        font-size: 1.5rem;
+        font-weight: bold;
+    }
+
+    &:hover {
+        background: #357abd;
+        transform: translateY(-2px);
+        box-shadow: 0 4px 12px rgba(74, 144, 226, 0.4);
+    }
+
+    &:active {
+        transform: translateY(0);
+    }
+}
+
+.books-table {
+    width: 100%;
+    border-collapse: collapse;
+    background: #f5f5f0;
+
+    thead {
+        background: #f5f5f0;
+        
+        th {
+            padding: 1rem;
+            text-align: left;
+            font-weight: 600;
+            color: #333;
+            font-size: 0.95rem;
+            border-bottom: 2px solid #e0e0d0;
+        }
+    }
+
+    tbody {
+        tr {
+            border-bottom: 1px solid #e8e8e0;
+            transition: background-color 0.2s ease;
+
+            &:hover {
+                background: #ececdc;
+            }
+
+            &:last-child {
+                border-bottom: none;
+            }
+        }
+
+        td {
+            padding: 1rem;
+            color: #333;
+            font-size: 0.95rem;
+
+            &.actions {
+                text-align: right;
+                white-space: nowrap;
+            }
+        }
+    }
+}
+
+.btn {
+    padding: 0.4rem 1rem;
+    margin-left: 0.5rem;
+    border: 1px solid #ccc;
+    background: white;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 0.85rem;
+    font-weight: 500;
+    transition: all 0.2s ease;
+
+    &:first-child {
+        margin-left: 0;
+    }
+
+    &:hover {
+        transform: translateY(-1px);
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    }
+
+    &:active {
+        transform: translateY(0);
+    }
+
+    &.btn-view {
+        color: #333;
+        border-color: #d0d0c8;
+
+        &:hover {
+            background: #f8f8f8;
+            border-color: #b8b8b0;
+        }
+    }
+
+    &.btn-edit {
+        color: #333;
+        border-color: #d0d0c8;
+
+        &:hover {
+            background: #f8f8f8;
+            border-color: #b8b8b0;
+        }
+    }
+
+    &.btn-delete {
+        color: #333;
+        border-color: #d0d0c8;
+
+        &:hover {
+            background: #f8f8f8;
+            border-color: #b8b8b0;
+        }
+    }
+}

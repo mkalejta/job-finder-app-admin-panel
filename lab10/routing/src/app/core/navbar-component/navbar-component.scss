@@ -1,0 +1,26 @@
+nav {
+    display: flex;
+    justify-content: flex-end;
+    background: #e8e8e0;
+    padding: 0;
+}
+
+.tab {
+    padding: 1rem 2rem;
+    cursor: pointer;
+    background: transparent;
+    border: none;
+    font-size: 1rem;
+    font-weight: 500;
+    color: #666;
+    transition: all 0.3s ease;
+
+    &.active {
+        background: #f5f5f0;
+        color: #333;
+    }
+
+    &:hover:not(.active) {
+        background: #ececdc;
+    }
+}
