@@ -3,6 +3,7 @@ import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angula
 import { Book } from '../../../interfaces/Book';
 import { ActivatedRoute, Router } from '@angular/router';
 import { BooksService } from '../books-service';
+import { Location } from '@angular/common';
 
 @Component({
   selector: 'app-book-form-component',
@@ -20,6 +21,7 @@ export class BookFormComponent implements OnInit {
     private fb: FormBuilder,
     private route: ActivatedRoute,
     private router: Router,
+    private location: Location,
     private booksService: BooksService
   ) {}
 
@@ -60,7 +62,6 @@ export class BookFormComponent implements OnInit {
     const formValue = this.bookForm.value;
 
     if (this.isEditMode && this.bookId) {
-      // Edycja istniejącej książki
       const updatedBook: Book = {
         id: this.bookId,
         title: formValue.title,
@@ -68,7 +69,6 @@ export class BookFormComponent implements OnInit {
       };
       this.booksService.updateBook(updatedBook);
     } else {
-      // Dodawanie nowej książki
       const newBook: Book = {
         id: this.booksService.getNextId(),
         title: formValue.title,
@@ -81,7 +81,7 @@ export class BookFormComponent implements OnInit {
   }
 
   goBack(): void {
-    this.router.navigate(['books']);
+    this.location.back();
   }
 
   get title() {
