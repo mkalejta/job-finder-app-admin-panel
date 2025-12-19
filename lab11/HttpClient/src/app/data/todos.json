@@ -1,0 +1,19 @@
+{
+    "todos": [
+        {
+            "id": 1,
+            "name": "Element 1",
+            "isComplete": false
+        },
+        {
+            "id": 2,
+            "name": "Element 2",
+            "isComplete": true
+        },
+        {
+            "id": 3,
+            "name": "Element 3",
+            "isComplete": false
+        }
+    ]   
+}
