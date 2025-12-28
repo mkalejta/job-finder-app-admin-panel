@@ -1,0 +1,31 @@
+@use 'colors' as *;
+
+nav {
+    display: flex;
+    justify-content: flex-end;
+    background: $primary;
+    padding: 0;
+    box-shadow: 0 2px 4px $shadow-md;
+}
+
+.tab {
+    padding: 1rem 2rem;
+    cursor: pointer;
+    background: transparent;
+    border: none;
+    font-size: 1rem;
+    font-weight: 500;
+    color: $primary-lightest;
+    transition: all 0.3s ease;
+
+    &.active {
+        background: $primary-light;
+        color: $text-white;
+        border-bottom: 3px solid $accent;
+    }
+
+    &:hover:not(.active) {
+        background: $primary-dark;
+        color: $text-white;
+    }
+}

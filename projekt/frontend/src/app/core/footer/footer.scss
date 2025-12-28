@@ -1,0 +1,21 @@
+@use 'styles/colors' as *;
+
+footer {
+    background: $primary-dark;
+    color: $primary-lightest;
+    padding: 1.5rem 0;
+    box-shadow: 0 -2px 10px $shadow-md;
+}
+
+.footer-content {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 2rem;
+    text-align: center;
+
+    p {
+        margin: 0;
+        font-size: 0.9rem;
+        color: $text-light;
+    }
+}

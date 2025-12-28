@@ -1,0 +1,59 @@
+// Primary Colors - Navy Blue Theme
+$primary-dark: #0d1b2a;
+$primary: #1b263b;
+$primary-light: #415a77;
+$primary-lighter: #778da9;
+$primary-lightest: #e0e1dd;
+
+// Accent Colors
+$accent: #4a90e2;
+$accent-light: #6aa8f0;
+$accent-dark: #2563eb;
+
+// Semantic Colors
+$success: #10b981;
+$success-light: #34d399;
+$warning: #f59e0b;
+$warning-light: #fbbf24;
+$error: #ef4444;
+$error-light: #f87171;
+$info: #3b82f6;
+$info-light: #60a5fa;
+
+// Neutral Colors
+$white: #ffffff;
+$gray-50: #fafafa;
+$gray-100: #f5f5f5;
+$gray-200: #e8e8e0;
+$gray-300: #ececdc;
+$gray-400: #b0b0b0;
+$gray-500: #666666;
+$gray-600: #4a4a4a;
+$gray-700: #333333;
+$gray-800: #2c2c2c;
+$gray-900: #1a1a1a;
+$black: #000000;
+
+// Background Colors
+$bg-primary: $white;
+$bg-secondary: $gray-50;
+$bg-tertiary: $gray-100;
+$bg-dark: $gray-800;
+
+// Text Colors
+$text-primary: $gray-700;
+$text-secondary: $gray-500;
+$text-light: $gray-400;
+$text-white: $white;
+$text-dark: $gray-900;
+
+// Border Colors
+$border-light: $gray-200;
+$border-medium: $gray-300;
+$border-dark: $gray-500;
+
+// Shadow Colors
+$shadow-sm: rgba(0, 0, 0, 0.05);
+$shadow-md: rgba(0, 0, 0, 0.1);
+$shadow-lg: rgba(0, 0, 0, 0.15);
+$shadow-xl: rgba(0, 0, 0, 0.2);
