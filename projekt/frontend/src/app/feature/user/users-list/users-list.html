@@ -1,1 +1,38 @@
-<p>users-list works!</p>
+<div class="list-header">
+    <h2>Users list</h2>
+    <button class="btn-add" (click)="goToAddUser()">
+        <span class="icon">+</span> Add User
+    </button>
+</div>
+
+<table class="users-table">
+    <thead>
+        <tr>
+            <th>ID</th>
+            <th>Username</th>
+            <th>Email</th>
+            <th>First name</th>
+            <th>Last name</th>
+            <th>Created at</th>
+            <th>Updated at</th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>        
+        @for (user of users(); track $index) {
+            <tr class="btn btn-view" (click)="goToUserDetails(user.id)">
+                <td>{{user.id}}</td>
+                <td>{{user.username}}</td>
+                <td>{{user.email}}</td>
+                <td>{{user.firstName}}</td>
+                <td>{{user.lastName}}</td>
+                <td>{{user.createdAt.toLocaleString()}}</td>
+                <td>{{user.updatedAt.toLocaleString()}}</td>
+                <td class="actions">
+                    <button type="button" class="btn btn-edit" (click)="$event.stopPropagation(); goToUserForm(user)">Edit</button>
+                    <button type="button" class="btn btn-delete" (click)="$event.stopPropagation(); deleteUser(user.id)">Delete</button>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

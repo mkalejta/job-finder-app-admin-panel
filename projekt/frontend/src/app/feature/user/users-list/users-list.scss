@@ -1,0 +1,147 @@
+@use 'colors' as *;
+
+.list-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 2rem;
+    padding: 1rem 1rem;
+
+    h2 {
+        font-size: 2rem;
+        color: $gray-900;
+        font-weight: 700;
+        margin: 0;
+    }
+}
+
+.btn-add {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.9rem 1.8rem;
+    background: $info-light;
+    border: none;
+    border-radius: 8px;
+    color: white;
+    font-size: 1rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+
+    .icon {
+        font-size: 1.5rem;
+        font-weight: bold;
+    }
+
+    &:hover {
+        background: $info;
+        transform: translateY(-2px);
+        box-shadow: 0 4px 12px rgba(74, 144, 226, 0.4);
+    }
+
+    &:active {
+        transform: translateY(0);
+    }
+}
+
+.users-table {
+    width: 100%;
+    border-collapse: collapse;
+    background: $bg-secondary;
+
+    thead {
+        background: $bg-tertiary;
+        
+        th {
+            padding: 1rem;
+            text-align: left;
+            font-weight: 600;
+            color: $gray-700;
+            font-size: 0.95rem;
+            border-bottom: 2px solid $border-dark;
+        }
+    }
+
+    tbody {
+        tr {
+            border-bottom: 1px solid $border-medium;
+            transition: background-color 0.2s ease;
+
+            &:hover {
+                background: $primary-lightest;
+                cursor: pointer;
+            }
+
+            &:last-child {
+                border-bottom: none;
+            }
+        }
+
+        td {
+            padding: 1rem;
+            color: $gray-700;
+            font-size: 0.95rem;
+
+            &.actions {
+                text-align: right;
+                white-space: nowrap;
+            }
+        }
+    }
+}
+
+.btn {
+    padding: 0.4rem 1rem;
+    margin-left: 0.5rem;
+    border: 1px solid #ccc;
+    background: white;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 0.85rem;
+    font-weight: 500;
+    transition: all 0.2s ease;
+
+    &:first-child {
+        margin-left: 0;
+    }
+
+    &:hover {
+        transform: translateY(-1px);
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    }
+
+    &:active {
+        transform: translateY(0);
+    }
+
+    &.btn-view {
+        color: $info-light;
+        border-color: $info-light;
+
+        &:hover {
+            color: $white;
+            background: $info-light;
+        }
+    }
+
+    &.btn-edit {
+        color: $warning-light;
+        border-color: $warning-light;
+
+        &:hover {
+            color: $white;
+            background: $warning-light;
+        }
+    }
+
+    &.btn-delete {
+        color: $error-light;
+        border-color: $error-light;
+
+        &:hover {
+            color: $white;
+            background: $error-light;
+        }
+    }
+}
