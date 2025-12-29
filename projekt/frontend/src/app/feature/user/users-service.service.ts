@@ -43,4 +43,9 @@ export class UsersService {
   generateId(): UUIDTypes {
     return uuidv4();
   }
+
+  getUserIndexById(userId: UUIDTypes): number {
+    const currentUsers = this.users.value;
+    return currentUsers.findIndex(user => user.id === userId);
+  }
 }

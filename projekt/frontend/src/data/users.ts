@@ -8,6 +8,7 @@ export const users: User[] = [
         email: 'alice.johnson@example.com',
         firstName: 'Alice',
         lastName: 'Johnson',
+        profilePhotoUrl: undefined,
         createdAt: new Date('2023-01-01T10:00:00Z'),
         updatedAt: new Date('2023-01-02T10:00:00Z')
     },
@@ -17,6 +18,7 @@ export const users: User[] = [
         email: 'bob.smith@example.com',
         firstName: 'Bob',
         lastName: 'Smith',
+        profilePhotoUrl: undefined,
         createdAt: new Date('2023-01-03T10:00:00Z'),
         updatedAt: new Date('2023-01-04T10:00:00Z')
     },
@@ -26,6 +28,7 @@ export const users: User[] = [
         email: 'carol.williams@example.com',
         firstName: 'Carol',
         lastName: 'Williams',
+        profilePhotoUrl: undefined,
         createdAt: new Date('2023-01-05T10:00:00Z'),
         updatedAt: new Date('2023-01-06T10:00:00Z')
     }

@@ -1,1 +1,47 @@
-<p>user-details works!</p>
+<div class="user-details-container">
+    <div class="header-section">
+        <button class="btn-back" (click)="goBack()">
+            <span class="arrow">←</span> Powrót
+        </button>
+    </div>
+
+    <div class="user-card">
+        <div class="left">
+            @if (user?.profilePhotoUrl) {
+                <img src="{{user?.profilePhotoUrl}}" alt="profile-photo">
+            } @else {
+                @if (userInitials) {
+                    <app-user-initials
+                    [userInitials]="userInitials"
+                    ></app-user-initials>
+                }
+            }
+        </div>
+        <div class="right">    
+            <p class="user-id"><span>ID:</span> {{ user?.id }}</p>
+            <p class="user-username"><span>Username:</span> {{ user?.username }}</p>
+            <p class="user-email"><span>Email:</span> {{ user?.email }}</p>
+            <p class="user-firstname"><span>FirstName:</span> {{ user?.firstName }}</p>
+            <p class="user-lastname"><span>LastName:</span> {{ user?.lastName }}</p>
+            <p class="user-createdat"><span>Created at:</span> {{ user?.createdAt?.toLocaleString() }}</p>
+            <p class="user-updatedat"><span>Updated at:</span> {{ user?.updatedAt?.toLocaleString() }}</p>
+        </div>
+    </div>
+
+    <router-outlet></router-outlet>
+
+    <div class="navigation-buttons">
+        <button 
+            class="btn-nav" 
+            (click)="previousUser()" 
+            [disabled]="isFirstUser()">
+            <span class="arrow">←</span> Previous
+        </button>
+        <button 
+            class="btn-nav" 
+            (click)="nextUser()" 
+            [disabled]="isLastUser()">
+            Next <span class="arrow">→</span>
+        </button>
+    </div>
+</div>
