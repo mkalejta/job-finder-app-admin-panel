@@ -1,0 +1,115 @@
+@use 'colors' as *;
+
+.form-container {
+    max-width: 700px;
+    margin: 2rem auto;
+    padding: 0 2rem;
+}
+
+.form-card {
+    background: $white;
+    border-radius: 12px;
+    padding: 3rem;
+    box-shadow: 0 4px 20px $shadow-md;
+
+    h2 {
+        font-size: 2rem;
+        color: $gray-900;
+        margin-bottom: 2rem;
+        text-align: center;
+    }
+}
+
+.login-form {
+    .form-group {
+        margin-bottom: 1.5rem;
+
+        label {
+            display: block;
+            margin-bottom: 0.5rem;
+            color: $gray-700;
+            font-weight: 600;
+            font-size: 0.95rem;
+        }
+
+        input,
+        textarea {
+            width: 100%;
+            padding: 0.9rem;
+            border: 2px solid $border-medium;
+            border-radius: 8px;
+            font-size: 1rem;
+            font-family: inherit;
+            transition: all 0.3s ease;
+            box-sizing: border-box;
+
+            &:focus {
+                outline: none;
+                border-color: $info-light;
+                box-shadow: 0 0 0 3px $shadow-navy-md;
+            }
+
+            &::placeholder {
+                color: $gray-400;
+            }
+        }
+
+        textarea {
+            resize: vertical;
+            min-height: 120px;
+        }
+    }
+
+    button {
+        padding: 0.9rem 2rem;
+        font-size: 1rem;
+        border: none;
+        border-radius: 8px;
+        cursor: pointer;
+        font-weight: 600;
+        transition: all 0.3s ease;
+
+
+        &.btn-submit {
+            background: $info-light;
+            color: $white;
+
+            &:hover:not(:disabled) {
+                background: $info;
+                transform: translateY(-2px);
+                box-shadow: 0 4px 12px $shadow-navy-xxl;
+            }
+
+            &:active:not(:disabled) {
+                transform: translateY(0);
+            }
+
+            &:disabled {
+                background: $gray-100;
+                color: $gray-500;
+                cursor: not-allowed;
+                opacity: 0.6;
+            }
+        }
+    }
+}
+
+.required {
+    color: $error;
+    font-weight: bold;
+}
+
+.invalid {
+    border-color: $error !important;
+    
+    &:focus {
+        box-shadow: 0 0 0 3px $shadow-red-md !important;
+    }
+}
+
+.error-message {
+    margin-top: 0.4rem;
+    font-size: 0.85rem;
+    color: $error;
+    font-weight: 500;
+}

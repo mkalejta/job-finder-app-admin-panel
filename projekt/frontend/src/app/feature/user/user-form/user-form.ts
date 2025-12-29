@@ -4,6 +4,7 @@ import User from '../../../interface/user';
 import { ActivatedRoute, Router } from '@angular/router';
 import { UsersService } from '../users-service.service';
 import { Location } from '@angular/common';
+import { UUIDTypes } from 'uuid';
 
 @Component({
   selector: 'app-user-form',
@@ -20,7 +21,7 @@ export class UserForm implements OnInit {
   userForm!: FormGroup;
   user?: User;
   isEditMode = false;
-  userId?: string;
+  userId?: UUIDTypes;
 
   ngOnInit(): void {
     this.initForm();
