@@ -5,6 +5,8 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { UsersService } from '../users-service.service';
 import { Location } from '@angular/common';
 import { UUIDTypes } from 'uuid';
+import UserCreateDto from '../../../interface/dto/user/UserCreateDto';
+import UserUpdateDto from '../../../interface/dto/user/UserUpdateDto';
 
 @Component({
   selector: 'app-user-form',
@@ -25,7 +27,7 @@ export class UserForm implements OnInit {
 
   ngOnInit(): void {
     this.initForm();
-    
+
     this.route.params.subscribe((params) => {
       const id = params['id'];
       if (id) {
@@ -34,12 +36,13 @@ export class UserForm implements OnInit {
         const users = this.usersService.getUsers();
         this.user = users.find((user) => user.id === id);
         
+        this.initForm();
+
         if (this.user) {
           this.userForm.patchValue({
             username: this.user.username,
             email: this.user.email,
-            firstName: this.user.firstName,
-            lastName: this.user.lastName
+            phoneNumber: this.user.phoneNumber,
           });
         }
       }
@@ -48,10 +51,10 @@ export class UserForm implements OnInit {
 
   initForm(): void {
     this.userForm = this.fb.group({
-      username: ['', [Validators.required, Validators.minLength(8)]],
+      username: ['', [Validators.required]],
       email: ['', [Validators.required, Validators.email]],
-      firstName: ['', Validators.required],
-      lastName: ['', Validators.required]
+      phoneNumber: ['', [Validators.required, Validators.pattern('^[0-9]+$')]],
+      password: ['', this.isEditMode ? [] : [Validators.required]]
     });
   }
 
@@ -64,27 +67,20 @@ export class UserForm implements OnInit {
     const formValue = this.userForm.value;
 
     if (this.isEditMode && this.userId && this.user) {
-      const updatedUser: User = {
-        id: this.userId,
+      const updatedUser: UserUpdateDto = {
         username: formValue.username,
         email: formValue.email,
-        firstName: formValue.firstName,
-        lastName: formValue.lastName,
-        createdAt: this.user.createdAt,
-        updatedAt: new Date()
+        phoneNumber: formValue.phoneNumber
       };
-      this.usersService.updateUser(updatedUser);
+      this.usersService.updateUser(updatedUser, this.userId);
     } else {
-      const newUser: User = {
-        id: this.usersService.generateId(),
+      const newUser: UserCreateDto = {
         username: formValue.username,
         email: formValue.email,
-        firstName: formValue.firstName,
-        lastName: formValue.lastName,
-        createdAt: new Date(),
-        updatedAt: new Date()
+        phoneNumber: formValue.phoneNumber,
+        password: formValue.password
       };
-      this.usersService.addUser(newUser);
+      this.usersService.createUser(newUser);
     }
 
     this.router.navigate(['users']);
@@ -101,12 +97,12 @@ export class UserForm implements OnInit {
   get email() {
     return this.userForm.get('email');
   }
-
-  get firstName() {
-    return this.userForm.get('firstName');
+  
+  get phoneNumber() {
+    return this.userForm.get('phoneNumber');
   }
 
-  get lastName() {
-    return this.userForm.get('lastName');
+  get password() {
+    return this.userForm.get('password');
   }
 }

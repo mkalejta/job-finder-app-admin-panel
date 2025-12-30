@@ -1,8 +1,9 @@
-import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { HttpClient } from '@angular/common/http';
 import { inject, Injectable } from '@angular/core';
 import { Observable, tap } from 'rxjs';
 import { environment } from '../../environments/environment';
-import TokenResponse from '../interface/token-response';
+import TokenResponse from '../interface/dto/token-response';
+import ResponseDto from '../interface/dto/response-dto';
 
 @Injectable({
   providedIn: 'root',
@@ -10,19 +11,15 @@ import TokenResponse from '../interface/token-response';
 export class AuthService {
   private http = inject(HttpClient);
   private authUrl = `${environment.apiUrl}/auth/login`;
-  
-  private headers = new HttpHeaders({
-    'Content-Type': 'application/json'
-  });
 
   login(credentials: { loginData: string, password: string }): Observable<{ data?: TokenResponse }> {
-    return this.http.post<{ data?: TokenResponse }>(`${this.authUrl}`, credentials, { headers: this.headers })
+    return this.http.post<ResponseDto<TokenResponse>>(`${this.authUrl}`, credentials)
     .pipe(
       tap(response => {
+        console.log(response);
         localStorage.setItem('accessToken', response.data!.accessToken);
         localStorage.setItem('refreshToken', response.data!.refreshToken);
         localStorage.setItem('refreshTokenId', response.data!.refreshTokenId);
-        console.log(response)
         })
     );
   }

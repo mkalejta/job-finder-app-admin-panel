@@ -6,7 +6,9 @@ export default interface User {
     email: string;
     firstName: string;
     lastName: string;
-    profilePhotoUrl?: string;
+    phoneNumber: number;
+    profileDescription: string;
+    profilePhoto?: string;
     createdAt: Date;
     updatedAt: Date;
 }

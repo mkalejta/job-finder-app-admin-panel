@@ -60,38 +60,7 @@
         justify-content: center;
     }
 
-    .user-username {
-        color: $gray-900;
-        margin-bottom: 1rem;
-    }
-
-    .user-email {
-        color: $gray-900;
-        margin-bottom: 1rem;
-    }
-
-    .user-id {
-        color: $gray-900;
-        margin-bottom: 1rem;
-    }
-
-    .user-firstname {
-        color: $gray-900;
-        margin-bottom: 1rem;
-    }
-
-    .user-lastname {
-        color: $gray-900;
-        margin-bottom: 1rem;
-    }
-
-    .user-createdat {
-        color: $gray-900;
-        margin-bottom: 1rem;
-    }
-
-    
-    .user-updatedat {
+    p[class^='user'] {
         color: $gray-900;
         margin-bottom: 1rem;
     }

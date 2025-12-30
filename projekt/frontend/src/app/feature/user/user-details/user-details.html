@@ -7,8 +7,8 @@
 
     <div class="user-card">
         <div class="left">
-            @if (user?.profilePhotoUrl) {
-                <img src="{{user?.profilePhotoUrl}}" alt="profile-photo">
+            @if (user?.profilePhoto) {
+                <img src="{{user?.profilePhoto}}" alt="profile-photo">
             } @else {
                 @if (userInitials) {
                     <app-user-initials
@@ -23,6 +23,8 @@
             <p class="user-email"><span>Email:</span> {{ user?.email }}</p>
             <p class="user-firstname"><span>FirstName:</span> {{ user?.firstName }}</p>
             <p class="user-lastname"><span>LastName:</span> {{ user?.lastName }}</p>
+            <p class="user-phone-number"><span>Phone number:</span> {{ user?.phoneNumber }}</p>
+            <p class="user-profile-description"><span>Profile description:</span> {{ user?.profileDescription }} </p>
             <p class="user-createdat"><span>Created at:</span> {{ user?.createdAt?.toLocaleString() }}</p>
             <p class="user-updatedat"><span>Updated at:</span> {{ user?.updatedAt?.toLocaleString() }}</p>
         </div>

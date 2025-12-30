@@ -1,4 +1,4 @@
-import { Component, inject } from '@angular/core';
+import { Component, inject, OnInit } from '@angular/core';
 import { UsersService } from '../users-service.service';
 import { toSignal } from '@angular/core/rxjs-interop';
 import { ActivatedRoute, Router } from '@angular/router';
@@ -12,11 +12,15 @@ import { UUIDTypes } from 'uuid';
   templateUrl: './users-list.html',
   styleUrl: './users-list.scss',
 })
-export class UsersList {
+export class UsersList implements OnInit {
   private usersService = inject(UsersService);
   private router = inject(Router);
   private route = inject(ActivatedRoute);
   users = toSignal(this.usersService.users$, { initialValue: [] });
+
+  ngOnInit(): void {
+    this.usersService.loadUsers();
+  }
 
   goToAddUser(): void {
     this.router.navigate(['form'], { relativeTo: this.route });

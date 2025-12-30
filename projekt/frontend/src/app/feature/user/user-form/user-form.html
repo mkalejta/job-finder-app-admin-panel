@@ -22,9 +22,6 @@
                         @if (username?.errors?.['required']) {
                             <span>Username is required</span>
                         }
-                        @if (username?.errors?.['minlength']) {
-                            <span>Username needs to be at least 8 characters long</span>
-                        }
                     </div>
                 }
             </div>
@@ -45,40 +42,44 @@
                     </div>
                 }
             </div>
-
+            
             <div class="form-group">
-                <label for="firstName">FirstName <span class="required">*</span></label>
+                <label for="phoneNumber">Phone number <span class="required">*</span></label>
                 <input 
-                    type="text" 
-                    id="firstName" 
-                    formControlName="firstName"
-                    placeholder="Enter firstName"
-                    [class.invalid]="firstName?.invalid && firstName?.touched">
-                @if (firstName?.invalid && firstName?.touched) {
+                type="text" 
+                id="phoneNumber" 
+                formControlName="phoneNumber"
+                placeholder="Enter phoneNumber"
+                [class.invalid]="phoneNumber?.invalid && phoneNumber?.touched">
+                @if (phoneNumber?.invalid && phoneNumber?.touched) {
                     <div class="error-message">
-                        @if (firstName?.errors?.['required']) {
-                            <span>FirstName is required</span>
+                        @if (phoneNumber?.errors?.['required']) {
+                            <span>Phone number is required</span>
                         }
                     </div>
                 }
             </div>
 
+            @if (!isEditMode) {
+
             <div class="form-group">
-                <label for="lastName">LastName <span class="required">*</span></label>
+                <label for="password">Password <span class="required">*</span></label>
                 <input 
-                    type="text" 
-                    id="lastName" 
-                    formControlName="lastName"
-                    placeholder="Enter lastName"
-                    [class.invalid]="lastName?.invalid && lastName?.touched">
-                @if (lastName?.invalid && lastName?.touched) {
+                    type="password" 
+                    id="password" 
+                    formControlName="password"
+                    placeholder="Enter password"
+                    [class.invalid]="password?.invalid && password?.touched">
+                @if (password?.invalid && password?.touched) {
                     <div class="error-message">
-                        @if (lastName?.errors?.['required']) {
-                            <span>LastName is required</span>
+                        @if (password?.errors?.['required']) {
+                            <span>Password is required</span>
                         }
                     </div>
                 }
             </div>
+
+            }
 
             <div class="form-actions">
                 <button type="button" class="btn-cancel" (click)="goBack()">Cancel</button>

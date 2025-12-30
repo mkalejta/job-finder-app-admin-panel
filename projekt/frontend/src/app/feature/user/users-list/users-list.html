@@ -14,7 +14,6 @@
             <th>First name</th>
             <th>Last name</th>
             <th>Created at</th>
-            <th>Updated at</th>
             <th></th>
         </tr>
     </thead>
@@ -27,7 +26,6 @@
                 <td>{{user.firstName}}</td>
                 <td>{{user.lastName}}</td>
                 <td>{{user.createdAt.toLocaleString()}}</td>
-                <td>{{user.updatedAt.toLocaleString()}}</td>
                 <td class="actions">
                     <button type="button" class="btn btn-edit" (click)="$event.stopPropagation(); goToUserForm(user)">Edit</button>
                     <button type="button" class="btn btn-delete" (click)="$event.stopPropagation(); deleteUser(user.id)">Delete</button>
