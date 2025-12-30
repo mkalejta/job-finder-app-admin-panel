@@ -1,11 +1,22 @@
 <nav>
-    <div class="tab active"
-        routerLink=""
-        routerLinkActive="active"
-        [routerLinkActiveOptions]="{ exact: true }">
-        Home
+    <div class="left" (click)="toggleUsernameOrInitials()" role="button" tabindex="0">
+    @if (usernameOrInitials() === "userInitials" && userInitials) {
+        <app-user-initials
+            [userInitials]="userInitials"
+        ></app-user-initials>
+    } @else if (usernameOrInitials() === "username") {
+        <div class="username">{{ user?.username }}</div>
+    }
     </div>
-    <div class="tab" routerLink="users" routerLinkActive="active">Users</div>
-    <div class="tab" routerLink="categories" routerLinkActive="active">Categories</div>
-    <div class="tab" routerLink="tags" routerLinkActive="active">Tags</div>
+    <div class="right">
+        <div class="tab active"
+            routerLink=""
+            routerLinkActive="active"
+            [routerLinkActiveOptions]="{ exact: true }">
+            Home
+        </div>
+        <div class="tab" routerLink="users" routerLinkActive="active">Users</div>
+        <div class="tab" routerLink="categories" routerLinkActive="active">Categories</div>
+        <div class="tab" routerLink="tags" routerLinkActive="active">Tags</div>
+    </div>
 </nav>
