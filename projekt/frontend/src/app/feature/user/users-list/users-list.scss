@@ -72,21 +72,12 @@
                 background: $primary-lightest;
                 cursor: pointer;
             }
-
-            &:last-child {
-                border-bottom: none;
-            }
         }
 
         td {
             padding: 1rem;
             color: $gray-700;
             font-size: 0.95rem;
-
-            &.actions {
-                text-align: right;
-                white-space: nowrap;
-            }
         }
     }
 }
@@ -122,26 +113,6 @@
         &:hover {
             color: $white;
             background: $info-light;
-        }
-    }
-
-    &.btn-edit {
-        color: $warning-light;
-        border-color: $warning-light;
-
-        &:hover {
-            color: $white;
-            background: $warning-light;
-        }
-    }
-
-    &.btn-delete {
-        color: $error-light;
-        border-color: $error-light;
-
-        &:hover {
-            color: $white;
-            background: $error-light;
         }
     }
 }

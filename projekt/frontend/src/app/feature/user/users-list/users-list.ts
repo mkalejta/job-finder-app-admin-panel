@@ -2,7 +2,6 @@ import { Component, inject, OnInit } from '@angular/core';
 import { UsersService } from '../users-service.service';
 import { toSignal } from '@angular/core/rxjs-interop';
 import { ActivatedRoute, Router } from '@angular/router';
-import User from '../../../interface/user';
 import { UUIDTypes } from 'uuid';
 
 
@@ -28,13 +27,5 @@ export class UsersList implements OnInit {
 
   goToUserDetails(userId: UUIDTypes): void {
     this.router.navigate([userId, 'details'], { relativeTo: this.route });
-  }
-
-  goToUserForm(user: User): void {
-    this.router.navigate([user.id, 'form'], { relativeTo: this.route });
-  }
-
-  deleteUser(userId: UUIDTypes): void {
-    this.usersService.deleteUser(userId);
   }
 }

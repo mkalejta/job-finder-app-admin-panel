@@ -58,6 +58,66 @@
         flex-direction: column;
         align-items: flex-start;
         justify-content: center;
+
+        .actions {
+            width: 100%;
+            display: flex;
+            flex-direction: column;
+            align-items: flex-end;
+            gap: 1rem;
+
+            .btn {
+                padding: 0.6rem 1rem;
+                border: 3px solid #ccc;
+                background: white;
+                border-radius: 15px;
+                cursor: pointer;
+                font-size: 0.85rem;
+                font-weight: bold;
+                transition: all 0.2s ease;
+
+                &:hover {
+                    transform: translateY(-1px);
+                    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+                }
+
+                &:active {
+                    transform: translateY(0);
+                }
+
+                &.btn-view {
+                    color: $info-light;
+                    border-color: $info-light;
+
+                    &:hover {
+                        color: $white;
+                        background: $info-light;
+                    }
+                }
+
+                &.btn-edit {
+                    color: $warning-light;
+                    border-color: $warning-light;
+
+                    &:hover {
+                        color: $white;
+                        background: $warning-light;
+                    }
+                }
+
+                &.btn-delete {
+                    color: $error-light;
+                    border-color: $error-light;
+
+                    &:hover {
+                        color: $white;
+                        background: $error-light;
+                    }
+                }
+                            
+            }
+        }
+        
     }
 
     p[class^='user'] {

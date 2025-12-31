@@ -27,6 +27,12 @@
             <p class="user-profile-description"><span>Profile description:</span> {{ user?.profileDescription }} </p>
             <p class="user-createdat"><span>Created at:</span> {{ user?.createdAt?.toLocaleString() }}</p>
             <p class="user-updatedat"><span>Updated at:</span> {{ user?.updatedAt?.toLocaleString() }}</p>
+            @if (user) {
+                <div class="actions">
+                    <button type="button" class="btn btn-edit" (click)="$event.stopPropagation(); goToUserForm(user)">Edit</button>
+                    <button type="button" class="btn btn-delete" (click)="$event.stopPropagation(); deleteUser(user.id)">Delete</button>
+                </div>
+            }
         </div>
     </div>
 

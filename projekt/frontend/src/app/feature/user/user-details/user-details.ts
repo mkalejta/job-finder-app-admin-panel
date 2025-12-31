@@ -4,6 +4,7 @@ import User from '../../../interface/user';
 import { UsersService } from '../users-service.service';
 import { UserInitials } from '../../../shared/user-initials/user-initials';
 import { UserInitial } from '../../../interface/user-initial';
+import { UUIDTypes } from 'uuid';
 
 @Component({
   selector: 'app-user-details',
@@ -14,18 +15,18 @@ import { UserInitial } from '../../../interface/user-initial';
 export class UserDetails implements OnInit{
   private router = inject(Router);
   private route = inject(ActivatedRoute);
-  private userService = inject(UsersService);
+  private usersService = inject(UsersService);
   user?: User;
   users: User[] | [] = [];
   currentIndex?: number;
   userInitials?: UserInitial;
 
   ngOnInit(): void {
-    this.users = this.userService.getUsers();
+    this.users = this.usersService.getUsers();
     this.route.params.subscribe((params) => {
       const id = params['id'];
       this.user = this.users.find((user) => user.id === id);
-      this.currentIndex = this.userService.getUserIndexById(id);
+      this.currentIndex = this.usersService.getUserIndexById(id);
       if (this.user) {
         this.userInitials = {
           firstName: this.user.firstName,
@@ -58,5 +59,13 @@ export class UserDetails implements OnInit{
 
   isLastUser(): boolean {
     return !this.user || this.currentIndex === this.users.length - 1;
+  }
+
+  goToUserForm(user: User): void {
+    this.router.navigate([user.id, 'form'], { relativeTo: this.route.parent });
+  }
+
+  deleteUser(userId: UUIDTypes): void {
+    this.usersService.deleteUser(userId);
   }
 }
