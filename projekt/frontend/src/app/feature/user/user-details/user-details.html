@@ -6,9 +6,9 @@
     </div>
 
     <div class="user-card">
-        <div class="left">
+        <div class="user-avatar">
             @if (user?.profilePhoto) {
-                <img src="{{user?.profilePhoto}}" alt="profile-photo">
+                <img src="{{user?.profilePhoto}}" alt="profile-photo" class="profile-photo">
             } @else {
                 @if (userInitials) {
                     <app-user-initials
@@ -17,23 +17,54 @@
                 }
             }
         </div>
-        <div class="right">    
-            <p class="user-id"><span>ID:</span> {{ user?.id }}</p>
-            <p class="user-username"><span>Username:</span> {{ user?.username }}</p>
-            <p class="user-email"><span>Email:</span> {{ user?.email }}</p>
-            <p class="user-firstname"><span>FirstName:</span> {{ user?.firstName }}</p>
-            <p class="user-lastname"><span>LastName:</span> {{ user?.lastName }}</p>
-            <p class="user-phone-number"><span>Phone number:</span> {{ user?.phoneNumber }}</p>
-            <p class="user-profile-description"><span>Profile description:</span> {{ user?.profileDescription }} </p>
-            <p class="user-createdat"><span>Created at:</span> {{ user?.createdAt?.toLocaleString() }}</p>
-            <p class="user-updatedat"><span>Updated at:</span> {{ user?.updatedAt?.toLocaleString() }}</p>
-            @if (user) {
-                <div class="actions">
-                    <button type="button" class="btn btn-edit" (click)="$event.stopPropagation(); goToUserForm(user)">Edit</button>
-                    <button type="button" class="btn btn-delete" (click)="$event.stopPropagation(); deleteUser(user.id)">Delete</button>
+        <div class="user-info">
+            <div class="info-grid">
+                <div class="info-item">
+                    <span class="label">ID</span>
+                    <p class="value">{{ user?.id }}</p>
                 </div>
-            }
+                <div class="info-item">
+                    <span class="label">Username</span>
+                    <p class="value">{{ user?.username }}</p>
+                </div>
+                <div class="info-item">
+                    <span class="label">Email</span>
+                    <p class="value">{{ user?.email }}</p>
+                </div>
+                <div class="info-item">
+                    <span class="label">First Name</span>
+                    <p class="value">{{ user?.firstName }}</p>
+                </div>
+                <div class="info-item">
+                    <span class="label">Last Name</span>
+                    <p class="value">{{ user?.lastName }}</p>
+                </div>
+                <div class="info-item">
+                    <span class="label">Phone Number</span>
+                    <p class="value">{{ user?.phoneNumber }}</p>
+                </div>
+            </div>
+            <div class="info-item full-width">
+                <span class="label">Profile Description</span>
+                <p class="value">{{ user?.profileDescription }}</p>
+            </div>
+            <div class="info-dates">
+                <div class="info-item">
+                    <span class="label">Created at</span>
+                    <p class="value">{{ user?.createdAt?.toLocaleString() }}</p>
+                </div>
+                <div class="info-item">
+                    <span class="label">Updated at</span>
+                    <p class="value">{{ user?.updatedAt?.toLocaleString() }}</p>
+                </div>
+            </div>
         </div>
+        @if (user) {
+            <div class="actions">
+                <button type="button" class="btn btn-edit" (click)="$event.stopPropagation(); goToUserForm(user)">Edit</button>
+                <button type="button" class="btn btn-delete" (click)="$event.stopPropagation(); deleteUser(user.id)">Delete</button>
+            </div>
+        }
     </div>
 
     <router-outlet></router-outlet>
