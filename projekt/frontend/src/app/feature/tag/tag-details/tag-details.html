@@ -1,0 +1,41 @@
+<div class="tag-details-container">
+    <div class="header-section">
+        <button class="btn-back" (click)="goBack()">
+            <span class="arrow">←</span> Powrót
+        </button>
+    </div>
+    
+    @if (tag) {
+        <div class="tag-card">
+            <div class="tag-color-header" [ngStyle]="{ 'background-color': getTagBackgroundColor(tag.categoryColor) }">
+                <div class="category-badge">{{ tag.categoryName }}</div>
+            </div>
+            <div class="tag-content">
+                <p class="tag-id"><span>ID:</span> {{ tag.id }}</p>
+                <p class="tag-name"><span>Name:</span> {{ tag.name }}</p>
+                <p class="tag-category-name"><span>Category name:</span> {{ tag.categoryName }}</p>
+                <div class="actions">
+                    <button type="button" class="btn btn-edit" (click)="$event.stopPropagation(); goToTagForm(tag)">Edit</button>
+                    <button type="button" class="btn btn-delete" (click)="$event.stopPropagation(); deleteTag(tag.id)">Delete</button>
+                </div>
+            </div>
+        </div>
+    }
+
+    <router-outlet></router-outlet>
+
+    <div class="navigation-buttons">
+        <button 
+            class="btn-nav" 
+            (click)="previousTag()" 
+            [disabled]="isFirstTag()">
+            <span class="arrow">←</span> Previous
+        </button>
+        <button 
+            class="btn-nav" 
+            (click)="nextTag()" 
+            [disabled]="isLastTag()">
+            Next <span class="arrow">→</span>
+        </button>
+    </div>
+</div>

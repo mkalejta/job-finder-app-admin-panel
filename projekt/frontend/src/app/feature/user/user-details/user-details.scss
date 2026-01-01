@@ -68,8 +68,8 @@
 
             .btn {
                 padding: 0.6rem 1rem;
-                border: 3px solid #ccc;
-                background: white;
+                border: 3px solid $gray-200;
+                background: $white;
                 border-radius: 15px;
                 cursor: pointer;
                 font-size: 0.85rem;
@@ -78,7 +78,7 @@
 
                 &:hover {
                     transform: translateY(-1px);
-                    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+                    box-shadow: 0 2px 4px $shadow-md;
                 }
 
                 &:active {

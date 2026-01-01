@@ -1,8 +1,8 @@
 import { Component, signal } from '@angular/core';
 import { RouterLink, RouterLinkActive } from "@angular/router";
-import { UserInitial } from '../../interface/user-initial';
+import { UserInitial } from '../../interface/user/user-initial';
 import { UserInitials } from '../../shared/user-initials/user-initials';
-import User from '../../interface/user';
+import User from '../../interface/user/user';
 
 const USER_INITIALS = "userInitials";
 const USERNAME = "username";

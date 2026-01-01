@@ -1,0 +1,17 @@
+export enum CategoryColor {
+  BLUE = 'BLUE',
+  RED = 'RED',
+  GREEN = 'GREEN',
+  YELLOW = 'YELLOW',
+  PURPLE = 'PURPLE',
+  ORANGE = 'ORANGE',
+  BROWN = 'BROWN',
+  GRAY = 'GRAY',
+  LIGHT_GRAY = 'LIGHT_GRAY',
+  CYAN = 'CYAN',
+  PINK = 'PINK',
+  LIME = 'LIME',
+  MAGENTA = 'MAGENTA',
+  BLACK = 'BLACK',
+  WHITE = 'WHITE',
+}

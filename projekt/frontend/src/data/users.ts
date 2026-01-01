@@ -1,4 +1,4 @@
-import User from '../app/interface/user';
+import User from '../app/interface/user/user';
 import { v4 as uuidv4 } from 'uuid';
 
 export const users: User[] = [

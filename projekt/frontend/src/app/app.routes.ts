@@ -19,6 +19,11 @@ export const routes: Routes = [
             import('./feature/user/user.routes').then((m) => m.USER_ROUTES)
     },
     {
+        path: 'tags',
+        loadChildren: () =>
+            import('./feature/tag/tag.routes').then((m) => m.TAG_ROUTES)
+    },
+    {
         path: '**',
         component: NotFound
     }

@@ -1,12 +1,12 @@
 import { inject, Injectable } from '@angular/core';
 import { BehaviorSubject, Observable, catchError, map, of, tap } from 'rxjs';
-import User from '../../interface/user';
-import ResponseDto from '../../interface/dto/response-dto';
+import User from '../../interface/user/user';
+import ResponseDto from '../../interface/response-dto';
 import { UUIDTypes, v4 as uuidv4 } from 'uuid';
 import { HttpClient } from '@angular/common/http';
 import { environment } from '../../../environments/environment';
-import UserCreateDto from '../../interface/dto/user/UserCreateDto';
-import UserUpdateDto from '../../interface/dto/user/UserUpdateDto';
+import UserCreateDto from '../../interface/user/UserCreateDto';
+import UserUpdateDto from '../../interface/user/UserUpdateDto';
 
 @Injectable({
   providedIn: 'root',

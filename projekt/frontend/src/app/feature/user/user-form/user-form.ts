@@ -1,12 +1,12 @@
 import { Component, inject, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
-import User from '../../../interface/user';
+import User from '../../../interface/user/user';
 import { ActivatedRoute, Router } from '@angular/router';
-import { UsersService } from '../users-service.service';
+import { UsersService } from '../user.service';
 import { Location } from '@angular/common';
 import { UUIDTypes } from 'uuid';
-import UserCreateDto from '../../../interface/dto/user/UserCreateDto';
-import UserUpdateDto from '../../../interface/dto/user/UserUpdateDto';
+import UserCreateDto from '../../../interface/user/UserCreateDto';
+import UserUpdateDto from '../../../interface/user/UserUpdateDto';
 
 @Component({
   selector: 'app-user-form',

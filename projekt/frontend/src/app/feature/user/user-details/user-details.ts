@@ -1,9 +1,9 @@
 import { Component, inject, OnInit } from '@angular/core';
 import { ActivatedRoute, Router, RouterOutlet } from '@angular/router';
-import User from '../../../interface/user';
-import { UsersService } from '../users-service.service';
+import User from '../../../interface/user/user';
+import { UsersService } from '../user.service';
 import { UserInitials } from '../../../shared/user-initials/user-initials';
-import { UserInitial } from '../../../interface/user-initial';
+import { UserInitial } from '../../../interface/user/user-initial';
 import { UUIDTypes } from 'uuid';
 
 @Component({

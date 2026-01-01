@@ -1,5 +1,5 @@
 import { Component, Input, OnChanges, OnInit, SimpleChanges } from '@angular/core';
-import { UserInitial } from '../../interface/user-initial';
+import { UserInitial } from '../../interface/user/user-initial';
 
 @Component({
   selector: 'app-user-initials',

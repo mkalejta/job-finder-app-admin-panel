@@ -1,0 +1,30 @@
+<div class="list-header">
+    <h2>Tag list</h2>
+    <button class="btn-add" (click)="goToAddTag()">
+        <span class="icon">+</span> Add Tag
+    </button>
+</div>
+
+<table class="tags-table">
+    <thead>
+        <tr>
+            <th>ID</th>
+            <th>Name</th>
+            <th>Category</th>
+        </tr>
+    </thead>
+    <tbody>        
+        @for (tag of tags(); track $index) {
+            <tr
+                class="tag-row"
+                (click)="goToTagDetails(tag.id)">
+                <td>
+                    <span class="tag-indicator" [ngStyle]="{ 'background-color': getTagBackgroundColor(tag.categoryColor) }"></span>
+                    {{tag.id}}
+                </td>
+                <td>{{tag.name}}</td>
+                <td>{{tag.categoryName}}</td>
+            </tr>
+        }
+    </tbody>
+</table>
