@@ -6,17 +6,36 @@ import TokenResponse from '../interface/token-response';
 import ResponseDto from '../interface/response-dto';
 import { JwtHelperService } from '@auth0/angular-jwt';
 
+export interface RotateTokensProps {
+  refreshToken: string;
+  refreshTokenId: string;
+}
+
 @Injectable({
   providedIn: 'root',
 })
 export class AuthService {
   private http = inject(HttpClient);
   private authUrl = `${environment.apiUrl}/auth/login`;
+  private rotateTokenUrl = `${environment.apiUrl}/refresh-token/rotate`;
 
   private getDecodedAccessToken( token: string ): object {
     const helper = new JwtHelperService();
     const decodedToken = helper.decodeToken(token);
     return decodedToken;
+  }
+
+  rotateTokens(props: RotateTokensProps): Observable<ResponseDto<TokenResponse>> {
+    return this.http.post<ResponseDto<TokenResponse>>(`${this.rotateTokenUrl}`, props)
+    .pipe(
+      tap(response => {
+        const tokenInfo = this.getDecodedAccessToken(response.data!.accessToken);
+        localStorage.setItem('user', JSON.stringify(tokenInfo));
+        localStorage.setItem('accessToken', response.data!.accessToken);
+        localStorage.setItem('refreshToken', response.data!.refreshToken);
+        localStorage.setItem('refreshTokenId', response.data!.refreshTokenId);
+        })
+    );
   }
 
   login(credentials: { loginData: string, password: string }): Observable<{ data?: TokenResponse }> {
@@ -34,6 +53,10 @@ export class AuthService {
 
   logout(): void{
     localStorage.removeItem('accessToken');
+    localStorage.removeItem('refreshToken');
+    localStorage.removeItem('refreshTokenId');
+    localStorage.removeItem('user');
+    location.reload();
   }
 
   getToken(): string | null {
