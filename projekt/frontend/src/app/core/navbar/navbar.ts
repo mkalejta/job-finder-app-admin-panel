@@ -1,8 +1,11 @@
-import { Component, signal } from '@angular/core';
+import { Component, OnInit, OnDestroy, inject, signal } from '@angular/core';
 import { RouterLink, RouterLinkActive } from "@angular/router";
 import { UserInitial } from '../../interface/user/user-initial';
 import { UserInitials } from '../../shared/user-initials/user-initials';
 import User from '../../interface/user/user';
+import { AuthService } from '../../auth/auth.service';
+import { Subject } from 'rxjs';
+import { takeUntil } from 'rxjs/operators';
 
 const USER_INITIALS = "userInitials";
 const USERNAME = "username";
@@ -13,31 +16,42 @@ const USERNAME = "username";
   templateUrl: './navbar.html',
   styleUrl: './navbar.scss',
 })
-export class Navbar {
+export class Navbar implements OnInit, OnDestroy {
+  private authService = inject(AuthService);
+  private destroy$ = new Subject<void>();
+
   userInitials?: UserInitial;
   user?: User;
   usernameOrInitials = signal<typeof USER_INITIALS | typeof USERNAME>(USER_INITIALS);
 
-  constructor() {
+  ngOnInit(): void {
     this.extractUsernameOrInitials();
-    this.extractUser();
+    
+    this.authService.userData$
+      .pipe(takeUntil(this.destroy$))
+      .subscribe((user) => {
+        if (user) {
+          this.user = user;
+          this.userInitials = {
+            firstName: user.firstName,
+            lastName: user.lastName
+          };
+        } else {
+          this.user = undefined;
+          this.userInitials = undefined;
+        }
+      });
+  }
+
+  ngOnDestroy(): void {
+    this.destroy$.next();
+    this.destroy$.complete();
   }
 
   private extractUsernameOrInitials(): void {
-    const usernameOrInitials = JSON.parse(localStorage.getItem('usernameOrInitials')!);
+    const usernameOrInitials = localStorage.getItem('usernameOrInitials');
     if (usernameOrInitials) {
-      this.usernameOrInitials.set(usernameOrInitials);
-    }
-  }
-
-  private extractUser(): void {
-    const user = JSON.parse(localStorage.getItem('user')!);
-    if (user) {
-      this.userInitials = {
-        firstName: user.firstName,
-        lastName: user.lastName
-      };
-      this.user = user;
+      this.usernameOrInitials.set(JSON.parse(usernameOrInitials));
     }
   }
 

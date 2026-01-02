@@ -1,2 +1,36 @@
-<p>home works!</p>
-<button (click)="goToLoginForm()">Login</button>
+<div class="home-container">
+  <div class="home-header">
+    @if (isAuth && user) {
+        <h1>Welcome {{ user.firstName }} {{ user.lastName }}</h1>
+        <p>Manage your data efficiently and securely</p>
+    } @else {
+        <h1>Welcome to Admin Panel of JobFinderApp</h1>
+        <p>Manage your data efficiently and securely</p>
+    }
+  </div>
+
+  <div class="button-group">
+    @if (isAuth) {
+      <button class="logout-btn" (click)="logout()">Logout</button>
+    } @else {
+      <button class="login-btn" (click)="goToLoginForm()">Login</button>
+    }
+  </div>
+
+  @if (isAuth) {
+    <div class="features">
+      <div class="feature-card">
+        <h3>🔒 Secure</h3>
+        <p>Your data is protected with modern encryption and token rotation</p>
+      </div>
+      <div class="feature-card">
+        <h3>⚡ Fast</h3>
+        <p>Lightning-fast API responses with optimized caching</p>
+      </div>
+      <div class="feature-card">
+        <h3>📊 Powerful</h3>
+        <p>Advanced features to manage data efficiently</p>
+      </div>
+    </div>
+  }
+</div>
