@@ -34,3 +34,38 @@
         }
     </tbody>
 </table>
+
+<div class="pagination-controls">
+    <div class="pagination-left">
+        <label for="page-size">Page size:</label>
+        <select 
+            id="page-size"
+            [value]="pagination().size"
+            (change)="onPageSizeChange(+$any($event.target).value)"
+            class="page-size-select"
+        >
+            @for (size of pageSizeOptions; track size) {
+                <option [value]="size">{{ size }}</option>
+            }
+        </select>
+    </div>
+
+    <div class="pagination-right">
+        <button 
+            class="btn-pagination"
+            (click)="onPageChange(pagination().page - 1)"
+            [disabled]="pagination().page === 0"
+        >
+            Previous
+        </button>
+        <div class="page-info">
+            Page {{ pagination().page + 1 }}
+        </div>
+        <button 
+            class="btn-pagination"
+            (click)="onPageChange(pagination().page + 1)"
+        >
+            Next
+        </button>
+    </div>
+</div>

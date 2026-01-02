@@ -1,5 +1,5 @@
 import { inject, Injectable } from '@angular/core';
-import { BehaviorSubject, Observable, catchError, map, of, tap } from 'rxjs';
+import { BehaviorSubject, Observable, catchError, combineLatest, map, of, tap } from 'rxjs';
 import User from '../../interface/user/user';
 import ResponseDto from '../../interface/response-dto';
 import { UUIDTypes, v4 as uuidv4 } from 'uuid';
@@ -8,27 +8,42 @@ import { environment } from '../../../environments/environment';
 import UserCreateDto from '../../interface/user/UserCreateDto';
 import UserUpdateDto from '../../interface/user/UserUpdateDto';
 import SortingParams from '../../interface/sorting-params';
+import PaginationParams from '../../interface/pagination-params';
+import { PaginationService } from '../../shared/pagination/pagination.service';
 
 @Injectable({
   providedIn: 'root',
 })
 export class UsersService{
   private http = inject(HttpClient);
+  private paginationService = inject(PaginationService);
   private users = new BehaviorSubject<User[]>([]);
   private userUrl = environment.apiUrl + '/admin/user';
-  users$: Observable<User[] | []> = this.users.asObservable();
   private sortParams = new BehaviorSubject<SortingParams>({});
+  users$: Observable<User[] | []> = this.users.asObservable();
 
-  private fetchUsers(params?: SortingParams): Observable<User[]> {
-    const sortField = params?.sort || 'createdAt';
-    const sortDirection = (params?.direction || 'DESC').toUpperCase();
-    const sortParam = `${sortField},${sortDirection}`;
+  constructor() {
+    combineLatest([
+      this.sortParams.asObservable(),
+      this.paginationService.pagination$
+    ]).subscribe(([sort, pagination]) => {
+      this.fetchUsers(sort, pagination).subscribe();
+    });
+  }
 
-    const queryParams: Record<string, string> = {
-      sort: sortParam
+  private fetchUsers(sortParams: SortingParams, paginationParams: PaginationParams): Observable<User[]> {
+    const sortField = sortParams?.sort || 'createdAt';
+    const sortDirection = (sortParams?.direction || 'DESC').toUpperCase();
+    const page = paginationParams?.page;
+    const size = paginationParams?.size;
+
+    const httpParams = {
+      page: page.toString(),
+      size: size.toString(),
+      sort: `${sortField},${sortDirection.toLowerCase()}`
     };
 
-    return this.http.get<ResponseDto<{ content: User[] }>>(this.userUrl, { params: queryParams }).pipe(
+    return this.http.get<ResponseDto<{ content: User[] }>>(this.userUrl, { params: httpParams }).pipe(
       map((response) => response.data?.content),
       tap((data) => this.setUsers(data)),
       catchError((err) => {
@@ -81,8 +96,10 @@ export class UsersService{
     );
   }
     
-  loadUsers(params?: SortingParams): void {
-    this.fetchUsers(params).subscribe();
+  loadUsers(sortParams?: SortingParams): void {
+    if (sortParams) {
+      this.sortParams.next(sortParams);
+    }
   }
 
   setSortParams(params: SortingParams): void {

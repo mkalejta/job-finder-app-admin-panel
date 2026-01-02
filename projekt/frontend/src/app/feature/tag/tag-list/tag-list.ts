@@ -1,4 +1,4 @@
-import { Component, inject, OnInit } from '@angular/core';
+import { Component, inject, OnInit, OnDestroy } from '@angular/core';
 import { toSignal } from '@angular/core/rxjs-interop';
 import { ActivatedRoute, Router } from '@angular/router';
 import { UUIDTypes } from 'uuid';
@@ -8,19 +8,30 @@ import { CategoryColorService } from '../../category-color.service';
 import { CategoryColor } from '../../../shared/enums/CategoryColor';
 import { SortPanel } from '../../../shared/sort-panel/sort-panel';
 import SortingParams from '../../../interface/sorting-params';
+import { PaginationService } from '../../../shared/pagination/pagination.service';
+import { FormsModule } from '@angular/forms';
+import { Subject } from 'rxjs';
 
 @Component({
   selector: 'app-tag-list',
-  imports: [CommonModule, SortPanel],
+  imports: [CommonModule, SortPanel, FormsModule],
   templateUrl: './tag-list.html',
   styleUrl: './tag-list.scss',
 })
-export class TagList implements OnInit {
+export class TagList implements OnInit, OnDestroy {
   private categoryColorService = inject(CategoryColorService);
   private tagsService = inject(TagsService);
+  private paginationService = inject(PaginationService);
   private router = inject(Router);
   private route = inject(ActivatedRoute);
+  private destroy$ = new Subject<void>();
+  
   tags = toSignal(this.tagsService.tags$, { initialValue: [] });
+  pagination = toSignal(this.paginationService.pagination$, {
+    initialValue: { page: 0, size: 20 }
+  });
+
+  pageSizeOptions = [20, 10, 5];
 
   sortFields = [
     { id: 'name', label: 'Tag Name' },
@@ -31,8 +42,21 @@ export class TagList implements OnInit {
     this.tagsService.loadTags();
   }
 
+  ngOnDestroy(): void {
+    this.destroy$.next();
+    this.destroy$.complete();
+  }
+
   onSortChange(config: SortingParams): void {
     this.tagsService.setSortParams(config);
+  }
+
+  onPageSizeChange(size: number): void {
+    this.paginationService.setPageSize(size);
+  }
+
+  onPageChange(page: number): void {
+    this.paginationService.setPage(page);
   }
 
   goToAddTag(): void {

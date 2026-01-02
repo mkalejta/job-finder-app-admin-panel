@@ -100,3 +100,116 @@
         }
     }
 }
+
+.pagination-controls {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 2rem;
+    padding: 1.5rem;
+    background: $white;
+    border: 1px solid $border-medium;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px $shadow-sm;
+    flex-wrap: wrap;
+    gap: 1rem;
+}
+
+.pagination-left,
+.pagination-right {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+}
+
+.pagination-left {
+    label {
+        font-weight: 600;
+        color: $gray-700;
+    }
+
+    .page-size-select {
+        padding: 0.5rem 1rem;
+        border: 1px solid $primary-lighter;
+        border-radius: 6px;
+        background: $white;
+        color: $gray-700;
+        font-size: 0.95rem;
+        cursor: pointer;
+        transition: all 0.2s ease;
+        min-width: 80px;
+
+        &:hover {
+            border-color: $primary;
+            box-shadow: 0 2px 8px rgba($primary, 0.1);
+        }
+
+        &:focus {
+            outline: none;
+            border-color: $info;
+            box-shadow: 0 0 0 3px rgba($info, 0.1);
+        }
+    }
+}
+
+.pagination-right {
+    .page-info {
+        min-width: 100px;
+        text-align: center;
+        font-weight: 600;
+        color: $gray-700;
+    }
+
+    .btn-pagination {
+        padding: 0.6rem 1.2rem;
+        background: $info;
+        border: none;
+        border-radius: 6px;
+        color: $white;
+        font-weight: 600;
+        cursor: pointer;
+        transition: all 0.2s ease;
+
+        &:hover:not(:disabled) {
+            background: $info-light;
+            transform: translateY(-1px);
+            box-shadow: 0 4px 8px $shadow-navy-md;
+        }
+
+        &:active:not(:disabled) {
+            transform: translateY(0);
+        }
+
+        &:disabled {
+            background: $gray-300;
+            cursor: not-allowed;
+            opacity: 0.6;
+        }
+
+        &:focus-visible {
+            outline: 2px solid $accent-light;
+            outline-offset: 2px;
+        }
+    }
+}
+
+@media (max-width: 768px) {
+    .pagination-controls {
+        flex-direction: column;
+        align-items: stretch;
+    }
+
+    .pagination-left,
+    .pagination-right {
+        width: 100%;
+        justify-content: space-between;
+    }
+
+    .page-size-select {
+        flex: 1;
+    }
+
+    .btn-pagination {
+        flex: 1;
+    }
+}
