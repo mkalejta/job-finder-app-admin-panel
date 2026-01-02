@@ -7,39 +7,29 @@ import ResponseDto from '../../interface/response-dto';
 import TagCreateDto from '../../interface/tag/TagCreateDto';
 import { UUIDTypes, v4 as uuidv4 } from 'uuid';
 import Tag from '../../interface/tag/tag';
+import SortingParams from '../../interface/sorting-params';
 
 @Injectable({
   providedIn: 'root',
 })
 export class TagsService {
   private http = inject(HttpClient);
-  private tags = new BehaviorSubject<Tag[]>(this.readStorage());
+  private tags = new BehaviorSubject<Tag[]>([]);
   private tagUrl = environment.apiUrl + '/tag';
   private tagAdminUrl = environment.apiUrl + '/admin/tag';
   tags$: Observable<Tag[] | []> = this.tags.asObservable();
+  private sortParams = new BehaviorSubject<SortingParams>({});
 
-  private readStorage(): Tag[] | [] {
-    try {
-      const raw = localStorage.getItem('tags');
-      if (!raw) return [];
-      const data = JSON.parse(raw) as Tag[];
-      return data;
-    } catch (e){
-      console.error('Failed to read tags from storage', e);
-      return [];
-    }
-  }
+  private fetchTags(params?: SortingParams): Observable<Tag[]> {
+    const sortField = params?.sort || 'name';
+    const sortDirection = (params?.direction || 'ASC').toUpperCase();
+    const sortParam = `${sortField},${sortDirection}`;
 
-  private writeStorage(tags: Tag[]): void {
-    try {
-      localStorage.setItem('tags', JSON.stringify(tags));
-    } catch (e) {
-      console.error('Failed to write tags to storage', e);
-    }
-  }
+    const queryParams: Record<string, string> = {
+      sort: sortParam
+    };
 
-  private fetchTags(): Observable<Tag[]> {
-    return this.http.get<ResponseDto<{ content: Tag[] }>>(this.tagUrl).pipe(
+    return this.http.get<ResponseDto<{ content: Tag[] }>>(this.tagUrl, { params: queryParams }).pipe(
       map((response) => response.data?.content),
       tap((data) => this.setTags(data)),
       catchError((err) => {
@@ -92,14 +82,18 @@ export class TagsService {
     );
   }
     
-  loadTags(): void {
-    this.fetchTags().subscribe();
+  loadTags(params?: SortingParams): void {
+    this.fetchTags(params).subscribe();
+  }
+
+  setSortParams(params: SortingParams): void {
+    this.sortParams.next(params);
+    this.loadTags(params);
   }
 
   setTags(tags: Tag[]): void {
     if (!tags) return;
     this.tags.next(tags);
-    this.writeStorage(tags);
   }
 
   getTags(): Tag[] {

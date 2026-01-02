@@ -7,38 +7,28 @@ import { HttpClient } from '@angular/common/http';
 import { environment } from '../../../environments/environment';
 import UserCreateDto from '../../interface/user/UserCreateDto';
 import UserUpdateDto from '../../interface/user/UserUpdateDto';
+import SortingParams from '../../interface/sorting-params';
 
 @Injectable({
   providedIn: 'root',
 })
 export class UsersService{
   private http = inject(HttpClient);
-  private users = new BehaviorSubject<User[]>(this.readStorage());
+  private users = new BehaviorSubject<User[]>([]);
   private userUrl = environment.apiUrl + '/admin/user';
   users$: Observable<User[] | []> = this.users.asObservable();
+  private sortParams = new BehaviorSubject<SortingParams>({});
 
-  private readStorage(): User[] | [] {
-    try {
-      const raw = localStorage.getItem('users');
-      if (!raw) return [];
-      const data = JSON.parse(raw) as User[];
-      return data;
-    } catch (e){
-      console.error('Failed to read users from storage', e);
-      return [];
-    }
-  }
+  private fetchUsers(params?: SortingParams): Observable<User[]> {
+    const sortField = params?.sort || 'createdAt';
+    const sortDirection = (params?.direction || 'DESC').toUpperCase();
+    const sortParam = `${sortField},${sortDirection}`;
 
-  private writeStorage(users: User[]): void {
-    try {
-      localStorage.setItem('users', JSON.stringify(users));
-    } catch (e) {
-      console.error('Failed to write users to storage', e);
-    }
-  }
+    const queryParams: Record<string, string> = {
+      sort: sortParam
+    };
 
-  private fetchUsers(): Observable<User[]> {
-    return this.http.get<ResponseDto<{ content: User[] }>>(this.userUrl).pipe(
+    return this.http.get<ResponseDto<{ content: User[] }>>(this.userUrl, { params: queryParams }).pipe(
       map((response) => response.data?.content),
       tap((data) => this.setUsers(data)),
       catchError((err) => {
@@ -91,14 +81,18 @@ export class UsersService{
     );
   }
     
-  loadUsers(): void {
-    this.fetchUsers().subscribe();
+  loadUsers(params?: SortingParams): void {
+    this.fetchUsers(params).subscribe();
+  }
+
+  setSortParams(params: SortingParams): void {
+    this.sortParams.next(params);
+    this.loadUsers(params);
   }
 
   setUsers(users: User[]): void {
     if (!users) return;
     this.users.next(users);
-    this.writeStorage(users);
   }
 
   getUsers(): User[] {

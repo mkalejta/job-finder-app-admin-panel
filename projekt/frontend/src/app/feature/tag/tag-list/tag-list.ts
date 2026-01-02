@@ -6,10 +6,12 @@ import { TagsService } from '../tag.service';
 import { CommonModule } from '@angular/common';
 import { CategoryColorService } from '../../category-color.service';
 import { CategoryColor } from '../../../shared/enums/CategoryColor';
+import { SortPanel } from '../../../shared/sort-panel/sort-panel';
+import SortingParams from '../../../interface/sorting-params';
 
 @Component({
   selector: 'app-tag-list',
-  imports: [CommonModule],
+  imports: [CommonModule, SortPanel],
   templateUrl: './tag-list.html',
   styleUrl: './tag-list.scss',
 })
@@ -20,8 +22,17 @@ export class TagList implements OnInit {
   private route = inject(ActivatedRoute);
   tags = toSignal(this.tagsService.tags$, { initialValue: [] });
 
+  sortFields = [
+    { id: 'name', label: 'Tag Name' },
+    { id: 'createdAt', label: 'Created At' },
+  ];
+
   ngOnInit(): void {
     this.tagsService.loadTags();
+  }
+
+  onSortChange(config: SortingParams): void {
+    this.tagsService.setSortParams(config);
   }
 
   goToAddTag(): void {

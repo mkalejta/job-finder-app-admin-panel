@@ -5,6 +5,11 @@
     </button>
 </div>
 
+<app-sort-panel 
+    [fields]="sortFields"
+    (sortChange)="onSortChange($event)"
+></app-sort-panel>
+
 <table class="tags-table">
     <thead>
         <tr>

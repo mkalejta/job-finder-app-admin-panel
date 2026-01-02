@@ -1,0 +1,49 @@
+<div class="sort-panel">
+  <div class="sort-container">
+    <label for="sort-field" class="sort-label">Sort by:</label>
+    <select
+      id="sort-field"
+      [(ngModel)]="selectedField"
+      class="sort-select"
+    >
+      <option value="" disabled>Select field</option>
+      @for (field of fields(); track field.id) {
+        <option [value]="field.id">{{ field.label }}</option>
+      }
+    </select>
+
+    <div class="direction-group">
+      <label class="sort-label" for="sort-values">Order:</label>
+      <div id="sort-values" class="radio-group">
+        <label class="radio-label">
+          <input
+            type="radio"
+            name="direction"
+            value="ASC"
+            [(ngModel)]="selectedDirection"
+            class="radio-input"
+          />
+          <span class="radio-text">Ascending</span>
+        </label>
+        <label class="radio-label">
+          <input
+            type="radio"
+            name="direction"
+            value="DESC"
+            [(ngModel)]="selectedDirection"
+            class="radio-input"
+          />
+          <span class="radio-text">Descending</span>
+        </label>
+      </div>
+    </div>
+
+    <button 
+      class="btn-apply" 
+      (click)="applySort()"
+      [disabled]="!selectedField"
+    >
+      Apply Filters
+    </button>
+  </div>
+</div>
