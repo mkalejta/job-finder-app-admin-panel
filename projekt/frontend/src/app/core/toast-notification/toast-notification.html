@@ -1,0 +1,17 @@
+<div class="toast-container">
+  @for (notification of notifications(); track notification.id) {
+    <div 
+      class="toast {{ notification.type }}"
+      [attr.data-id]="notification.id"
+      @slideIn>
+      <i [ngClass]="getIconClass(notification)" class="icon" aria-hidden="true"></i>
+      <div class="content">
+        <div class="title">{{ notification.type }}</div>
+        <div class="message">{{ notification.message }}</div>
+      </div>
+      <button type="button" (click)="onClose(notification.id)" class="close">
+        <span class="material-icons">close</span>
+      </button>
+    </div>
+  }
+</div>

@@ -5,6 +5,7 @@ import { UsersService } from '../user.service';
 import { UserInitials } from '../../../shared/user-initials/user-initials';
 import { UserInitial } from '../../../interface/user/UserInitials';
 import { UUIDTypes } from 'uuid';
+import { ConfirmationService } from '../../../core/services/confirmation.service';
 
 @Component({
   selector: 'app-user-details',
@@ -16,6 +17,7 @@ export class UserDetails implements OnInit{
   private router = inject(Router);
   private route = inject(ActivatedRoute);
   private usersService = inject(UsersService);
+  private confirmationService = inject(ConfirmationService);
   user?: User;
   users: User[] | [] = [];
   currentIndex?: number;
@@ -68,17 +70,24 @@ export class UserDetails implements OnInit{
   deleteUser(userId: UUIDTypes): void {
     if (this.currentIndex === undefined) return;
     
-    const nextIndex = this.currentIndex < this.users.length - 1 
-      ? this.currentIndex 
-      : this.currentIndex - 1;
-    
-    this.usersService.deleteUser(userId);
-    
-    if (nextIndex >= 0 && this.users.length > 1) {
-      const nextUser = this.users[nextIndex === this.currentIndex ? nextIndex + 1 : nextIndex];
-      this.router.navigate(['users', nextUser.id, 'details']);
-    } else {
-      this.router.navigate(['users']);
-    }
+    this.confirmationService.confirmDanger(
+      'Delete user',
+      `Are you sure you want to delete the user ${this.user?.username}? This action is irreversible.`
+    ).subscribe(confirmed => {
+      if (!confirmed) return;
+      
+      const nextIndex = this.currentIndex! < this.users.length - 1 
+        ? this.currentIndex! 
+        : this.currentIndex! - 1;
+      
+      this.usersService.deleteUser(userId);
+      
+      if (nextIndex >= 0 && this.users.length > 1) {
+        const nextUser = this.users[nextIndex === this.currentIndex ? nextIndex + 1 : nextIndex];
+        this.router.navigate(['users', nextUser.id, 'details']);
+      } else {
+        this.router.navigate(['users']);
+      }
+    });
   }
 }

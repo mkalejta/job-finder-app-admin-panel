@@ -11,6 +11,7 @@ import PaginationParams from '../../interface/PaginationParams';
 import { PaginationService } from '../../shared/pagination/pagination.service';
 import { FilteringParams } from '../../interface/FilteringParams';
 import Tag from '../../interface/tag/Tag';
+import { NotificationService } from '../../core/services/notification.service';
 
 export interface TagFilters {
   [key: string]: unknown;
@@ -25,6 +26,7 @@ export type TagFilteringParams = FilteringParams<TagFilters>;
 export class TagsService {
   private http = inject(HttpClient);
   private paginationService = inject(PaginationService);
+  private notificationService = inject(NotificationService);
   
   private tags = new BehaviorSubject<Tag[]>([]);
   private tagUrl = environment.apiUrl + '/tag';
@@ -63,6 +65,7 @@ export class TagsService {
       tap((data) => this.setTags(data)),
       catchError((err) => {
         console.error('Error fetching tags:', err);
+        this.notificationService.error('Failed to fetch the list of tags');
         return of(this.tags.value);
       })
     );
@@ -73,11 +76,13 @@ export class TagsService {
       map((response) => response.data),
       tap((newTag) => {
         if (newTag) {
+          this.notificationService.success('Tag has been created successfully');
           this.loadTags();
         }
       }),
       catchError((err) => {
         console.error('Error adding tag:', err);
+        this.notificationService.error('Failed to create the tag');
         return of(err.error);
       })
     );
@@ -88,11 +93,13 @@ export class TagsService {
       map((response) => response.data),
       tap((updatedTag) => {
         if (updatedTag) {
+          this.notificationService.success('Tag has been updated successfully');
           this.loadTags();
         }
       }),
       catchError((err) => {
         console.error('Error updating tag:', err);
+        this.notificationService.error('Failed to update the tag');
         return of(err.error);
       })
     );
@@ -102,10 +109,12 @@ export class TagsService {
     return this.http.delete<ResponseDto<void>>(`${this.tagAdminUrl}/${tagId}`).pipe(
       map((response) => response.data),
       tap(() => {
+        this.notificationService.success('Tag has been deleted successfully');
         this.loadTags();
       }),
       catchError((err) => {
         console.error('Error deleting tag:', err);
+        this.notificationService.error('Failed to delete the tag');
         return of(err.error);
       })
     );

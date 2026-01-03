@@ -9,6 +9,7 @@ import Tag from '../../../interface/tag/Tag';
 import { CategoryService } from '../../category/category.service';
 import { toSignal } from '@angular/core/rxjs-interop';
 import { categoryAndTagValidator } from '../../../shared/validators/category-and-tag.validator';
+import { NotificationService } from '../../../core/services/notification.service';
 
 @Component({
   selector: 'app-tag-form',
@@ -23,6 +24,7 @@ export class TagForm implements OnInit {
   private location = inject(Location);
   private tagsService = inject(TagsService);
   private categoryService = inject(CategoryService);
+  private notificationService = inject(NotificationService);
   tagForm!: FormGroup;
   tag?: Tag;
   categoryId?: UUIDTypes;
@@ -63,6 +65,7 @@ export class TagForm implements OnInit {
   onSubmit(): void {
     if (this.tagForm.invalid) {
       this.tagForm.markAllAsTouched();
+      this.notificationService.warning('Please fill out all required fields correctly.');
       return;
     }
 

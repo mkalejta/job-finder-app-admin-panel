@@ -11,6 +11,7 @@ import { passwordValidator } from '../../../shared/validators/password.validator
 import { usernameValidator } from '../../../shared/validators/username.validator';
 import { emailValidator } from '../../../shared/validators/email.validator';
 import { phoneNumberValidator } from '../../../shared/validators/phone-number.validator';
+import { NotificationService } from '../../../core/services/notification.service';
 
 @Component({
   selector: 'app-user-form',
@@ -24,6 +25,7 @@ export class UserForm implements OnInit {
   private router = inject(Router);
   private location = inject(Location);
   private usersService = inject(UsersService);
+  private notificationService = inject(NotificationService);
   userForm!: FormGroup;
   user?: User;
   isEditMode = false;
@@ -65,6 +67,7 @@ export class UserForm implements OnInit {
   onSubmit(): void {
     if (this.userForm.invalid) {
       this.userForm.markAllAsTouched();
+      this.notificationService.warning('Please fill out all required fields correctly.');
       return;
     }
 

@@ -1,0 +1,57 @@
+@if (dialog(); as dialogData) {
+  <div class="modal-backdrop" (click)="onBackdropClick($event)" (keydown.escape)="onBackdropClick($any($event))" role="button" tabindex="0">
+    <div class="modal modal--{{ dialogData.type }}" role="dialog" aria-modal="true" [attr.aria-labelledby]="'modal-title-' + dialogData.id">
+      <div class="modal__header">
+        <div class="modal__icon">
+          <i class="fa-solid {{ getIconClass() }}"></i>
+        </div>
+        <h2 class="modal__title" [id]="'modal-title-' + dialogData.id">
+          {{ dialogData.title }}
+        </h2>
+        <button 
+          class="modal__close"
+          (click)="onCancel()"
+          aria-label="Zamknij modal"
+          type="button">
+          <i class="material-icons">close</i>
+        </button>
+      </div>
+
+      <div class="modal__content">
+        <p class="modal__message">{{ dialogData.message }}</p>
+
+        @if (dialogData.requireTextConfirmation && dialogData.confirmationText) {
+          <div class="modal__confirmation">
+            <label class="modal__label" [attr.for]="'confirmation-input-' + dialogData.id">
+              Input <strong>{{ dialogData.confirmationText }}</strong> to confirm:
+            </label>
+            <input 
+              class="modal__input"
+              [id]="'confirmation-input-' + dialogData.id"
+              type="text"
+              [value]="userInput()"
+              (input)="onInputChange($any($event.target).value)"
+              placeholder="Input here..."
+              autocomplete="off">
+          </div>
+        }
+      </div>
+
+      <div class="modal__footer">
+        <button 
+          class="modal__button modal__button--cancel"
+          (click)="onCancel()"
+          type="button">
+          {{ dialogData.cancelText }}
+        </button>
+        <button 
+          class="modal__button modal__button--confirm modal__button--{{ dialogData.type }}"
+          (click)="onConfirm()"
+          [disabled]="!canConfirm()"
+          type="button">
+          {{ dialogData.confirmText }}
+        </button>
+      </div>
+    </div>
+  </div>
+}

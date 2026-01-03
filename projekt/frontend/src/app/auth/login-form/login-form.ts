@@ -2,6 +2,7 @@ import { Component, inject, OnInit } from '@angular/core';
 import { AuthService } from '../auth.service';
 import { Router } from '@angular/router';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
+import { NotificationService } from '../../core/services/notification.service';
 
 @Component({
   selector: 'app-login-form',
@@ -13,6 +14,7 @@ export class LoginForm implements OnInit {
   private fb = inject(FormBuilder);
   private authService = inject(AuthService);
   private router = inject(Router);
+  private notificationService = inject(NotificationService);
   loginForm!: FormGroup;
 
   ngOnInit(): void {
@@ -25,6 +27,7 @@ export class LoginForm implements OnInit {
   onSubmit(): void {
     if (this.loginForm.invalid) {
       this.loginForm.markAllAsTouched();
+      this.notificationService.warning('Please fill in the form correctly.');
       return;
     }
 
@@ -32,10 +35,12 @@ export class LoginForm implements OnInit {
 
     this.authService.login({ loginData: formValue.username, password: formValue.password }).subscribe({
       next: () => {
+        this.notificationService.success('Successfully logged in');
         this.router.navigate(['/']);
       },
       error: (err) => {
         console.error('Login failed', err);
+        this.notificationService.error('Invalid login credentials');
       }
     });
   }

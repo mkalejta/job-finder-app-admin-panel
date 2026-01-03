@@ -11,6 +11,7 @@ import SortingParams from '../../interface/SortingParams';
 import PaginationParams from '../../interface/PaginationParams';
 import { PaginationService } from '../../shared/pagination/pagination.service';
 import { FilteringParams } from '../../interface/FilteringParams';
+import { NotificationService } from '../../core/services/notification.service';
 
 export interface UserFilters {
   [key: string]: unknown;
@@ -24,6 +25,7 @@ export type UserFilteringParams = FilteringParams<UserFilters>;
 export class UsersService{
   private http = inject(HttpClient);
   private paginationService = inject(PaginationService);
+  private notificationService = inject(NotificationService);
   private users = new BehaviorSubject<User[]>([]);
   private userUrl = environment.apiUrl + '/admin/user';
   private sortParams = new BehaviorSubject<SortingParams>({});
@@ -59,6 +61,7 @@ export class UsersService{
       tap((data) => this.setUsers(data)),
       catchError((err) => {
         console.error('Error fetching users:', err);
+        this.notificationService.error('Failed to fetch the list of users');
         return of(this.users.value);
       })
     );
@@ -69,11 +72,13 @@ export class UsersService{
       map((response) => response.data),
       tap((newUser) => {
         if (newUser) {
+          this.notificationService.success('User has been created successfully');
           this.loadUsers();
         }
       }),
       catchError((err) => {
         console.error('Error adding user:', err);
+        this.notificationService.error('Failed to create the user');
         return of(err.error);
       })
     );
@@ -84,11 +89,13 @@ export class UsersService{
       map((response) => response.data),
       tap((updatedUser) => {
         if (updatedUser) {
+          this.notificationService.success('User has been updated successfully');
           this.loadUsers();
         }
       }),
       catchError((err) => {
         console.error('Error updating user:', err);
+        this.notificationService.error('Failed to update the user');
         return of(err.error);
       })
     );
@@ -98,10 +105,12 @@ export class UsersService{
     return this.http.delete<ResponseDto<void>>(`${this.userUrl}/${userId}`).pipe(
       map((response) => response.data),
       tap(() => {
+        this.notificationService.success('User has been deleted successfully');
         this.loadUsers();
       }),
       catchError((err) => {
         console.error('Error deleting user:', err);
+        this.notificationService.error('Failed to delete the user');
         return of(err.error);
       })
     );

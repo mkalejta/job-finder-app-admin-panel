@@ -6,6 +6,7 @@ import { CommonModule } from '@angular/common';
 import { CategoryColorService } from '../../category-color.service';
 import { CategoryColor } from '../../../shared/enums/CategoryColor';
 import Category from '../../../interface/category/Category';
+import { ConfirmationService } from '../../../core/services/confirmation.service';
 
 @Component({
   selector: 'app-category-details',
@@ -18,6 +19,7 @@ export class CategoryDetails implements OnInit {
   private router = inject(Router);
   private route = inject(ActivatedRoute);
   private categoryService = inject(CategoryService);
+  private confirmationService = inject(ConfirmationService);
   category?: Category;
   categories: Category[] | [] = [];
   currentIndex?: number;
@@ -62,18 +64,25 @@ export class CategoryDetails implements OnInit {
   deleteCategory(categoryId: UUIDTypes): void {
     if (this.currentIndex === undefined) return;
     
-    const nextIndex = this.currentIndex < this.categories.length - 1 
-      ? this.currentIndex 
-      : this.currentIndex - 1;
-    
-    this.categoryService.deleteCategory(categoryId);
-    
-    if (nextIndex >= 0 && this.categories.length > 1) {
-      const nextCategory = this.categories[nextIndex === this.currentIndex ? nextIndex + 1 : nextIndex];
-      this.router.navigate(['categories', nextCategory.id, 'details']);
-    } else {
-      this.router.navigate(['categories']);
-    }
+    this.confirmationService.confirmDanger(
+      'Delete category',
+      `Are you sure you want to delete the category "${this.category?.name}"? This action is irreversible and will delete all associated tags.`
+    ).subscribe(confirmed => {
+      if (!confirmed) return;
+      
+      const nextIndex = this.currentIndex! < this.categories.length - 1 
+        ? this.currentIndex! 
+        : this.currentIndex! - 1;
+      
+      this.categoryService.deleteCategory(categoryId);
+      
+      if (nextIndex >= 0 && this.categories.length > 1) {
+        const nextCategory = this.categories[nextIndex === this.currentIndex ? nextIndex + 1 : nextIndex];
+        this.router.navigate(['categories', nextCategory.id, 'details']);
+      } else {
+        this.router.navigate(['categories']);
+      }
+    });
   }
 
   getCategoryBackgroundColor(categoryColor: CategoryColor): string {

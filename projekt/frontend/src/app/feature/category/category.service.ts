@@ -10,6 +10,7 @@ import PaginationParams from '../../interface/PaginationParams';
 import { PaginationService } from '../../shared/pagination/pagination.service';
 import { UUIDTypes } from 'uuid';
 import CategoryCreateDto from '../../interface/category/CategoryCreateDto';
+import { NotificationService } from '../../core/services/notification.service';
 
 export interface CategoryFilters {
   [key: string]: unknown;
@@ -23,6 +24,7 @@ export type CategoryFilteringParams = FilteringParams<CategoryFilters>;
 export class CategoryService {
   private http = inject(HttpClient);
   private paginationService = inject(PaginationService);
+  private notificationService = inject(NotificationService);
 
   private categories = new BehaviorSubject<Category[]>([]);
   private categoryUrl = environment.apiUrl + '/category';
@@ -60,6 +62,7 @@ export class CategoryService {
       tap((data) => this.setCategories(data)),
       catchError((err) => {
         console.error('Error fetching categories:', err);
+        this.notificationService.error('Could not fetch categories');
         return of(this.categories.value);
       })
     );
@@ -70,11 +73,13 @@ export class CategoryService {
       map((response) => response.data),
       tap((newCategory) => {
         if (newCategory) {
+          this.notificationService.success('Category created successfully');
           this.loadCategories();
         }
       }),
       catchError((err) => {
         console.error('Error adding category:', err);
+        this.notificationService.error('Could not create category');
         return of(err.error);
       })
     );
@@ -85,11 +90,13 @@ export class CategoryService {
       map((response) => response.data),
       tap((updatedCategory) => {
         if (updatedCategory) {
+          this.notificationService.success('Category updated successfully');
           this.loadCategories();
         }
       }),
       catchError((err) => {
         console.error('Error updating category:', err);
+        this.notificationService.error('Could not update category');
         return of(err.error);
       })
     );
@@ -99,10 +106,12 @@ export class CategoryService {
     return this.http.delete<ResponseDto<void>>(`${this.categoryAdminUrl}/${categoryId}`).pipe(
       map((response) => response.data),
       tap(() => {
+        this.notificationService.success('Category deleted successfully');
         this.loadCategories();
       }),
       catchError((err) => {
         console.error('Error deleting category:', err);
+        this.notificationService.error('Could not delete category');
         return of(err.error);
       })
     );

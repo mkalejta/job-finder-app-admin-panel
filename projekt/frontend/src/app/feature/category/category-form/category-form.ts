@@ -9,6 +9,7 @@ import Category from '../../../interface/category/Category';
 import { CategoryColor } from '../../../shared/enums/CategoryColor';
 import { CommonModule } from '@angular/common';
 import { categoryAndTagValidator } from '../../../shared/validators/category-and-tag.validator';
+import { NotificationService } from '../../../core/services/notification.service';
 
 @Component({
   selector: 'app-category-form',
@@ -22,6 +23,7 @@ export class CategoryForm implements OnInit {
   private router = inject(Router);
   private location = inject(Location);
   private categoryService = inject(CategoryService);
+  private notificationService = inject(NotificationService);
   
   categoryForm!: FormGroup;
   category?: Category;
@@ -60,6 +62,7 @@ export class CategoryForm implements OnInit {
   onSubmit(): void {
     if (this.categoryForm.invalid) {
       this.categoryForm.markAllAsTouched();
+      this.notificationService.warning('Please fill out all required fields correctly.');
       return;
     }
 
