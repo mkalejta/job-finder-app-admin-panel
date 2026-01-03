@@ -1,8 +1,8 @@
 import { Component, OnInit, OnDestroy, inject, signal } from '@angular/core';
 import { RouterLink, RouterLinkActive } from "@angular/router";
-import { UserInitial } from '../../interface/user/user-initial';
+import { UserInitial } from '../../interface/user/UserInitials';
 import { UserInitials } from '../../shared/user-initials/user-initials';
-import User from '../../interface/user/user';
+import User from '../../interface/user/User';
 import { AuthService } from '../../auth/auth.service';
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';

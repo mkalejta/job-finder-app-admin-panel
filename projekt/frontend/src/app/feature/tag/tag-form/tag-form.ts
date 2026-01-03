@@ -5,9 +5,10 @@ import { TagsService } from '../tag.service';
 import { UUIDTypes } from 'uuid';
 import TagCreateDto from '../../../interface/tag/TagCreateDto';
 import { Location } from '@angular/common';
-import Tag from '../../../interface/tag/tag';
+import Tag from '../../../interface/tag/Tag';
 import { CategoryService } from '../../category/category.service';
 import { toSignal } from '@angular/core/rxjs-interop';
+import { categoryAndTagValidator } from '../../../shared/validators/category-and-tag.validator';
 
 @Component({
   selector: 'app-tag-form',
@@ -54,7 +55,7 @@ export class TagForm implements OnInit {
 
   initForm(): void {
     this.tagForm = this.fb.group({
-      name: ['', [Validators.required]],
+      name: ['', [Validators.required, categoryAndTagValidator()]],
       categoryId: ['', [Validators.required]],
     });
   }

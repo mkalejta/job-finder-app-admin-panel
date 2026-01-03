@@ -1,0 +1,187 @@
+@use 'colors' as *;
+
+.form-container {
+    max-width: 700px;
+    margin: 2rem auto;
+    padding: 0 2rem;
+}
+
+.btn-back {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.7rem 1.5rem;
+    background: $white;
+    border: 2px solid $border-medium;
+    border-radius: 8px;
+    color: $gray-700;
+    font-size: 1rem;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.3s ease;
+
+    .arrow {
+        font-size: 1.2rem;
+    }
+
+    &:hover {
+        background: $gray-100;
+        border-color: $info-light;
+        color: $info-light;
+        transform: translateX(-3px);
+    }
+}
+
+.form-card {
+    background: $white;
+    border-radius: 12px;
+    padding: 3rem;
+    box-shadow: 0 4px 20px $shadow-md;
+
+    h2 {
+        font-size: 2rem;
+        color: $gray-900;
+        margin-bottom: 2rem;
+        text-align: center;
+    }
+}
+
+.category-form {
+    .form-group {
+        margin-bottom: 1.5rem;
+
+        label {
+            display: block;
+            margin-bottom: 0.5rem;
+            color: $gray-700;
+            font-weight: 600;
+            font-size: 0.95rem;
+        }
+
+        input,
+        select {
+            width: 100%;
+            padding: 0.9rem;
+            border: 2px solid $border-medium;
+            border-radius: 8px;
+            font-size: 1rem;
+            font-family: inherit;
+            transition: all 0.3s ease;
+            box-sizing: border-box;
+            background: $white;
+            color: $gray-700;
+
+            &:focus {
+                outline: none;
+                border-color: $info-light;
+                box-shadow: 0 0 0 3px $shadow-navy-md;
+            }
+
+            &::placeholder {
+                color: $gray-400;
+            }
+        }
+
+        select {
+            cursor: pointer;
+            appearance: none;
+            padding-right: 3rem;
+
+            &:hover {
+                border-color: $info-light;
+            }
+
+            option {
+                padding: 0.75rem;
+                background: $white;
+                color: $gray-700;
+                font-size: 1rem;
+
+                &:hover,
+                &:focus,
+                &:checked {
+                    background: $info-light;
+                    color: $white;
+                }
+
+                &:disabled {
+                    color: $gray-400;
+                    background: $gray-100;
+                }
+            }
+        }
+    }
+
+    .form-actions {
+        display: flex;
+        gap: 1rem;
+        justify-content: flex-end;
+        margin-top: 2rem;
+        padding-top: 2rem;
+        border-top: 2px solid $gray-200;
+
+        button {
+            padding: 0.9rem 2rem;
+            font-size: 1rem;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.3s ease;
+
+            &.btn-cancel {
+                background: $white;
+                color: $gray-500;
+                border: 2px solid $border-medium;
+
+                &:hover {
+                    background: $gray-100;
+                    border-color: $gray-400;
+                    color: $gray-700;
+                }
+            }
+
+            &.btn-save {
+                background: $info-light;
+                color: $white;
+
+                &:hover:not(:disabled) {
+                    background: $info;
+                    transform: translateY(-2px);
+                    box-shadow: 0 4px 12px $shadow-navy-xxl;
+                }
+
+                &:active:not(:disabled) {
+                    transform: translateY(0);
+                }
+
+                &:disabled {
+                    background: $gray-100;
+                    color: $gray-500;
+                    cursor: not-allowed;
+                    opacity: 0.6;
+                }
+            }
+        }
+    }
+}
+
+.required {
+    color: $error;
+    font-weight: bold;
+}
+
+.invalid {
+    border-color: $error !important;
+    
+    &:focus {
+        box-shadow: 0 0 0 3px $shadow-red-md !important;
+    }
+}
+
+.error-message {
+    margin-top: 0.4rem;
+    font-size: 0.85rem;
+    color: $error;
+    font-weight: 500;
+}

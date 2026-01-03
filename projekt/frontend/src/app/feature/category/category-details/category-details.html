@@ -1,0 +1,41 @@
+<div class="category-details-container">
+    <div class="header-section">
+        <button class="btn-back" (click)="goBack()">
+            <span class="arrow">←</span> Powrót
+        </button>
+    </div>
+    
+    @if (category) {
+        <div class="category-card">
+            <div class="category-color-header" [ngStyle]="{ 'background-color': getCategoryBackgroundColor(category.color) }">
+                <div class="color-badge">{{ category.color }}</div>
+            </div>
+            <div class="category-content">
+                <p class="category-id"><span>ID:</span> {{ category.id }}</p>
+                <p class="category-name"><span>Name:</span> {{ category.name }}</p>
+                <p class="category-color"><span>Color:</span> {{ category.color }}</p>
+                <div class="actions">
+                    <button type="button" class="btn btn-edit" (click)="$event.stopPropagation(); goToCategoryForm(category)">Edit</button>
+                    <button type="button" class="btn btn-delete" (click)="$event.stopPropagation(); deleteCategory(category.id)">Delete</button>
+                </div>
+            </div>
+        </div>
+    }
+
+    <router-outlet></router-outlet>
+
+    <div class="navigation-buttons">
+        <button 
+            class="btn-nav" 
+            (click)="previousCategory()" 
+            [disabled]="isFirstCategory()">
+            <span class="arrow">←</span> Previous
+        </button>
+        <button 
+            class="btn-nav" 
+            (click)="nextCategory()" 
+            [disabled]="isLastCategory()">
+            Next <span class="arrow">→</span>
+        </button>
+    </div>
+</div>

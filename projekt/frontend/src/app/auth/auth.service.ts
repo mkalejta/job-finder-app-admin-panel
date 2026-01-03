@@ -5,7 +5,7 @@ import { environment } from '../../environments/environment';
 import TokenResponse from '../interface/TokenResponse';
 import ResponseDto from '../interface/ResponseDto';
 import { JwtHelperService } from '@auth0/angular-jwt';
-import User from '../interface/user/user';
+import User from '../interface/user/User';
 import { JwtPayload } from '../interface/JwtPayload';
 
 export interface RotateTokensProps {

@@ -1,9 +1,9 @@
 import { Component, inject, OnInit } from '@angular/core';
 import { ActivatedRoute, Router, RouterOutlet } from '@angular/router';
-import User from '../../../interface/user/user';
+import User from '../../../interface/user/User';
 import { UsersService } from '../user.service';
 import { UserInitials } from '../../../shared/user-initials/user-initials';
-import { UserInitial } from '../../../interface/user/user-initial';
+import { UserInitial } from '../../../interface/user/UserInitials';
 import { UUIDTypes } from 'uuid';
 
 @Component({
@@ -66,6 +66,19 @@ export class UserDetails implements OnInit{
   }
 
   deleteUser(userId: UUIDTypes): void {
+    if (this.currentIndex === undefined) return;
+    
+    const nextIndex = this.currentIndex < this.users.length - 1 
+      ? this.currentIndex 
+      : this.currentIndex - 1;
+    
     this.usersService.deleteUser(userId);
+    
+    if (nextIndex >= 0 && this.users.length > 1) {
+      const nextUser = this.users[nextIndex === this.currentIndex ? nextIndex + 1 : nextIndex];
+      this.router.navigate(['users', nextUser.id, 'details']);
+    } else {
+      this.router.navigate(['users']);
+    }
   }
 }

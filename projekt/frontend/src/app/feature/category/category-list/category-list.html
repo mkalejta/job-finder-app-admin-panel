@@ -1,0 +1,75 @@
+<div class="list-header">
+    <h2>Category list</h2>
+    <button class="btn-add" (click)="goToAddCategory()">
+        <span class="icon">+</span> Add Category
+    </button>
+</div>
+
+<app-filter-panel 
+    [fields]="filterFields"
+    [initialFilter]="filteringParams"
+    (filterChange)="onFilterChange($event)"
+></app-filter-panel>
+
+<app-sort-panel 
+    [fields]="sortFields"
+    (sortChange)="onSortChange($event)"
+></app-sort-panel>
+
+<table class="categories-table">
+    <thead>
+        <tr>
+            <th>ID</th>
+            <th>Name</th>
+            <th>Color</th>
+        </tr>
+    </thead>
+    <tbody>        
+        @for (category of categories(); track $index) {
+            <tr
+                class="category-row"
+                (click)="goCategoryDetails(category.id)">
+                <td>
+                    <span class="category-indicator" [ngStyle]="{ 'background-color': getCategoryBackgroundColor(category.color) }"></span>
+                    {{category.id}}
+                </td>
+                <td>{{category.name}}</td>
+                <td>{{category.color}}</td>
+            </tr>
+        }
+    </tbody>
+</table>
+<div class="pagination-controls">
+    <div class="pagination-left">
+        <label for="page-size">Page size:</label>
+        <select 
+            id="page-size"
+            [value]="pagination().size"
+            (change)="onPageSizeChange(+$any($event.target).value)"
+            class="page-size-select"
+        >
+            @for (size of pageSizeOptions; track size) {
+                <option [value]="size">{{ size }}</option>
+            }
+        </select>
+    </div>
+
+    <div class="pagination-right">
+        <button 
+            class="btn-pagination"
+            (click)="onPageChange(pagination().page - 1)"
+            [disabled]="pagination().page === 0"
+        >
+            Previous
+        </button>
+        <div class="page-info">
+            Page {{ pagination().page + 1 }}
+        </div>
+        <button 
+            class="btn-pagination"
+            (click)="onPageChange(pagination().page + 1)"
+        >
+            Next
+        </button>
+    </div>
+</div>

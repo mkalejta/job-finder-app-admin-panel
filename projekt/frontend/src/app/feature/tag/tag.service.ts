@@ -6,11 +6,11 @@ import { catchError, combineLatest, map, Observable, of, tap } from 'rxjs';
 import ResponseDto from '../../interface/ResponseDto';
 import TagCreateDto from '../../interface/tag/TagCreateDto';
 import { UUIDTypes, v4 as uuidv4 } from 'uuid';
-import Tag from '../../interface/tag/tag';
 import SortingParams from '../../interface/SortingParams';
 import PaginationParams from '../../interface/PaginationParams';
 import { PaginationService } from '../../shared/pagination/pagination.service';
 import { FilteringParams } from '../../interface/FilteringParams';
+import Tag from '../../interface/tag/Tag';
 
 export interface TagFilters {
   [key: string]: unknown;
