@@ -7,6 +7,10 @@ import { Location } from '@angular/common';
 import { UUIDTypes } from 'uuid';
 import UserCreateDto from '../../../interface/user/UserCreateDto';
 import UserUpdateDto from '../../../interface/user/UserUpdateDto';
+import { passwordValidator } from '../../../shared/validators/password.validator';
+import { usernameValidator } from '../../../shared/validators/username.validator';
+import { emailValidator } from '../../../shared/validators/email.validator';
+import { phoneNumberValidator } from '../../../shared/validators/phone-number.validator';
 
 @Component({
   selector: 'app-user-form',
@@ -51,10 +55,10 @@ export class UserForm implements OnInit {
 
   initForm(): void {
     this.userForm = this.fb.group({
-      username: ['', [Validators.required]],
-      email: ['', [Validators.required, Validators.email]],
-      phoneNumber: ['', [Validators.required, Validators.pattern('^[0-9]+$')]],
-      password: ['', this.isEditMode ? [] : [Validators.required]]
+      username: ['', [Validators.required, usernameValidator()]],
+      email: ['', [Validators.required, emailValidator()]],
+      phoneNumber: ['', [Validators.required, phoneNumberValidator()]],
+      password: ['', this.isEditMode ? [] : [Validators.required, passwordValidator()]],
     });
   }
 

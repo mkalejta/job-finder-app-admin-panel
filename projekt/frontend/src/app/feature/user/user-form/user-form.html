@@ -22,6 +22,9 @@
                         @if (username?.errors?.['required']) {
                             <span>Username is required</span>
                         }
+                        @if (username?.errors?.['UsernameValidator']) {
+                            <span>Username must contain at least one letter</span>
+                        }
                     </div>
                 }
             </div>
@@ -39,6 +42,9 @@
                         @if (email?.errors?.['required']) {
                             <span>Email is required</span>
                         }
+                        @if (email?.errors?.['EmailValidator']) {
+                            <span>Email must be in format: user@domain.com (letters, numbers, and valid domain)</span>
+                        }
                     </div>
                 }
             </div>
@@ -55,6 +61,9 @@
                     <div class="error-message">
                         @if (phoneNumber?.errors?.['required']) {
                             <span>Phone number is required</span>
+                        }
+                        @if (phoneNumber?.errors?.['PhoneNumberValidator']) {
+                            <span>Phone number must contain only digits</span>
                         }
                     </div>
                 }
@@ -74,6 +83,9 @@
                     <div class="error-message">
                         @if (password?.errors?.['required']) {
                             <span>Password is required</span>
+                        }
+                        @if (password?.errors?.['PasswordValidator']) {
+                            <span>Password must have at least 8 characters, one uppercase letter, one lowercase letter, and one digit</span>
                         }
                     </div>
                 }
