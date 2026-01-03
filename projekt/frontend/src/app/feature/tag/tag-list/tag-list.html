@@ -5,6 +5,12 @@
     </button>
 </div>
 
+<app-filter-panel 
+    [fields]="filterFields"
+    [initialFilter]="filteringParams"
+    (filterChange)="onFilterChange($event)"
+></app-filter-panel>
+
 <app-sort-panel 
     [fields]="sortFields"
     (sortChange)="onSortChange($event)"

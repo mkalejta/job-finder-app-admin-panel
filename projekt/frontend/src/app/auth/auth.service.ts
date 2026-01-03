@@ -2,11 +2,11 @@ import { HttpClient } from '@angular/common/http';
 import { inject, Injectable } from '@angular/core';
 import { BehaviorSubject, Observable, tap } from 'rxjs';
 import { environment } from '../../environments/environment';
-import TokenResponse from '../interface/token-response';
-import ResponseDto from '../interface/response-dto';
+import TokenResponse from '../interface/TokenResponse';
+import ResponseDto from '../interface/ResponseDto';
 import { JwtHelperService } from '@auth0/angular-jwt';
 import User from '../interface/user/user';
-import { JwtPayload } from '../interface/jwt-payload';
+import { JwtPayload } from '../interface/JwtPayload';
 
 export interface RotateTokensProps {
   refreshToken: string;

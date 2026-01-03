@@ -1,10 +1,12 @@
 import { Component, inject, OnInit, OnDestroy } from '@angular/core';
-import { UsersService } from '../user.service';
+import { UsersService, UserFilteringParams } from '../user.service';
 import { toSignal } from '@angular/core/rxjs-interop';
 import { ActivatedRoute, Router } from '@angular/router';
 import { UUIDTypes } from 'uuid';
 import { SortPanel } from '../../../shared/sort-panel/sort-panel';
-import SortingParams from '../../../interface/sorting-params';
+import { FilterPanel } from '../../../shared/filter-panel/filter-panel';
+import { FilterField } from '../../../interface/FilterField';
+import SortingParams from '../../../interface/SortingParams';
 import { PaginationService } from '../../../shared/pagination/pagination.service';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
@@ -12,7 +14,7 @@ import { Subject } from 'rxjs';
 
 @Component({
   selector: 'app-users-list',
-  imports: [SortPanel, CommonModule, FormsModule],
+  imports: [SortPanel, FilterPanel, CommonModule, FormsModule],
   templateUrl: './users-list.html',
   styleUrl: './users-list.scss',
 })
@@ -36,6 +38,35 @@ export class UsersList implements OnInit, OnDestroy {
     { id: 'phoneNumber', label: 'Phone Number' },
   ];
 
+  filterFields: FilterField[] = [
+    {
+      id: 'username',
+      label: 'Username',
+      type: 'text',
+    },
+    {
+      id: 'email',
+      label: 'Email',
+      type: 'text',
+    },
+    {
+      id: 'firstDate',
+      label: 'Created After',
+      type: 'date',
+    },
+    {
+      id: 'lastDate',
+      label: 'Created Before',
+      type: 'date',
+    }
+  ];
+
+  filteringParams: UserFilteringParams = {
+    filters: {
+      username: '',
+    },
+  };
+
   ngOnInit(): void {
     this.usersService.loadUsers();
   }
@@ -47,6 +78,11 @@ export class UsersList implements OnInit, OnDestroy {
 
   onSortChange(config: SortingParams): void {
     this.usersService.setSortParams(config);
+  }
+
+  onFilterChange(params: UserFilteringParams): void {
+    this.filteringParams = params;
+    this.usersService.setFilteringParams(params);
   }
 
   onPageSizeChange(size: number): void {

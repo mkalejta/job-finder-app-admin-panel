@@ -1,7 +1,7 @@
 import { Component, input, output, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import SortingParams from '../../interface/sorting-params';
+import SortingParams from '../../interface/SortingParams';
 
 export interface SortField {
   id: string;

@@ -3,13 +3,21 @@ import { inject, Injectable } from '@angular/core';
 import { BehaviorSubject } from 'rxjs/internal/BehaviorSubject';
 import { environment } from '../../../environments/environment';
 import { catchError, combineLatest, map, Observable, of, tap } from 'rxjs';
-import ResponseDto from '../../interface/response-dto';
+import ResponseDto from '../../interface/ResponseDto';
 import TagCreateDto from '../../interface/tag/TagCreateDto';
 import { UUIDTypes, v4 as uuidv4 } from 'uuid';
 import Tag from '../../interface/tag/tag';
-import SortingParams from '../../interface/sorting-params';
-import PaginationParams from '../../interface/pagination-params';
+import SortingParams from '../../interface/SortingParams';
+import PaginationParams from '../../interface/PaginationParams';
 import { PaginationService } from '../../shared/pagination/pagination.service';
+import { FilteringParams } from '../../interface/FilteringParams';
+
+export interface TagFilters {
+  [key: string]: unknown;
+  name?: string;
+  categories?: string[];
+}
+export type TagFilteringParams = FilteringParams<TagFilters>;
 
 @Injectable({
   providedIn: 'root',
@@ -23,23 +31,28 @@ export class TagsService {
   private tagAdminUrl = environment.apiUrl + '/admin/tag';
   tags$: Observable<Tag[] | []> = this.tags.asObservable();
   private sortParams = new BehaviorSubject<SortingParams>({});
+  private filteringParams = new BehaviorSubject<TagFilteringParams>({ filters: {} });
 
   constructor() {
     combineLatest([
       this.sortParams.asObservable(),
-      this.paginationService.pagination$
-    ]).subscribe(([sort, pagination]) => {
-      this.fetchTags(sort, pagination).subscribe();
+      this.paginationService.pagination$,
+      this.filteringParams.asObservable()
+    ]).subscribe(([sort, pagination, filtering]) => {
+      this.fetchTags(sort, pagination, filtering).subscribe();
     });
   }
 
-  private fetchTags(sortParams: SortingParams, paginationParams: PaginationParams): Observable<Tag[]> {
+  private fetchTags(sortParams: SortingParams, paginationParams: PaginationParams, filteringParams: TagFilteringParams): Observable<Tag[]> {
     const sortField = sortParams?.sort || 'name';
     const sortDirection = (sortParams?.direction || 'ASC').toUpperCase();
     const page = paginationParams?.page || 0;
     const size = paginationParams?.size || 20;
+    const filters = filteringParams?.filters || {};
 
     const httpParams = {
+      ...(filters.name && typeof filters.name === 'string' && filters.name.trim() !== '' ? { name: filters.name.trim() } : {}),
+      ...(filters.categories && Array.isArray(filters.categories) && filters.categories.length > 0 ? { categories: filters.categories.join(',') } : {}),
       page: page.toString(),
       size: size.toString(),
       sort: `${sortField},${sortDirection.toLowerCase()}`
@@ -98,15 +111,21 @@ export class TagsService {
     );
   }
     
-  loadTags(sortParams?: SortingParams): void {
+  loadTags(sortParams?: SortingParams, filteringParams?: TagFilteringParams): void {
     if (sortParams) {
       this.sortParams.next(sortParams);
+    }
+    if (filteringParams) {
+      this.filteringParams.next(filteringParams);
     }
   }
 
   setSortParams(params: SortingParams): void {
     this.sortParams.next(params);
-    this.loadTags(params);
+  }
+
+  setFilteringParams(params: TagFilteringParams): void {
+    this.filteringParams.next(params);
   }
 
   setTags(tags: Tag[]): void {

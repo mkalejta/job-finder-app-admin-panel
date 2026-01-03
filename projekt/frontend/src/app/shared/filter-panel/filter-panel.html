@@ -1,0 +1,81 @@
+<div class="filter-panel">
+  <button class="filter-toggle" (click)="toggleExpanded()">
+    <span class="filter-toggle-text">Filters</span>
+    <span class="filter-chevron" [class.expanded]="isExpanded()">
+      ▼
+    </span>
+  </button>
+
+  @if (isExpanded()) {
+    <div class="filter-container">
+      <div class="filter-fields">
+        @for (field of fields(); track field.id) {
+          <div class="filter-field">
+            <label [for]="'filter-' + field.id" class="filter-label">
+              {{ field.label }}
+            </label>
+
+            <div class="filter-input-wrapper">
+              @switch (field.type) {
+                @case ('text') {
+                  <input
+                    [id]="'filter-' + field.id"
+                    type="text"
+                    class="filter-input"
+                    [(ngModel)]="filterValues[field.id]"
+                    [placeholder]="'Enter ' + field.label | lowercase"
+                  />
+                }
+                @case ('checkbox') {
+                  <div class="checkbox-group">
+                    @for (option of field.options; track option.id) {
+                      <label class="checkbox-label">
+                        <input
+                          type="checkbox"
+                          class="checkbox-input"
+                          [value]="option.id"
+                          [checked]="isChecked(field.id, option.id)"
+                          (change)="onCheckboxChange(field.id, option.id, $event)"
+                        />
+                        <span class="checkbox-text">{{ option.label }}</span>
+                      </label>
+                    }
+                  </div>
+                }
+                @case ('date') {
+                  <input
+                    [id]="'filter-' + field.id"
+                    type="date"
+                    class="filter-input"
+                    [(ngModel)]="filterValues[field.id]"
+                  />
+                }
+                @case ('select') {
+                  <select
+                    [id]="'filter-' + field.id"
+                    class="filter-select"
+                    [(ngModel)]="filterValues[field.id]"
+                  >
+                    <option value="">All</option>
+                    @for (option of field.options; track option.id) {
+                      <option [value]="option.id">{{ option.label }}</option>
+                    }
+                  </select>
+                }
+              }
+            </div>
+          </div>
+        }
+      </div>
+
+      <div class="filter-actions">
+        <button class="btn-apply" (click)="applyFilters()">
+          Apply Filters
+        </button>
+        <button class="btn-reset" (click)="resetFilters()">
+          Reset
+        </button>
+      </div>
+    </div>
+  }
+</div>

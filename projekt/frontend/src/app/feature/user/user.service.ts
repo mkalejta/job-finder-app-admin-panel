@@ -1,15 +1,22 @@
 import { inject, Injectable } from '@angular/core';
 import { BehaviorSubject, Observable, catchError, combineLatest, map, of, tap } from 'rxjs';
 import User from '../../interface/user/user';
-import ResponseDto from '../../interface/response-dto';
+import ResponseDto from '../../interface/ResponseDto';
 import { UUIDTypes, v4 as uuidv4 } from 'uuid';
 import { HttpClient } from '@angular/common/http';
 import { environment } from '../../../environments/environment';
 import UserCreateDto from '../../interface/user/UserCreateDto';
 import UserUpdateDto from '../../interface/user/UserUpdateDto';
-import SortingParams from '../../interface/sorting-params';
-import PaginationParams from '../../interface/pagination-params';
+import SortingParams from '../../interface/SortingParams';
+import PaginationParams from '../../interface/PaginationParams';
 import { PaginationService } from '../../shared/pagination/pagination.service';
+import { FilteringParams } from '../../interface/FilteringParams';
+
+export interface UserFilters {
+  [key: string]: unknown;
+  username?: string;
+}
+export type UserFilteringParams = FilteringParams<UserFilters>;
 
 @Injectable({
   providedIn: 'root',
@@ -20,24 +27,28 @@ export class UsersService{
   private users = new BehaviorSubject<User[]>([]);
   private userUrl = environment.apiUrl + '/admin/user';
   private sortParams = new BehaviorSubject<SortingParams>({});
+  private filteringParams = new BehaviorSubject<UserFilteringParams>({ filters: {} });
   users$: Observable<User[] | []> = this.users.asObservable();
 
   constructor() {
     combineLatest([
       this.sortParams.asObservable(),
-      this.paginationService.pagination$
-    ]).subscribe(([sort, pagination]) => {
-      this.fetchUsers(sort, pagination).subscribe();
+      this.paginationService.pagination$,
+      this.filteringParams.asObservable()
+    ]).subscribe(([sort, pagination, filtering]) => {
+      this.fetchUsers(sort, pagination, filtering).subscribe();
     });
   }
 
-  private fetchUsers(sortParams: SortingParams, paginationParams: PaginationParams): Observable<User[]> {
+  private fetchUsers(sortParams: SortingParams, paginationParams: PaginationParams, filteringParams: UserFilteringParams): Observable<User[]> {
     const sortField = sortParams?.sort || 'createdAt';
     const sortDirection = (sortParams?.direction || 'DESC').toUpperCase();
     const page = paginationParams?.page;
     const size = paginationParams?.size;
+    const filters = filteringParams?.filters || {};
 
     const httpParams = {
+      ...(filters.username && typeof filters.username === 'string' && filters.username.trim() !== '' ? { username: filters.username.trim() } : {}),
       page: page.toString(),
       size: size.toString(),
       sort: `${sortField},${sortDirection.toLowerCase()}`
@@ -105,6 +116,10 @@ export class UsersService{
   setSortParams(params: SortingParams): void {
     this.sortParams.next(params);
     this.loadUsers(params);
+  }
+
+  setFilteringParams(params: UserFilteringParams): void {
+    this.filteringParams.next(params);
   }
 
   setUsers(users: User[]): void {

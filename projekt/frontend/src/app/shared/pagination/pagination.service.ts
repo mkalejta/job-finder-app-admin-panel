@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { BehaviorSubject, Observable } from 'rxjs';
-import PaginationParams from '../../interface/pagination-params';
+import PaginationParams from '../../interface/PaginationParams';
 
 @Injectable({
   providedIn: 'root',
