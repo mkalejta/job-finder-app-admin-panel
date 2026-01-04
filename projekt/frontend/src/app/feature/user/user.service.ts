@@ -16,6 +16,9 @@ import { NotificationService } from '../../core/services/notification.service';
 export interface UserFilters {
   [key: string]: unknown;
   username?: string;
+  email?: string;
+  firstDate?: string;
+  lastDate?: string;
 }
 export type UserFilteringParams = FilteringParams<UserFilters>;
 
@@ -50,7 +53,7 @@ export class UsersService{
     const filters = filteringParams?.filters || {};
 
     const httpParams = {
-      ...(filters.username && typeof filters.username === 'string' && filters.username.trim() !== '' ? { username: filters.username.trim() } : {}),
+      ...filters,
       page: page.toString(),
       size: size.toString(),
       sort: `${sortField},${sortDirection.toLowerCase()}`
@@ -60,8 +63,7 @@ export class UsersService{
       map((response) => response.data?.content),
       tap((data) => this.setUsers(data)),
       catchError((err) => {
-        console.error('Error fetching users:', err);
-        this.notificationService.error('Failed to fetch the list of users');
+        this.notificationService.error(err.error?.message || 'Failed to fetch the list of users');
         return of(this.users.value);
       })
     );
@@ -77,8 +79,7 @@ export class UsersService{
         }
       }),
       catchError((err) => {
-        console.error('Error adding user:', err);
-        this.notificationService.error('Failed to create the user');
+        this.notificationService.error(err.error?.message || 'Failed to create the user');
         return of(err.error);
       })
     );
@@ -94,8 +95,7 @@ export class UsersService{
         }
       }),
       catchError((err) => {
-        console.error('Error updating user:', err);
-        this.notificationService.error('Failed to update the user');
+        this.notificationService.error(err.error?.message || 'Failed to update the user');
         return of(err.error);
       })
     );
@@ -109,22 +109,23 @@ export class UsersService{
         this.loadUsers();
       }),
       catchError((err) => {
-        console.error('Error deleting user:', err);
-        this.notificationService.error('Failed to delete the user');
+        this.notificationService.error(err.error?.message || 'Failed to delete the user');
         return of(err.error);
       })
     );
   }
     
-  loadUsers(sortParams?: SortingParams): void {
+  loadUsers(sortParams?: SortingParams, filteringParams?: UserFilteringParams): void {
     if (sortParams) {
       this.sortParams.next(sortParams);
+    }
+    if (filteringParams) {
+      this.filteringParams.next(filteringParams);
     }
   }
 
   setSortParams(params: SortingParams): void {
     this.sortParams.next(params);
-    this.loadUsers(params);
   }
 
   setFilteringParams(params: UserFilteringParams): void {
@@ -140,16 +141,16 @@ export class UsersService{
     return this.users.value;
   }
 
-  createUser(user: UserCreateDto): void {
-    this.createUserRequest(user).subscribe();
+  createUser(user: UserCreateDto): Observable<User> {
+    return this.createUserRequest(user);
   }
 
-  updateUser(updatedUser: UserUpdateDto, userId: UUIDTypes): void {
-    this.updateUserRequest(updatedUser, userId).subscribe();
+  updateUser(updatedUser: UserUpdateDto, userId: UUIDTypes): Observable<User> {
+    return this.updateUserRequest(updatedUser, userId);
   }
 
-  deleteUser(userId: UUIDTypes): void {
-    this.deleteUserRequest(userId).subscribe();
+  deleteUser(userId: UUIDTypes): Observable<void> {
+    return this.deleteUserRequest(userId);
   }
 
   generateId(): UUIDTypes {

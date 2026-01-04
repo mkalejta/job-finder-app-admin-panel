@@ -31,9 +31,9 @@ export class TagsService {
   private tags = new BehaviorSubject<Tag[]>([]);
   private tagUrl = environment.apiUrl + '/tag';
   private tagAdminUrl = environment.apiUrl + '/admin/tag';
-  tags$: Observable<Tag[] | []> = this.tags.asObservable();
   private sortParams = new BehaviorSubject<SortingParams>({});
   private filteringParams = new BehaviorSubject<TagFilteringParams>({ filters: {} });
+  tags$: Observable<Tag[] | []> = this.tags.asObservable();
 
   constructor() {
     combineLatest([
@@ -64,8 +64,7 @@ export class TagsService {
       map((response) => response.data?.content),
       tap((data) => this.setTags(data)),
       catchError((err) => {
-        console.error('Error fetching tags:', err);
-        this.notificationService.error('Failed to fetch the list of tags');
+        this.notificationService.error(err.error?.message || 'Failed to fetch the list of tags');
         return of(this.tags.value);
       })
     );
@@ -81,8 +80,7 @@ export class TagsService {
         }
       }),
       catchError((err) => {
-        console.error('Error adding tag:', err);
-        this.notificationService.error('Failed to create the tag');
+        this.notificationService.error(err.error?.message || 'Failed to create the tag');
         return of(err.error);
       })
     );
@@ -98,8 +96,7 @@ export class TagsService {
         }
       }),
       catchError((err) => {
-        console.error('Error updating tag:', err);
-        this.notificationService.error('Failed to update the tag');
+        this.notificationService.error(err.error?.message || 'Failed to update the tag');
         return of(err.error);
       })
     );
@@ -113,8 +110,7 @@ export class TagsService {
         this.loadTags();
       }),
       catchError((err) => {
-        console.error('Error deleting tag:', err);
-        this.notificationService.error('Failed to delete the tag');
+        this.notificationService.error(err.error?.message || 'Failed to delete the tag');
         return of(err.error);
       })
     );
@@ -146,16 +142,16 @@ export class TagsService {
     return this.tags.value;
   }
 
-  createTag(tag: TagCreateDto): void {
-    this.createTagRequest(tag).subscribe();
+  createTag(tag: TagCreateDto): Observable<Tag> {
+    return this.createTagRequest(tag);
   }
 
-  updateTag(updatedTag: TagCreateDto, tagId: UUIDTypes): void {
-    this.updateTagRequest(updatedTag, tagId).subscribe();
+  updateTag(updatedTag: TagCreateDto, tagId: UUIDTypes): Observable<Tag> {
+    return this.updateTagRequest(updatedTag, tagId);
   }
 
-  deleteTag(tagId: UUIDTypes): void {
-    this.deleteTagRequest(tagId).subscribe();
+  deleteTag(tagId: UUIDTypes): Observable<void> {
+    return this.deleteTagRequest(tagId);
   }
 
   generateId(): UUIDTypes {

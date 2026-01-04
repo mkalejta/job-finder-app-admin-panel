@@ -64,6 +64,9 @@ export class UsersList implements OnInit, OnDestroy {
   filteringParams: UserFilteringParams = {
     filters: {
       username: '',
+      email: '',
+      firstDate: '',
+      lastDate: '',
     },
   };
 

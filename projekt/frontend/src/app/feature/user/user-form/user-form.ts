@@ -12,6 +12,7 @@ import { usernameValidator } from '../../../shared/validators/username.validator
 import { emailValidator } from '../../../shared/validators/email.validator';
 import { phoneNumberValidator } from '../../../shared/validators/phone-number.validator';
 import { NotificationService } from '../../../core/services/notification.service';
+import { profileInfoValidator } from '../../../shared/validators/profile-info.validator';
 
 @Component({
   selector: 'app-user-form',
@@ -49,6 +50,9 @@ export class UserForm implements OnInit {
             username: this.user.username,
             email: this.user.email,
             phoneNumber: this.user.phoneNumber,
+            firstName: this.user.firstName,
+            lastName: this.user.lastName,
+            profileDescription: this.user.profileDescription,
           });
         }
       }
@@ -61,6 +65,9 @@ export class UserForm implements OnInit {
       email: ['', [Validators.required, emailValidator()]],
       phoneNumber: ['', [Validators.required, phoneNumberValidator()]],
       password: ['', this.isEditMode ? [] : [Validators.required, passwordValidator()]],
+      firstName: ['', [Validators.required, profileInfoValidator()]],
+      lastName: ['', [Validators.required, profileInfoValidator()]],
+      profileDescription: ['', [Validators.maxLength(500), profileInfoValidator()]],
     });
   }
 
@@ -77,20 +84,38 @@ export class UserForm implements OnInit {
       const updatedUser: UserUpdateDto = {
         username: formValue.username,
         email: formValue.email,
-        phoneNumber: formValue.phoneNumber
+        phoneNumber: formValue.phoneNumber,
+        firstName: formValue.firstName,
+        lastName: formValue.lastName,
+        profileDescription: formValue.profileDescription
       };
-      this.usersService.updateUser(updatedUser, this.userId);
+      this.usersService.updateUser(updatedUser, this.userId).subscribe({
+        next: () => {
+          this.router.navigate(['users']);
+        },
+        error: () => {
+          // Error already handled in service
+        }
+      });
     } else {
       const newUser: UserCreateDto = {
         username: formValue.username,
         email: formValue.email,
         phoneNumber: formValue.phoneNumber,
-        password: formValue.password
+        password: formValue.password,
+        firstName: formValue.firstName,
+        lastName: formValue.lastName,
+        profileDescription: formValue.profileDescription
       };
-      this.usersService.createUser(newUser);
+      this.usersService.createUser(newUser).subscribe({
+        next: () => {
+          this.router.navigate(['users']);
+        },
+        error: () => {
+          // Error already handled in service
+        }
+      });
     }
-
-    this.router.navigate(['users']);
   }
 
   goBack(): void {
@@ -111,5 +136,17 @@ export class UserForm implements OnInit {
 
   get password() {
     return this.userForm.get('password');
+  }
+
+  get firstName() {
+    return this.userForm.get('firstName');
+  }
+
+  get lastName() {
+    return this.userForm.get('lastName');
+  }
+
+  get profileDescription() {
+    return this.userForm.get('profileDescription');
   }
 }

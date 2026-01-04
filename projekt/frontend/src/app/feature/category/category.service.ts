@@ -61,8 +61,7 @@ export class CategoryService {
       map((response) => response.data?.content),
       tap((data) => this.setCategories(data)),
       catchError((err) => {
-        console.error('Error fetching categories:', err);
-        this.notificationService.error('Could not fetch categories');
+        this.notificationService.error(err.error?.message || 'Could not fetch categories');
         return of(this.categories.value);
       })
     );
@@ -78,8 +77,7 @@ export class CategoryService {
         }
       }),
       catchError((err) => {
-        console.error('Error adding category:', err);
-        this.notificationService.error('Could not create category');
+        this.notificationService.error(err.error?.message || 'Could not create category');
         return of(err.error);
       })
     );
@@ -95,8 +93,7 @@ export class CategoryService {
         }
       }),
       catchError((err) => {
-        console.error('Error updating category:', err);
-        this.notificationService.error('Could not update category');
+        this.notificationService.error(err.error?.message || 'Could not update category');
         return of(err.error);
       })
     );
@@ -110,8 +107,7 @@ export class CategoryService {
         this.loadCategories();
       }),
       catchError((err) => {
-        console.error('Error deleting category:', err);
-        this.notificationService.error('Could not delete category');
+        this.notificationService.error(err.error?.message || 'Could not delete category');
         return of(err.error);
       })
     );

@@ -74,14 +74,19 @@ export class TagDetails implements OnInit {
         ? this.currentIndex! 
         : this.currentIndex! - 1;
       
-      this.tagsService.deleteTag(tagId);
-      
-      if (nextIndex >= 0 && this.tags.length > 1) {
-        const nextTag = this.tags[nextIndex === this.currentIndex ? nextIndex + 1 : nextIndex];
-        this.router.navigate(['tags', nextTag.id, 'details']);
-      } else {
-        this.router.navigate(['tags']);
-      }
+      this.tagsService.deleteTag(tagId).subscribe({
+        next: () => {          
+          if (nextIndex >= 0 && this.tags.length > 1) {
+            const nextTag = this.tags[nextIndex === this.currentIndex ? nextIndex + 1 : nextIndex];
+            this.router.navigate(['tags', nextTag.id, 'details']);
+          } else {
+            this.router.navigate(['tags']);
+          }
+        },
+        error: () => {
+          // Error already handled in service
+        }
+      });
     });
   }
 

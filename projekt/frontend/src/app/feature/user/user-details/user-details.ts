@@ -80,14 +80,19 @@ export class UserDetails implements OnInit{
         ? this.currentIndex! 
         : this.currentIndex! - 1;
       
-      this.usersService.deleteUser(userId);
-      
-      if (nextIndex >= 0 && this.users.length > 1) {
-        const nextUser = this.users[nextIndex === this.currentIndex ? nextIndex + 1 : nextIndex];
-        this.router.navigate(['users', nextUser.id, 'details']);
-      } else {
-        this.router.navigate(['users']);
-      }
+      this.usersService.deleteUser(userId).subscribe({
+        next: () => {
+          if (nextIndex >= 0 && this.users.length > 1) {
+            const nextUser = this.users[nextIndex === this.currentIndex ? nextIndex + 1 : nextIndex];
+            this.router.navigate(['users', nextUser.id, 'details']);
+          } else {
+            this.router.navigate(['users']);
+          }
+        },
+        error: () => {
+          // Error already handled in service
+        }
+      });
     });
   }
 }

@@ -76,12 +76,24 @@ export class TagForm implements OnInit {
     };
 
     if (this.isEditMode && this.tagId && this.tag) {
-      this.tagsService.updateTag(tagValues, this.tagId);
+      this.tagsService.updateTag(tagValues, this.tagId).subscribe({
+        next: () => {
+          this.router.navigate(['tags']);
+        },
+        error: () => {
+          //Error already handled in service
+        }
+      });
     } else {
-      this.tagsService.createTag(tagValues);
+      this.tagsService.createTag(tagValues).subscribe({
+        next: () => {
+          this.router.navigate(['tags']);
+        },
+        error: () => {
+          //Error already handled in service
+        }
+      });
     }
-
-    this.router.navigate(['tags']);
   }
 
   goBack(): void {

@@ -3,4 +3,7 @@ export default interface UserCreateDto {
   email: string;
   phoneNumber: string;
   password: string;
+  firstName: string;
+  lastName: string;
+  profileDescription: string;
 }
