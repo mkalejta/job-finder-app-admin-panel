@@ -4,20 +4,23 @@ import { UserInitial } from '../../interface/user/UserInitials';
 import { UserInitials } from '../../shared/user-initials/user-initials';
 import User from '../../interface/user/User';
 import { AuthService } from '../../auth/auth.service';
+import { ThemeService } from '../services/theme.service';
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
+import { MatIconModule } from '@angular/material/icon';
 
 const USER_INITIALS = "userInitials";
 const USERNAME = "username";
 
 @Component({
   selector: 'app-navbar',
-  imports: [RouterLink, RouterLinkActive, UserInitials],
+  imports: [RouterLink, RouterLinkActive, UserInitials, MatIconModule],
   templateUrl: './navbar.html',
   styleUrl: './navbar.scss',
 })
 export class Navbar implements OnInit, OnDestroy {
   private authService = inject(AuthService);
+  protected themeService = inject(ThemeService);
   private destroy$ = new Subject<void>();
 
   userInitials?: UserInitial;
@@ -58,5 +61,9 @@ export class Navbar implements OnInit, OnDestroy {
   toggleUsernameOrInitials() {
     this.usernameOrInitials.set(this.usernameOrInitials() === USER_INITIALS ? USERNAME : USER_INITIALS);
     localStorage.setItem('usernameOrInitials', JSON.stringify(this.usernameOrInitials()));
+  }
+
+  toggleTheme() {
+    this.themeService.toggleTheme();
   }
 }

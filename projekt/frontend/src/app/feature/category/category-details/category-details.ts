@@ -7,10 +7,11 @@ import { CategoryColorService } from '../../category-color.service';
 import { CategoryColor } from '../../../shared/enums/CategoryColor';
 import Category from '../../../interface/category/Category';
 import { ConfirmationService } from '../../../core/services/confirmation.service';
+import { MatIconModule } from '@angular/material/icon';
 
 @Component({
   selector: 'app-category-details',
-  imports: [RouterOutlet, CommonModule],
+  imports: [RouterOutlet, CommonModule, MatIconModule],
   templateUrl: './category-details.html',
   styleUrl: './category-details.scss',
 })

@@ -3,10 +3,10 @@
 .sort-panel {
   margin-bottom: 2rem;
   padding: 1.5rem;
-  background: $white;
-  border: 1px solid $border-medium;
+  background: var(--bg-primary);
+  border: 1px solid var(--border-light);
   border-radius: 8px;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+  box-shadow: 0 2px 4px var(--shadow-sm);
 }
 
 .sort-container {
@@ -20,16 +20,16 @@
   display: block;
   font-size: 0.9rem;
   font-weight: 600;
-  color: $gray-700;
+  color: var(--text-primary);
   margin-bottom: 0.5rem;
 }
 
 .sort-select {
   padding: 0.75rem 1rem;
-  border: 1px solid $primary-lighter;
+  border: 1px solid var(--border-light);
   border-radius: 6px;
-  background: $white;
-  color: $gray-700;
+  background: var(--bg-primary);
+  color: var(--text-primary);
   font-size: 0.95rem;
   font-weight: 500;
   cursor: pointer;
@@ -37,25 +37,25 @@
   min-width: 200px;
 
   &:hover {
-    border-color: $primary;
-    box-shadow: 0 2px 8px rgba($primary, 0.1);
+    border-color: var(--accent);
+    box-shadow: 0 2px 8px var(--shadow-navy-md);
   }
 
   &:focus {
     outline: none;
-    border-color: $info;
-    box-shadow: 0 0 0 3px rgba($info, 0.1);
+    border-color: var(--accent);
+    box-shadow: 0 0 0 3px var(--shadow-navy-md);
   }
 
   &:disabled {
-    background: $gray-100;
-    color: $gray-400;
+    background: var(--bg-secondary);
+    color: var(--text-light);
     cursor: not-allowed;
   }
 
   option {
-    background: $white;
-    color: $gray-700;
+    background: var(--bg-primary);
+    color: var(--text-primary);
   }
 }
 
@@ -81,7 +81,7 @@
   transition: all 0.2s ease;
 
   &:hover {
-    color: $primary;
+    color: var(--accent);
   }
 }
 
@@ -89,11 +89,11 @@
   width: 18px;
   height: 18px;
   cursor: pointer;
-  accent-color: $primary;
+  accent-color: var(--accent);
   transition: all 0.2s ease;
 
   &:hover {
-    accent-color: $primary-light;
+    accent-color: var(--accent-light);
   }
 
   &:focus {
@@ -103,16 +103,16 @@
 
 .radio-text {
   font-size: 0.95rem;
-  color: $gray-700;
+  color: var(--text-primary);
   font-weight: 500;
 }
 
 .btn-apply {
   padding: 0.75rem 1.5rem;
-  background: $info;
+  background: var(--info);
   border: none;
   border-radius: 6px;
-  color: $white;
+  color: var(--text-white);
   font-size: 0.95rem;
   font-weight: 600;
   cursor: pointer;
@@ -120,25 +120,25 @@
   white-space: nowrap;
 
   &:hover:not(:disabled) {
-    background: $accent-dark;
-    box-shadow: 0 4px 12px rgba($info, 0.3);
+    background: var(--accent-dark);
+    box-shadow: 0 4px 12px rgba(var(--info-rgb), 0.3);
     transform: translateY(-2px);
   }
 
   &:active:not(:disabled) {
     transform: translateY(0);
-    box-shadow: 0 2px 6px rgba($info, 0.2);
+    box-shadow: 0 2px 6px rgba(var(--info-rgb), 0.2);
   }
 
   &:disabled {
-    background: $gray-300;
+    background: var(--bg-secondary);
     cursor: not-allowed;
     opacity: 0.7;
   }
 
   &:focus {
     outline: none;
-    box-shadow: 0 0 0 3px rgba($info, 0.2);
+    box-shadow: 0 0 0 3px rgba(var(--info-rgb), 0.2);
   }
 }
 

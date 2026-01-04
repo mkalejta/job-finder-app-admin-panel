@@ -12,10 +12,11 @@ import { CommonModule } from '@angular/common';
 import { categoryAndTagValidator } from '../../../shared/validators/category-and-tag.validator';
 import { NotificationService } from '../../../core/services/notification.service';
 import { ConfirmationService } from '../../../core/services/confirmation.service';
+import { MatIconModule } from '@angular/material/icon';
 
 @Component({
   selector: 'app-category-form',
-  imports: [ReactiveFormsModule, CommonModule],
+  imports: [ReactiveFormsModule, CommonModule, MatIconModule],
   templateUrl: './category-form.html',
   styleUrl: './category-form.scss',
 })

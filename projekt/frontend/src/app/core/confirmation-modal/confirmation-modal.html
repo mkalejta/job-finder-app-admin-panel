@@ -3,7 +3,7 @@
     <div class="modal modal--{{ dialogData.type }}" role="dialog" aria-modal="true" [attr.aria-labelledby]="'modal-title-' + dialogData.id">
       <div class="modal__header">
         <div class="modal__icon">
-          <i class="fa-solid {{ getIconClass() }}"></i>
+          <mat-icon>{{ getIconClass() }}</mat-icon>
         </div>
         <h2 class="modal__title" [id]="'modal-title-' + dialogData.id">
           {{ dialogData.title }}
@@ -13,7 +13,7 @@
           (click)="onCancel()"
           aria-label="Zamknij modal"
           type="button">
-          <i class="material-icons">close</i>
+          <mat-icon>close</mat-icon>
         </button>
       </div>
 

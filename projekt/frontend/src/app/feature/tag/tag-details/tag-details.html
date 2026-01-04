@@ -1,7 +1,7 @@
 <div class="tag-details-container">
     <div class="header-section">
         <button class="btn-back" (click)="goBack()">
-            <span class="arrow">←</span> Powrót
+            <mat-icon>arrow_back</mat-icon> Powrót
         </button>
     </div>
     
@@ -29,13 +29,13 @@
             class="btn-nav" 
             (click)="previousTag()" 
             [disabled]="isFirstTag()">
-            <span class="arrow">←</span> Previous
+            <mat-icon>arrow_back</mat-icon> Previous
         </button>
         <button 
             class="btn-nav" 
             (click)="nextTag()" 
             [disabled]="isLastTag()">
-            Next <span class="arrow">→</span>
+            Next <mat-icon>arrow_forward</mat-icon>
         </button>
     </div>
 </div>

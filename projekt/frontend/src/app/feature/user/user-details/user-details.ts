@@ -6,10 +6,11 @@ import { UserInitials } from '../../../shared/user-initials/user-initials';
 import { UserInitial } from '../../../interface/user/UserInitials';
 import { UUIDTypes } from 'uuid';
 import { ConfirmationService } from '../../../core/services/confirmation.service';
+import { MatIconModule } from '@angular/material/icon';
 
 @Component({
   selector: 'app-user-details',
-  imports: [RouterOutlet, UserInitials],
+  imports: [RouterOutlet, UserInitials, MatIconModule],
   templateUrl: './user-details.html',
   styleUrl: './user-details.scss',
 })

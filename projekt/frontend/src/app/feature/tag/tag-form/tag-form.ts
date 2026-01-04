@@ -10,10 +10,11 @@ import { CategoryService } from '../../category/category.service';
 import { toSignal } from '@angular/core/rxjs-interop';
 import { categoryAndTagValidator } from '../../../shared/validators/category-and-tag.validator';
 import { NotificationService } from '../../../core/services/notification.service';
+import { MatIconModule } from '@angular/material/icon';
 
 @Component({
   selector: 'app-tag-form',
-  imports: [ReactiveFormsModule],
+  imports: [ReactiveFormsModule, MatIconModule],
   templateUrl: './tag-form.html',
   styleUrl: './tag-form.scss',
 })

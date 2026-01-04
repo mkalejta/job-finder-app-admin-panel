@@ -9,7 +9,7 @@
 
     h2 {
         font-size: 2rem;
-        color: $gray-900;
+        color: var(--text-primary);
         font-weight: 700;
         margin: 0;
     }
@@ -20,10 +20,10 @@
     align-items: center;
     gap: 0.5rem;
     padding: 0.9rem 1.8rem;
-    background: $info-light;
+    background: var(--info-light);
     border: none;
     border-radius: 8px;
-    color: $white;
+    color: var(--text-white);
     font-size: 1rem;
     font-weight: 600;
     cursor: pointer;
@@ -35,9 +35,9 @@
     }
 
     &:hover {
-        background: $info;
+        background: var(--info);
         transform: translateY(-2px);
-        box-shadow: 0 4px 12px $shadow-navy-xxl;
+        box-shadow: 0 4px 12px var(--shadow-navy-xxl);
     }
 
     &:active {
@@ -48,35 +48,35 @@
 .users-table {
     width: 100%;
     border-collapse: collapse;
-    background: $bg-secondary;
+    background: var(--bg-primary);
 
     thead {
-        background: $bg-tertiary;
+        background: var(--bg-secondary);
         
         th {
             padding: 1rem;
             text-align: left;
             font-weight: 600;
-            color: $gray-700;
+            color: var(--text-primary);
             font-size: 0.95rem;
-            border-bottom: 2px solid $border-dark;
+            border-bottom: 2px solid var(--border-medium);
         }
     }
 
     tbody {
         tr {
-            border-bottom: 1px solid $border-medium;
+            border-bottom: 1px solid var(--border-light);
             transition: background-color 0.2s ease;
 
             &:hover {
-                background: $primary-lightest;
+                background: var(--bg-secondary);
                 cursor: pointer;
             }
         }
 
         td {
             padding: 1rem;
-            color: $gray-700;
+            color: var(--text-primary);
             font-size: 0.95rem;
         }
     }
@@ -85,8 +85,9 @@
 .btn {
     padding: 0.4rem 1rem;
     margin-left: 0.5rem;
-    border: 1px solid $gray-200;
-    background: $white;
+    border: 1px solid var(--border-light);
+    background: var(--bg-primary);
+    color: var(--text-primary);
     border-radius: 4px;
     cursor: pointer;
     font-size: 0.85rem;
@@ -99,7 +100,7 @@
 
     &:hover {
         transform: translateY(-1px);
-        box-shadow: 0 2px 4px $shadow-md;
+        box-shadow: 0 2px 4px var(--shadow-md);
     }
 
     &:active {
@@ -107,12 +108,12 @@
     }
 
     &.btn-view {
-        color: $info-light;
-        border-color: $info-light;
+        color: var(--accent);
+        border-color: var(--accent);
 
         &:hover {
-            color: $white;
-            background: $info-light;
+            color: var(--white);
+            background: var(--accent);
         }
     }
 }
@@ -124,10 +125,10 @@
     align-items: center;
     margin-top: 2rem;
     padding: 1.5rem;
-    background: $white;
-    border: 1px solid $border-medium;
+    background: var(--bg-primary);
+    border: 1px solid var(--border-light);
     border-radius: 8px;
-    box-shadow: 0 2px 4px $shadow-sm;
+    box-shadow: 0 2px 4px var(--shadow-sm);
     flex-wrap: wrap;
     gap: 1rem;
 }
@@ -142,29 +143,29 @@
 .pagination-left {
     label {
         font-weight: 600;
-        color: $gray-700;
+        color: var(--text-primary);
     }
 
     .page-size-select {
         padding: 0.5rem 1rem;
-        border: 1px solid $primary-lighter;
+        border: 1px solid var(--border-medium);
         border-radius: 6px;
-        background: $white;
-        color: $gray-700;
+        background: var(--bg-primary);
+        color: var(--text-primary);
         font-size: 0.95rem;
         cursor: pointer;
         transition: all 0.2s ease;
         min-width: 80px;
 
         &:hover {
-            border-color: $primary;
-            box-shadow: 0 2px 8px rgba($primary, 0.1);
+            border-color: var(--accent);
+            box-shadow: 0 2px 8px var(--shadow-navy-md);
         }
 
         &:focus {
             outline: none;
-            border-color: $info;
-            box-shadow: 0 0 0 3px rgba($info, 0.1);
+            border-color: var(--accent);
+            box-shadow: 0 0 0 3px var(--shadow-navy-md);
         }
     }
 }
@@ -174,23 +175,23 @@
         min-width: 100px;
         text-align: center;
         font-weight: 600;
-        color: $gray-700;
+        color: var(--text-primary);
     }
 
     .btn-pagination {
         padding: 0.6rem 1.2rem;
-        background: $info;
+        background: var(--accent);
         border: none;
         border-radius: 6px;
-        color: $white;
+        color: var(--text-white);
         font-weight: 600;
         cursor: pointer;
         transition: all 0.2s ease;
 
         &:hover:not(:disabled) {
-            background: $info-light;
+            background: var(--accent-light);
             transform: translateY(-1px);
-            box-shadow: 0 4px 8px $shadow-navy-md;
+            box-shadow: 0 4px 8px var(--shadow-navy-md);
         }
 
         &:active:not(:disabled) {
@@ -198,13 +199,13 @@
         }
 
         &:disabled {
-            background: $gray-300;
+            background: var(--bg-secondary);
             cursor: not-allowed;
             opacity: 0.6;
         }
 
         &:focus-visible {
-            outline: 2px solid $accent-light;
+            outline: 2px solid var(--accent-light);
             outline-offset: 2px;
         }
     }

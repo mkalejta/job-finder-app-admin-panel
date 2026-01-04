@@ -6,7 +6,7 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    background: $primary-lighter;
+    background: linear-gradient(135deg, var(--primary-dark) 0%, var(--primary) 100%);
 }
 
 .not-found-content {
@@ -16,29 +16,29 @@
     .error-code {
         font-size: 8rem;
         font-weight: 900;
-        color: $primary;
+        color: var(--white);
         line-height: 1;
         margin-bottom: 1rem;
-        text-shadow: 4px 4px 0 rgba($primary, 0.2);
+        text-shadow: 4px 4px 0 rgba(255, 255, 255, 0.1);
     }
 
     h1 {
         font-size: 2rem;
-        color: $gray-800;
+        color: var(--white);
         margin-bottom: 1rem;
         font-weight: 700;
     }
 
     p {
         font-size: 1.1rem;
-        color: $gray-700;
+        color: var(--primary-lightest);
         margin-bottom: 2rem;
     }
 
     .btn-home {
         padding: 0.9rem 2rem;
-        background: $accent;
-        color: $text-white;
+        background: var(--accent);
+        color: var(--white);
         border: none;
         border-radius: 8px;
         font-size: 1rem;
@@ -47,9 +47,9 @@
         transition: all 0.3s ease;
 
         &:hover {
-            background: $accent-dark;
+            background: var(--accent-light);
             transform: translateY(-2px);
-            box-shadow: 0 4px 12px rgba($accent, 0.4);
+            box-shadow: 0 4px 12px var(--shadow-navy-xxl);
         }
     }
 }

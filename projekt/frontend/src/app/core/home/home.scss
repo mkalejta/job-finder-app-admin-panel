@@ -3,7 +3,7 @@
 :host {
   display: block;
   min-height: 100vh;
-  background: linear-gradient(135deg, $primary-dark 0%, $primary 50%, $primary-light 100%);
+  background: linear-gradient(135deg, var(--primary-dark) 0%, var(--primary) 50%, var(--primary-light) 100%);
   padding: 2rem;
 }
 
@@ -33,7 +33,7 @@
   h1 {
     font-size: 3.5rem;
     font-weight: 700;
-    color: $white;
+    color: var(--white);
     margin: 0;
     letter-spacing: -1px;
     line-height: 1.2;
@@ -45,7 +45,7 @@
 
   p {
     font-size: 1.25rem;
-    color: $primary-lightest;
+    color: var(--primary-lightest);
     margin: 0;
     font-weight: 300;
     opacity: 0.95;
@@ -84,39 +84,39 @@ button {
   transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
   text-transform: uppercase;
   letter-spacing: 0.5px;
-  box-shadow: 0 4px 6px $shadow-md;
+  box-shadow: 0 4px 6px var(--shadow-md);
   font-family: inherit;
 
   &:not([class*='logout']) {
-    background: linear-gradient(135deg, $accent 0%, $accent-dark 100%);
-    color: $white;
+    background: linear-gradient(135deg, var(--accent) 0%, var(--accent-dark) 100%);
+    color: var(--text-white);
 
     &:hover {
-      background: linear-gradient(135deg, $accent-dark 0%, $accent 100%);
+      background: linear-gradient(135deg, var(--accent-dark) 0%, var(--accent) 100%);
       transform: translateY(-2px);
-      box-shadow: 0 12px 20px rgba(74, 144, 226, 0.4);
+      box-shadow: 0 12px 20px rgba(var(--info-rgb), 0.4);
     }
 
     &:active {
       transform: translateY(0);
-      box-shadow: 0 4px 6px $shadow-md;
+      box-shadow: 0 4px 6px var(--shadow-md);
     }
   }
 
   &[class*='logout'],
   &.logout {
-    background: linear-gradient(135deg, $error 0%, #c53030 100%);
-    color: $white;
+    background: linear-gradient(135deg, var(--error) 0%, #c53030 100%);
+    color: var(--text-white);
 
     &:hover {
-      background: linear-gradient(135deg, #c53030 0%, $error 100%);
+      background: linear-gradient(135deg, #c53030 0%, var(--error) 100%);
       transform: translateY(-2px);
       box-shadow: 0 12px 20px rgba(239, 68, 68, 0.4);
     }
 
     &:active {
       transform: translateY(0);
-      box-shadow: 0 4px 6px $shadow-md;
+      box-shadow: 0 4px 6px var(--shadow-md);
     }
   }
 
@@ -127,40 +127,40 @@ button {
   }
 
   &:focus-visible {
-    outline: 2px solid $accent-light;
+    outline: 2px solid var(--accent-light);
     outline-offset: 2px;
   }
 }
 
 .logout-btn {
-  background: linear-gradient(135deg, $error 0%, #c53030 100%);
-  color: $white;
+  background: linear-gradient(135deg, var(--error) 0%, #c53030 100%);
+  color: var(--text-white);
 
   &:hover {
-    background: linear-gradient(135deg, #c53030 0%, $error 100%);
+    background: linear-gradient(135deg, #c53030 0%, var(--error) 100%);
     transform: translateY(-2px);
     box-shadow: 0 12px 20px rgba(239, 68, 68, 0.4);
   }
 
   &:active {
     transform: translateY(0);
-    box-shadow: 0 4px 6px $shadow-md;
+    box-shadow: 0 4px 6px var(--shadow-md);
   }
 }
 
 .login-btn {
-  background: linear-gradient(135deg, $accent 0%, $accent-dark 100%);
-  color: $white;
+  background: linear-gradient(135deg, var(--accent) 0%, var(--accent-dark) 100%);
+  color: var(--text-white);
 
   &:hover {
-    background: linear-gradient(135deg, $accent-dark 0%, $accent 100%);
+    background: linear-gradient(135deg, var(--accent-dark) 0%, var(--accent) 100%);
     transform: translateY(-2px);
-    box-shadow: 0 12px 20px rgba(74, 144, 226, 0.4);
+    box-shadow: 0 12px 20px rgba(var(--info-rgb), 0.4);
   }
 
   &:active {
     transform: translateY(0);
-    box-shadow: 0 4px 6px $shadow-md;
+    box-shadow: 0 4px 6px var(--shadow-md);
   }
 }
 
@@ -178,30 +178,30 @@ button {
   }
 
   .feature-card {
-    background: rgba($white, 0.1);
+    background: rgba(255, 255, 255, 0.1);
     backdrop-filter: blur(10px);
-    border: 1px solid rgba($white, 0.2);
+    border: 1px solid rgba(255, 255, 255, 0.2);
     border-radius: 12px;
     padding: 2rem;
-    color: $white;
+    color: var(--text-white);
     transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 
     h3 {
       font-size: 1.25rem;
       margin-bottom: 0.5rem;
-      color: $accent-light;
+      color: var(--accent-light);
     }
 
     p {
-      color: $primary-lightest;
+      color: var(--primary-lightest);
       font-size: 0.95rem;
       opacity: 0.9;
       margin: 0;
     }
 
     &:hover {
-      background: rgba($white, 0.15);
-      border-color: rgba($accent-light, 0.5);
+      background: rgba(255, 255, 255, 0.15);
+      border-color: rgba(var(--info-rgb), 0.3);
       transform: translateY(-4px);
     }
   }

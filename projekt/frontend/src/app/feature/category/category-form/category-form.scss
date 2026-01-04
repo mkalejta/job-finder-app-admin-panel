@@ -11,10 +11,10 @@
     align-items: center;
     gap: 0.5rem;
     padding: 0.7rem 1.5rem;
-    background: $white;
-    border: 2px solid $border-medium;
+    background: var(--bg-primary);
+    border: 2px solid var(--border-light);
     border-radius: 8px;
-    color: $gray-700;
+    color: var(--text-primary);
     font-size: 1rem;
     font-weight: 500;
     cursor: pointer;
@@ -25,22 +25,22 @@
     }
 
     &:hover {
-        background: $gray-100;
-        border-color: $info-light;
-        color: $info-light;
+        background: var(--bg-secondary);
+        border-color: var(--accent);
+        color: var(--accent);
         transform: translateX(-3px);
     }
 }
 
 .form-card {
-    background: $white;
+    background: var(--bg-primary);
     border-radius: 12px;
     padding: 3rem;
-    box-shadow: 0 4px 20px $shadow-md;
+    box-shadow: 0 4px 20px var(--shadow-md);
 
     h2 {
         font-size: 2rem;
-        color: $gray-900;
+        color: var(--text-primary);
         margin-bottom: 2rem;
         text-align: center;
     }
@@ -53,7 +53,7 @@
         label {
             display: block;
             margin-bottom: 0.5rem;
-            color: $gray-700;
+            color: var(--text-primary);
             font-weight: 600;
             font-size: 0.95rem;
         }
@@ -62,23 +62,23 @@
         select {
             width: 100%;
             padding: 0.9rem;
-            border: 2px solid $border-medium;
+            border: 2px solid var(--border-light);
             border-radius: 8px;
             font-size: 1rem;
             font-family: inherit;
             transition: all 0.3s ease;
             box-sizing: border-box;
-            background: $white;
-            color: $gray-700;
+            background: var(--bg-primary);
+            color: var(--text-primary);
 
             &:focus {
                 outline: none;
-                border-color: $info-light;
-                box-shadow: 0 0 0 3px $shadow-navy-md;
+                border-color: var(--accent);
+                box-shadow: 0 0 0 3px var(--shadow-navy-md);
             }
 
             &::placeholder {
-                color: $gray-400;
+                color: var(--text-light);
             }
         }
 
@@ -88,25 +88,25 @@
             padding-right: 3rem;
 
             &:hover {
-                border-color: $info-light;
+                border-color: var(--accent);
             }
 
             option {
                 padding: 0.75rem;
-                background: $white;
-                color: $gray-700;
+                background: var(--bg-primary);
+                color: var(--text-primary);
                 font-size: 1rem;
 
                 &:hover,
                 &:focus,
                 &:checked {
-                    background: $info-light;
-                    color: $white;
+                    background: var(--accent);
+                    color: var(--white);
                 }
 
                 &:disabled {
-                    color: $gray-400;
-                    background: $gray-100;
+                    color: var(--text-light);
+                    background: var(--bg-secondary);
                 }
             }
         }
@@ -118,7 +118,7 @@
         justify-content: flex-end;
         margin-top: 2rem;
         padding-top: 2rem;
-        border-top: 2px solid $gray-200;
+        border-top: 2px solid var(--border-light);
 
         button {
             padding: 0.9rem 2rem;
@@ -130,25 +130,23 @@
             transition: all 0.3s ease;
 
             &.btn-cancel {
-                background: $white;
-                color: $gray-500;
-                border: 2px solid $border-medium;
+                background: var(--bg-secondary);
+                color: var(--text-primary);
+                border: 2px solid var(--border-light);
 
                 &:hover {
-                    background: $gray-100;
-                    border-color: $gray-400;
-                    color: $gray-700;
+                    background: var(--bg-tertiary);
                 }
             }
 
             &.btn-save {
-                background: $info-light;
-                color: $white;
+                background: var(--accent);
+                color: var(--white);
 
                 &:hover:not(:disabled) {
-                    background: $info;
+                    background: var(--accent-light);
                     transform: translateY(-2px);
-                    box-shadow: 0 4px 12px $shadow-navy-xxl;
+                    box-shadow: 0 4px 12px var(--shadow-navy-xxl);
                 }
 
                 &:active:not(:disabled) {
@@ -156,8 +154,8 @@
                 }
 
                 &:disabled {
-                    background: $gray-100;
-                    color: $gray-500;
+                    background: var(--gray-300);
+                    color: var(--text-secondary);
                     cursor: not-allowed;
                     opacity: 0.6;
                 }
@@ -167,28 +165,29 @@
 }
 
 .required {
-    color: $error;
+    color: var(--error);
     font-weight: bold;
 }
 
 .invalid {
-    border-color: $error !important;
+    border-color: var(--error) !important;
     
     &:focus {
-        box-shadow: 0 0 0 3px $shadow-red-md !important;
+        box-shadow: 0 0 0 3px var(--shadow-red-md) !important;
     }
 }
 
 .error-message {
     margin-top: 0.4rem;
     font-size: 0.85rem;
-    color: $error;
+    color: var(--error);
     font-weight: 500;
 }
+
 .tags-section {
     margin-top: 2rem;
     padding-top: 1.5rem;
-    border-top: 2px solid $gray-200;
+    border-top: 2px solid var(--border-light);
 
     .tags-header {
         display: flex;
@@ -202,8 +201,8 @@
 
         .btn-add-tag {
             padding: 0.6rem 1.2rem;
-            background: $info-light;
-            color: $white;
+            background: var(--accent);
+            color: var(--white);
             border: none;
             border-radius: 6px;
             font-size: 0.9rem;
@@ -212,7 +211,7 @@
             transition: all 0.3s ease;
 
             &:hover {
-                background: $info;
+                background: var(--accent-light);
                 transform: translateY(-2px);
             }
         }
@@ -234,16 +233,16 @@
         transition: all 0.3s ease;
 
         &.existing {
-            background: $gray-100;
-            border: 1px solid $gray-300;
+            background: var(--bg-secondary);
+            border: 1px solid var(--border-light);
         }
 
         .tag-input-existing {
             flex: 1;
             padding: 0.75rem;
             font-size: 0.95rem;
-            background: $gray-50;
-            color: $gray-700;
+            background: var(--bg-secondary);
+            color: var(--text-primary);
             border: none;
             border-radius: 4px;
             cursor: not-allowed;
@@ -253,25 +252,27 @@
             flex: 1;
             padding: 0.75rem;
             font-size: 0.95rem;
-            border: 2px solid $border-medium;
+            border: 2px solid var(--border-light);
             border-radius: 4px;
+            background: var(--bg-primary);
+            color: var(--text-primary);
             transition: all 0.3s ease;
 
             &:focus {
                 outline: none;
-                border-color: $info-light;
-                box-shadow: 0 0 0 3px $shadow-navy-md;
+                border-color: var(--accent);
+                box-shadow: 0 0 0 3px var(--shadow-navy-md);
             }
 
             &::placeholder {
-                color: $gray-400;
+                color: var(--text-light);
             }
         }
 
         .btn-delete-tag {
             padding: 0.6rem 0.8rem;
-            background: $error;
-            color: $white;
+            background: var(--error);
+            color: var(--white);
             border: none;
             border-radius: 4px;
             font-size: 1rem;
@@ -281,7 +282,7 @@
             min-width: 36px;
 
             &:hover {
-                background: $error;
+                background: var(--error-light);
                 transform: translateY(-2px);
             }
 
@@ -292,10 +293,10 @@
     }
 
     .add-tag-section {
-        background: $gray-50;
+        background: var(--bg-secondary);
         padding: 1rem;
         border-radius: 8px;
-        border: 1px dashed $gray-300;
+        border: 1px dashed var(--border-medium);
         margin-top: 1rem;
 
         .add-tag-input-group {
@@ -307,26 +308,27 @@
                 flex: 1;
                 padding: 0.75rem;
                 font-size: 0.95rem;
-                border: 2px solid $border-medium;
+                border: 2px solid var(--border-light);
                 border-radius: 4px;
-                background: $white;
+                background: var(--bg-primary);
+                color: var(--text-primary);
                 transition: all 0.3s ease;
 
                 &:focus {
                     outline: none;
-                    border-color: $info-light;
-                    box-shadow: 0 0 0 3px $shadow-navy-md;
+                    border-color: var(--accent);
+                    box-shadow: 0 0 0 3px var(--shadow-navy-md);
                 }
 
                 &::placeholder {
-                    color: $gray-400;
+                    color: var(--text-light);
                 }
             }
 
             .btn-add-tag {
                 padding: 0.75rem 1.5rem;
-                background: $success-light;
-                color: $white;
+                background: var(--success);
+                color: var(--white);
                 border: none;
                 border-radius: 4px;
                 font-size: 0.9rem;
@@ -336,7 +338,7 @@
                 white-space: nowrap;
 
                 &:hover {
-                    background: $success;
+                    background: var(--success-light);
                     transform: translateY(-2px);
                 }
 

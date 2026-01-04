@@ -2,16 +2,16 @@
 
 .filter-panel {
   margin-bottom: 1rem;
-  background: $white;
-  border: 1px solid $border-medium;
+  background: var(--bg-primary);
+  border: 1px solid var(--border-light);
   border-radius: 8px;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+  box-shadow: 0 2px 4px var(--shadow-sm);
 }
 
 .filter-toggle {
   width: 100%;
   padding: 1rem;
-  background: $white;
+  background: var(--bg-primary);
   border: none;
   border-bottom: 1px solid transparent;
   border-radius: 8px 8px 0 0;
@@ -20,16 +20,16 @@
   align-items: center;
   justify-content: space-between;
   font-weight: 600;
-  color: $gray-700;
+  color: var(--text-primary);
   font-size: 0.95rem;
   transition: all 0.2s ease;
 
   &:hover {
-    background: $gray-50;
+    background: var(--bg-secondary);
   }
 
   &:active {
-    background: $white;
+    background: var(--bg-primary);
   }
 }
 
@@ -42,7 +42,7 @@
   display: inline-block;
   font-size: 0.75rem;
   transition: transform 0.3s ease;
-  color: $primary;
+  color: var(--text-secondary);
 
   &.expanded {
     transform: rotate(180deg);
@@ -51,7 +51,7 @@
 
 .filter-container {
   padding: 1rem;
-  border-top: 1px solid $border-light;
+  border-top: 1px solid var(--border-light);
   animation: slideDown 0.3s ease;
 }
 
@@ -83,7 +83,7 @@
   display: block;
   font-size: 0.85rem;
   font-weight: 600;
-  color: $gray-700;
+  color: var(--text-primary);
   user-select: none;
 }
 
@@ -96,29 +96,29 @@
 .filter-input,
 .filter-select {
   padding: 0.55rem 0.75rem;
-  border: 1px solid $primary-lighter;
+  border: 1px solid var(--border-light);
   border-radius: 6px;
-  background: $white;
-  color: $gray-700;
+  background: var(--bg-primary);
+  color: var(--text-primary);
   font-size: 0.9rem;
   font-weight: 500;
   cursor: pointer;
   transition: all 0.2s ease;
 
   &:hover {
-    border-color: $primary;
-    box-shadow: 0 2px 8px rgba($primary, 0.1);
+    border-color: var(--accent);
+    box-shadow: 0 2px 8px var(--shadow-navy-md);
   }
 
   &:focus {
     outline: none;
-    border-color: $info;
-    box-shadow: 0 0 0 3px rgba($info, 0.1);
+    border-color: var(--accent);
+    box-shadow: 0 0 0 3px var(--shadow-navy-md);
   }
 
   &:disabled {
-    background: $gray-100;
-    color: $gray-400;
+    background: var(--bg-secondary);
+    color: var(--text-light);
     cursor: not-allowed;
   }
 }
@@ -127,14 +127,14 @@
   cursor: text;
 
   &::placeholder {
-    color: $gray-400;
+    color: var(--text-light);
   }
 }
 
 .filter-select {
   option {
-    background: $white;
-    color: $gray-700;
+    background: var(--bg-primary);
+    color: var(--text-primary);
   }
 }
 
@@ -162,28 +162,28 @@
   width: 16px;
   height: 16px;
   cursor: pointer;
-  accent-color: $primary;
+  accent-color: var(--primary);
   flex-shrink: 0;
   transition: all 0.2s ease;
 
   &:hover {
-    accent-color: $primary-light;
+    accent-color: var(--primary-light);
   }
 
   &:focus {
     outline: none;
-    accent-color: $accent;
+    accent-color: var(--accent);
   }
 
   &:disabled {
-    accent-color: $gray-400;
+    accent-color: var(--text-light);
     cursor: not-allowed;
   }
 }
 
 .checkbox-text {
   font-size: 0.9rem;
-  color: $gray-700;
+  color: var(--text-primary);
   transition: color 0.2s ease;
 }
 
@@ -192,7 +192,7 @@
   gap: 1rem;
   flex-wrap: wrap;
   padding-top: 1rem;
-  border-top: 1px solid $border-light;
+  border-top: 1px solid var(--border-light);
 }
 
 .btn-apply,
@@ -214,35 +214,35 @@
 }
 
 .btn-apply {
-  background: $info;
-  color: $white;
+  background: var(--info);
+  color: var(--text-white);
 
   &:hover:not(:disabled) {
-    background: $accent;
-    box-shadow: 0 4px 12px rgba($info, 0.3);
+    background: var(--accent);
+    box-shadow: 0 4px 12px rgba(var(--info-rgb), 0.3);
     transform: translateY(-1px);
   }
 
   &:active:not(:disabled) {
     transform: translateY(0);
-    box-shadow: 0 2px 8px rgba($info, 0.2);
+    box-shadow: 0 2px 8px rgba(var(--info-rgb), 0.2);
   }
 
   &:disabled {
-    background: $gray-300;
-    color: $gray-500;
+    background: var(--bg-secondary);
+    color: var(--text-secondary);
     cursor: not-allowed;
   }
 }
 
 .btn-reset {
-  background: $gray-200;
-  color: $gray-700;
-  border: 1px solid $border-medium;
+  background: var(--bg-secondary);
+  color: var(--text-primary);
+  border: 1px solid var(--border-medium);
 
   &:hover:not(:disabled) {
-    background: $gray-300;
-    border-color: $gray-400;
+    background: var(--bg-tertiary);
+    border-color: var(--text-light);
     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
   }
 
@@ -251,9 +251,9 @@
   }
 
   &:disabled {
-    background: $gray-100;
-    color: $gray-400;
-    border-color: $border-light;
+    background: var(--bg-tertiary);
+    color: var(--text-light);
+    border-color: var(--border-light);
     cursor: not-allowed;
   }
 }

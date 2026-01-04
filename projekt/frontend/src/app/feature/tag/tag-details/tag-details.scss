@@ -15,10 +15,10 @@
     align-items: center;
     gap: 0.5rem;
     padding: 0.7rem 1.5rem;
-    background: $white;
-    border: 2px solid $border-light;
+    background: var(--bg-primary);
+    border: 2px solid var(--border-light);
     border-radius: 8px;
-    color:  $gray-700;
+    color: var(--text-primary);
     font-size: 1rem;
     font-weight: 500;
     cursor: pointer;
@@ -29,17 +29,17 @@
     }
 
     &:hover {
-        background: $bg-secondary;
-        border-color: $info-light;
-        color: $info-light;
+        background: var(--bg-secondary);
+        border-color: var(--accent);
+        color: var(--accent);
         transform: translateX(-3px);
     }
 }
 
 .tag-card {
-    background: $white;
+    background: var(--bg-primary);
     border-radius: 12px;
-    box-shadow: 0 4px 20px $shadow-md;
+    box-shadow: 0 4px 20px var(--shadow-md);
     overflow: hidden;
     margin-bottom: 2rem;
 
@@ -53,20 +53,20 @@
         justify-content: center;
 
         .category-badge {
-            background: $overlay-dark;
-            color: $white;
+            background: var(--overlay-dark);
+            color: var(--white);
             padding: 0.5rem 1.5rem;
             border-radius: 20px;
             font-size: 1rem;
             font-weight: 600;
-            box-shadow: 0 2px 8px $shadow-xl;
+            box-shadow: 0 2px 8px var(--shadow-xl);
         }
     }
 
     .tag-content {
         padding: 2rem 3rem 3rem;
         text-align: center;
-        color: $gray-700;
+        color: var(--text-primary);
 
         p[class^='tag'] {
             margin-bottom: 1rem;
@@ -75,7 +75,7 @@
 
         span {
             font-weight: bold;
-            color: $gray-900;
+            color: var(--text-primary);
         }
     }
 
@@ -86,7 +86,7 @@
         gap: 1rem;
         margin-top: 2rem;
         padding-top: 1.5rem;
-        border-top: 2px solid $border-light;
+        border-top: 2px solid var(--border-light);
 
         .btn {
             padding: 0.75rem 1.5rem;
@@ -96,12 +96,12 @@
             font-size: 0.95rem;
             font-weight: 600;
             transition: all 0.3s ease;
-            color: $white;
-            box-shadow: 0 2px 8px $shadow-md;
+            color: var(--text-white);
+            box-shadow: 0 2px 8px var(--shadow-md);
 
             &:hover {
                 transform: translateY(-2px);
-                box-shadow: 0 4px 12px $shadow-lg;
+                box-shadow: 0 4px 12px var(--shadow-lg);
             }
 
             &:active {
@@ -109,18 +109,18 @@
             }
 
             &.btn-edit {
-                background: $warning;
+                background: var(--warning);
 
                 &:hover {
-                    background: $warning-light;
+                    background: var(--warning-light);
                 }
             }
 
             &.btn-delete {
-                background: $error;
+                background: var(--error);
 
                 &:hover {
-                    background: $error-light;
+                    background: var(--error-light);
                 }
             }               
         }
@@ -139,10 +139,10 @@
     align-items: center;
     gap: 0.5rem;
     padding: 0.9rem 1.8rem;
-    background: $info-light;
+    background: var(--info-light);
     border: none;
     border-radius: 8px;
-    color: $white;
+    color: var(--text-white);
     font-size: 1rem;
     font-weight: 600;
     cursor: pointer;
@@ -153,9 +153,9 @@
     }
 
     &:hover:not(:disabled) {
-        background: $info;
+        background: var(--info);
         transform: translateY(-2px);
-        box-shadow: 0 4px 12px $shadow-navy-xxl;
+        box-shadow: 0 4px 12px var(--shadow-navy-xxl);
     }
 
     &:active:not(:disabled) {
@@ -163,8 +163,8 @@
     }
 
     &:disabled {
-        background: $gray-200;
-        color: $gray-400;
+        background: var(--bg-secondary);
+        color: var(--text-light);
         cursor: not-allowed;
         opacity: 0.6;
         transform: none;

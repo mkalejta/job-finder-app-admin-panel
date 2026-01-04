@@ -7,10 +7,11 @@ import { CategoryColorService } from '../../category-color.service';
 import { CategoryColor } from '../../../shared/enums/CategoryColor';
 import Tag from '../../../interface/tag/Tag';
 import { ConfirmationService } from '../../../core/services/confirmation.service';
+import { MatIconModule } from '@angular/material/icon';
 
 @Component({
   selector: 'app-tag-details',
-  imports: [RouterOutlet, CommonModule],
+  imports: [RouterOutlet, CommonModule, MatIconModule],
   templateUrl: './tag-details.html',
   styleUrl: './tag-details.scss',
 })

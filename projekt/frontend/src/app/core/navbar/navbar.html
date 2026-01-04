@@ -1,12 +1,21 @@
 <nav>
-    <div class="left" (click)="toggleUsernameOrInitials()" role="button" tabindex="0">
-    @if (usernameOrInitials() === "userInitials" && userInitials) {
-        <app-user-initials
-            [userInitials]="userInitials"
-        ></app-user-initials>
-    } @else if (usernameOrInitials() === "username") {
-        <div class="username">{{ user?.username }}</div>
-    }
+    <div class="left">
+        <div class="user-section" (click)="toggleUsernameOrInitials()" role="button" tabindex="0">
+            @if (usernameOrInitials() === "userInitials" && userInitials) {
+                <app-user-initials
+                    [userInitials]="userInitials"
+                ></app-user-initials>
+            } @else if (usernameOrInitials() === "username") {
+                <div class="username">{{ user?.username }}</div>
+            }
+        </div>
+        <button class="theme-toggle" (click)="toggleTheme()" aria-label="Toggle theme">
+            @if (themeService.currentTheme() === 'light') {
+                <mat-icon class="theme-icon">dark_mode</mat-icon>
+            } @else {
+                <mat-icon class="theme-icon">light_mode</mat-icon>
+            }
+        </button>
     </div>
     <div class="right">
         <div class="tab active"

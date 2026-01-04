@@ -2,11 +2,12 @@ import { Component, inject, signal, effect } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { ConfirmationService, ConfirmationType } from '../services/confirmation.service';
+import { MatIconModule } from '@angular/material/icon';
 
 @Component({
   selector: 'app-confirmation-modal',
   standalone: true,
-  imports: [CommonModule, FormsModule],
+  imports: [CommonModule, FormsModule, MatIconModule],
   templateUrl: './confirmation-modal.html',
   styleUrl: './confirmation-modal.scss'
 })
@@ -58,12 +59,12 @@ export class ConfirmationModal {
 
   protected getIconClass(): string {
     const dialog = this.dialog();
-    if (!dialog) return 'fa-circle-info';
+    if (!dialog) return 'info';
     
     const iconMap: Record<ConfirmationType, string> = {
-      [ConfirmationType.DANGER]: 'fa-solid fa-triangle-exclamation',
-      [ConfirmationType.WARNING]: 'fa-solid fa-circle-exclamation',
-      [ConfirmationType.INFO]: 'fa-solid fa-circle-info'
+      [ConfirmationType.DANGER]: 'warning',
+      [ConfirmationType.WARNING]: 'error',
+      [ConfirmationType.INFO]: 'info'
     };
     return iconMap[dialog.type || ConfirmationType.INFO];
   }

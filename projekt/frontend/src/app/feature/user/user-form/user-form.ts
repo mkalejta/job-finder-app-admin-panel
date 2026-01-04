@@ -13,10 +13,11 @@ import { emailValidator } from '../../../shared/validators/email.validator';
 import { phoneNumberValidator } from '../../../shared/validators/phone-number.validator';
 import { NotificationService } from '../../../core/services/notification.service';
 import { profileInfoValidator } from '../../../shared/validators/profile-info.validator';
+import { MatIconModule } from '@angular/material/icon';
 
 @Component({
   selector: 'app-user-form',
-  imports: [ReactiveFormsModule],
+  imports: [ReactiveFormsModule, MatIconModule],
   templateUrl: './user-form.html',
   styleUrl: './user-form.scss',
 })
