@@ -135,15 +135,15 @@ export class CategoryService {
     this.categories.next(categories);
   }
 
-  createCategory(category: CategoryCreateDto): void {
-    this.createCategoryRequest(category).subscribe();
+  createCategory(category: CategoryCreateDto): Observable<Category> {
+    return this.createCategoryRequest(category);
   }
 
-  updateCategory(updatedCategory: CategoryCreateDto, categoryId: UUIDTypes): void {
-    this.updateCategoryRequest(updatedCategory, categoryId).subscribe();
+  updateCategory(updatedCategory: CategoryCreateDto, categoryId: UUIDTypes): Observable<Category> {
+    return this.updateCategoryRequest(updatedCategory, categoryId);
   }
 
-  deleteCategory(categoryId: UUIDTypes): void {
-    this.deleteCategoryRequest(categoryId).subscribe();
+  deleteCategory(categoryId: UUIDTypes): Observable<void> {
+    return this.deleteCategoryRequest(categoryId);
   }
 }

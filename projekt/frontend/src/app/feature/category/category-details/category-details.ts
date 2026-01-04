@@ -74,14 +74,19 @@ export class CategoryDetails implements OnInit {
         ? this.currentIndex! 
         : this.currentIndex! - 1;
       
-      this.categoryService.deleteCategory(categoryId);
-      
-      if (nextIndex >= 0 && this.categories.length > 1) {
-        const nextCategory = this.categories[nextIndex === this.currentIndex ? nextIndex + 1 : nextIndex];
-        this.router.navigate(['categories', nextCategory.id, 'details']);
-      } else {
-        this.router.navigate(['categories']);
-      }
+      this.categoryService.deleteCategory(categoryId).subscribe({
+        next: () => {
+          if (nextIndex >= 0 && this.categories.length > 1) {
+            const nextCategory = this.categories[nextIndex === this.currentIndex ? nextIndex + 1 : nextIndex];
+            this.router.navigate(['categories', nextCategory.id, 'details']);
+          } else {
+            this.router.navigate(['categories']);
+          }
+        },
+        error: () => {
+          // Error already handled in service
+        }
+      });
     });
   }
 

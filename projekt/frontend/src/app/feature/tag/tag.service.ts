@@ -162,4 +162,14 @@ export class TagsService {
     const currentTags = this.tags.value;
     return currentTags.findIndex(tag => tag.id === tagId);
   }
+
+  getTagsByCategoryId(categoryId: UUIDTypes): Observable<Tag[]> {
+    return this.http.get<ResponseDto<{ content: Tag[] }>>(`${this.tagUrl}/category/${categoryId}`).pipe(
+      map((response) => response.data?.content || []),
+      catchError((err) => {
+        console.error('Error fetching tags for category:', err);
+        return of([]);
+      })
+    );
+  }
 }

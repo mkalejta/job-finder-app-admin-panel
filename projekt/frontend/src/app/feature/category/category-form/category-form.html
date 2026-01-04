@@ -48,6 +48,53 @@
                     </div>
                 }
             </div>
+
+            @if (isEditMode) {
+
+            <div class="form-group tags-section">
+                <div class="tags-header">
+                    <label for="tags=list">Tags</label>
+                </div>
+
+                @if (tags.length > 0) {
+                    <div formArrayName="tags" class="tags-list">
+                        @for (tag of tags.controls; let i = $index; track i) {
+                            <div [formGroupName]="i" class="tag-item existing">
+                                <input 
+                                    type="text" 
+                                    formControlName="name"
+                                    [disabled]="true"
+                                    class="tag-input-existing">
+                                <button 
+                                    type="button" 
+                                    class="btn-delete-tag" 
+                                    (click)="onDeleteTag(tag.get('id')?.value, tag.get('name')?.value)"
+                                    title="Delete tag">
+                                    ✕
+                                </button>
+                            </div>
+                        }
+                    </div>
+                }
+
+                <div class="add-tag-section">
+                    <div class="add-tag-input-group">
+                        <input 
+                            type="text" 
+                            formControlName="newTagName"
+                            placeholder="Enter new tag name"
+                            class="tag-input-new">
+                        <button 
+                            type="button" 
+                            class="btn-add-tag" 
+                            (click)="onAddTag()">
+                            Add Tag
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            }
             
             <div class="form-actions">
                 <button type="button" class="btn-cancel" (click)="goBack()">Cancel</button>

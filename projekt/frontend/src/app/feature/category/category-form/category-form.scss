@@ -185,3 +185,165 @@
     color: $error;
     font-weight: 500;
 }
+.tags-section {
+    margin-top: 2rem;
+    padding-top: 1.5rem;
+    border-top: 2px solid $gray-200;
+
+    .tags-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 1rem;
+
+        label {
+            margin-bottom: 0 !important;
+        }
+
+        .btn-add-tag {
+            padding: 0.6rem 1.2rem;
+            background: $info-light;
+            color: $white;
+            border: none;
+            border-radius: 6px;
+            font-size: 0.9rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+
+            &:hover {
+                background: $info;
+                transform: translateY(-2px);
+            }
+        }
+    }
+
+    .tags-list {
+        display: flex;
+        flex-direction: column;
+        gap: 0.8rem;
+        margin-bottom: 1.5rem;
+    }
+
+    .tag-item {
+        display: flex;
+        gap: 0.8rem;
+        align-items: center;
+        padding: 0.6rem;
+        border-radius: 6px;
+        transition: all 0.3s ease;
+
+        &.existing {
+            background: $gray-100;
+            border: 1px solid $gray-300;
+        }
+
+        .tag-input-existing {
+            flex: 1;
+            padding: 0.75rem;
+            font-size: 0.95rem;
+            background: $gray-50;
+            color: $gray-700;
+            border: none;
+            border-radius: 4px;
+            cursor: not-allowed;
+        }
+
+        .tag-input-new {
+            flex: 1;
+            padding: 0.75rem;
+            font-size: 0.95rem;
+            border: 2px solid $border-medium;
+            border-radius: 4px;
+            transition: all 0.3s ease;
+
+            &:focus {
+                outline: none;
+                border-color: $info-light;
+                box-shadow: 0 0 0 3px $shadow-navy-md;
+            }
+
+            &::placeholder {
+                color: $gray-400;
+            }
+        }
+
+        .btn-delete-tag {
+            padding: 0.6rem 0.8rem;
+            background: $error;
+            color: $white;
+            border: none;
+            border-radius: 4px;
+            font-size: 1rem;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            min-width: 36px;
+
+            &:hover {
+                background: $error;
+                transform: translateY(-2px);
+            }
+
+            &:active {
+                transform: translateY(0);
+            }
+        }
+    }
+
+    .add-tag-section {
+        background: $gray-50;
+        padding: 1rem;
+        border-radius: 8px;
+        border: 1px dashed $gray-300;
+        margin-top: 1rem;
+
+        .add-tag-input-group {
+            display: flex;
+            gap: 0.8rem;
+            align-items: center;
+
+            .tag-input-new {
+                flex: 1;
+                padding: 0.75rem;
+                font-size: 0.95rem;
+                border: 2px solid $border-medium;
+                border-radius: 4px;
+                background: $white;
+                transition: all 0.3s ease;
+
+                &:focus {
+                    outline: none;
+                    border-color: $info-light;
+                    box-shadow: 0 0 0 3px $shadow-navy-md;
+                }
+
+                &::placeholder {
+                    color: $gray-400;
+                }
+            }
+
+            .btn-add-tag {
+                padding: 0.75rem 1.5rem;
+                background: $success-light;
+                color: $white;
+                border: none;
+                border-radius: 4px;
+                font-size: 0.9rem;
+                font-weight: 600;
+                cursor: pointer;
+                transition: all 0.3s ease;
+                white-space: nowrap;
+
+                &:hover {
+                    background: $success;
+                    transform: translateY(-2px);
+                }
+
+                &:active {
+                    transform: translateY(0);
+                }
+            }
+        }
+    }
+}
