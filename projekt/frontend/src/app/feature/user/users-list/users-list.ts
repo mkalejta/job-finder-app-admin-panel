@@ -26,6 +26,9 @@ export class UsersList implements OnInit, OnDestroy {
   private destroy$ = new Subject<void>();
   
   users = toSignal(this.usersService.users$, { initialValue: [] });
+  pageInfo = toSignal(this.usersService.pageInfo$, {
+    initialValue: { first: true, last: true, totalPages: 0 }
+  });
   pagination = toSignal(this.paginationService.pagination$, {
     initialValue: { page: 0, size: 20 }
   });
@@ -71,6 +74,7 @@ export class UsersList implements OnInit, OnDestroy {
   };
 
   ngOnInit(): void {
+    this.paginationService.reset();
     this.usersService.loadUsers();
   }
 

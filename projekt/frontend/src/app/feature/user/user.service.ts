@@ -2,6 +2,7 @@ import { inject, Injectable } from '@angular/core';
 import { BehaviorSubject, Observable, catchError, combineLatest, map, of, tap } from 'rxjs';
 import User from '../../interface/user/User';
 import ResponseDto from '../../interface/ResponseDto';
+import PageResponse from '../../interface/PageResponse';
 import { UUIDTypes, v4 as uuidv4 } from 'uuid';
 import { HttpClient } from '@angular/common/http';
 import { environment } from '../../../environments/environment';
@@ -30,10 +31,12 @@ export class UsersService{
   private paginationService = inject(PaginationService);
   private notificationService = inject(NotificationService);
   private users = new BehaviorSubject<User[]>([]);
+  private pageInfo = new BehaviorSubject<{ first: boolean; last: boolean; totalPages: number }>({ first: true, last: true, totalPages: 0 });
   private userUrl = environment.apiUrl + '/admin/user';
   private sortParams = new BehaviorSubject<SortingParams>({});
   private filteringParams = new BehaviorSubject<UserFilteringParams>({ filters: {} });
   users$: Observable<User[] | []> = this.users.asObservable();
+  pageInfo$: Observable<{ first: boolean; last: boolean; totalPages: number }> = this.pageInfo.asObservable();
 
   constructor() {
     combineLatest([
@@ -59,9 +62,17 @@ export class UsersService{
       sort: `${sortField},${sortDirection.toLowerCase()}`
     };
 
-    return this.http.get<ResponseDto<{ content: User[] }>>(this.userUrl, { params: httpParams }).pipe(
-      map((response) => response.data?.content),
-      tap((data) => this.setUsers(data)),
+    return this.http.get<ResponseDto<PageResponse<User>>>(this.userUrl, { params: httpParams }).pipe(
+      map((response) => response.data),
+      tap((pageData) => {
+        this.setUsers(pageData?.content || []);
+        this.pageInfo.next({
+          first: pageData?.first ?? true,
+          last: pageData?.last ?? true,
+          totalPages: pageData?.totalPages ?? 0
+        });
+      }),
+      map((pageData) => pageData?.content || []),
       catchError((err) => {
         this.notificationService.error(err.error?.message || 'Failed to fetch the list of users');
         return of(this.users.value);

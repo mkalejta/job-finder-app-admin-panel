@@ -6,6 +6,7 @@ export default interface User {
     email: string;
     firstName: string;
     lastName: string;
+    role: string;
     phoneNumber: number;
     profileDescription: string;
     profilePhoto?: string;

@@ -32,6 +32,9 @@ export class TagList implements OnInit, OnDestroy {
   
   tags = toSignal(this.tagsService.tags$, { initialValue: [] });
   categories = toSignal(this.categoryService.categories$, { initialValue: [] });
+  pageInfo = toSignal(this.tagsService.pageInfo$, {
+    initialValue: { first: true, last: true, totalPages: 0 }
+  });
   pagination = toSignal(this.paginationService.pagination$, {
     initialValue: { page: 0, size: 20 }
   });
@@ -51,6 +54,7 @@ export class TagList implements OnInit, OnDestroy {
   };
 
   ngOnInit(): void {
+    this.paginationService.reset();
     this.tagsService.loadTags();
     this.categoryService.loadCategories();
   }

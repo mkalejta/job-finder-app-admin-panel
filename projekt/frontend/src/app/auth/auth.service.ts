@@ -7,6 +7,7 @@ import ResponseDto from '../interface/ResponseDto';
 import { JwtHelperService } from '@auth0/angular-jwt';
 import User from '../interface/user/User';
 import { JwtPayload } from '../interface/JwtPayload';
+import { NotificationService } from '../core/services/notification.service';
 
 export interface RotateTokensProps {
   refreshToken: string;
@@ -18,6 +19,7 @@ export interface RotateTokensProps {
 })
 export class AuthService {
   private http = inject(HttpClient);
+  private notificationService = inject(NotificationService);
   private authUrl = `${environment.apiUrl}/auth/login`;
   private rotateTokenUrl = `${environment.apiUrl}/refresh-token/rotate`;
   private userDataSubject = new BehaviorSubject<User | null>(this.getUserData());
@@ -31,11 +33,17 @@ export class AuthService {
 
   private extractInfoFromToken(response: ResponseDto<TokenResponse>): void {
     const jwtPayload = this.getDecodedAccessToken(response.data!.accessToken);
+
+    if (jwtPayload.role !== 'ADMIN') {
+      this.notificationService.warning('Wymagana rola ADMIN');
+      throw new Error('FORBIDDEN_ROLE');
+    }
     
     const userData: Partial<User> = {
       id: jwtPayload.sub,
       username: jwtPayload.username,
       email: jwtPayload.email,
+      role: jwtPayload.role,
       firstName: jwtPayload.firstName,
       lastName: jwtPayload.lastName,
       phoneNumber: jwtPayload.phoneNumber,
@@ -84,5 +92,11 @@ export class AuthService {
   getUserData(): User | null {
     const userData = localStorage.getItem('user');
     return userData ? JSON.parse(userData) : null;
+  }
+
+  hasRole(role: string): boolean {
+    const user = this.getUserData();
+    if (!user) return false;
+    return user.role === role;
   }
 }

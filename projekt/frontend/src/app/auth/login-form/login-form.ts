@@ -39,7 +39,9 @@ export class LoginForm implements OnInit {
         this.router.navigate(['/']);
       },
       error: (err) => {
-        console.error('Login failed', err);
+        if (err instanceof Error && err.message === 'FORBIDDEN_ROLE') {
+          return;
+        }
         this.notificationService.error('Invalid login credentials');
       }
     });

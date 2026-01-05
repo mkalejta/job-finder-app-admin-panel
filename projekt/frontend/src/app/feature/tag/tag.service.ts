@@ -4,6 +4,7 @@ import { BehaviorSubject } from 'rxjs/internal/BehaviorSubject';
 import { environment } from '../../../environments/environment';
 import { catchError, combineLatest, map, Observable, of, tap } from 'rxjs';
 import ResponseDto from '../../interface/ResponseDto';
+import PageResponse from '../../interface/PageResponse';
 import TagCreateDto from '../../interface/tag/TagCreateDto';
 import { UUIDTypes, v4 as uuidv4 } from 'uuid';
 import SortingParams from '../../interface/SortingParams';
@@ -29,11 +30,13 @@ export class TagsService {
   private notificationService = inject(NotificationService);
   
   private tags = new BehaviorSubject<Tag[]>([]);
+  private pageInfo = new BehaviorSubject<{ first: boolean; last: boolean; totalPages: number }>({ first: true, last: true, totalPages: 0 });
   private tagUrl = environment.apiUrl + '/tag';
   private tagAdminUrl = environment.apiUrl + '/admin/tag';
   private sortParams = new BehaviorSubject<SortingParams>({});
   private filteringParams = new BehaviorSubject<TagFilteringParams>({ filters: {} });
   tags$: Observable<Tag[] | []> = this.tags.asObservable();
+  pageInfo$: Observable<{ first: boolean; last: boolean; totalPages: number }> = this.pageInfo.asObservable();
 
   constructor() {
     combineLatest([
@@ -60,9 +63,17 @@ export class TagsService {
       sort: `${sortField},${sortDirection.toLowerCase()}`
     };
 
-    return this.http.get<ResponseDto<{ content: Tag[] }>>(this.tagUrl, { params: httpParams }).pipe(
-      map((response) => response.data?.content),
-      tap((data) => this.setTags(data)),
+    return this.http.get<ResponseDto<PageResponse<Tag>>>(this.tagUrl, { params: httpParams }).pipe(
+      map((response) => response.data),
+      tap((pageData) => {
+        this.setTags(pageData?.content || []);
+        this.pageInfo.next({
+          first: pageData?.first ?? true,
+          last: pageData?.last ?? true,
+          totalPages: pageData?.totalPages ?? 0
+        });
+      }),
+      map((pageData) => pageData?.content || []),
       catchError((err) => {
         this.notificationService.error(err.error?.message || 'Failed to fetch the list of tags');
         return of(this.tags.value);
@@ -167,7 +178,7 @@ export class TagsService {
     return this.http.get<ResponseDto<{ content: Tag[] }>>(`${this.tagUrl}/category/${categoryId}`).pipe(
       map((response) => response.data?.content || []),
       catchError((err) => {
-        console.error('Error fetching tags for category:', err);
+        this.notificationService.error(err.error?.message || 'Failed to fetch tags for the category');
         return of([]);
       })
     );

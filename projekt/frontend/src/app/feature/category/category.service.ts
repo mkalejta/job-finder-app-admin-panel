@@ -5,6 +5,7 @@ import Category from '../../interface/category/Category';
 import { environment } from '../../../environments/environment';
 import ResponseDto from '../../interface/ResponseDto';
 import { FilteringParams } from '../../interface/FilteringParams';
+import PageResponse from '../../interface/PageResponse';
 import SortingParams from '../../interface/SortingParams';
 import PaginationParams from '../../interface/PaginationParams';
 import { PaginationService } from '../../shared/pagination/pagination.service';
@@ -27,11 +28,13 @@ export class CategoryService {
   private notificationService = inject(NotificationService);
 
   private categories = new BehaviorSubject<Category[]>([]);
+  private pageInfo = new BehaviorSubject<{ first: boolean; last: boolean; totalPages: number }>({ first: true, last: true, totalPages: 0 });
   private categoryUrl = environment.apiUrl + '/category';
   private categoryAdminUrl = environment.apiUrl + '/admin/category';
   private sortParams = new BehaviorSubject<SortingParams>({});
   private filteringParams = new BehaviorSubject<CategoryFilteringParams>({ filters: {} });
   categories$: Observable<Category[] | []> = this.categories.asObservable();
+  pageInfo$: Observable<{ first: boolean; last: boolean; totalPages: number }> = this.pageInfo.asObservable();
 
   constructor() {
     combineLatest([
@@ -57,9 +60,17 @@ export class CategoryService {
       sort: `${sortField},${sortDirection.toLowerCase()}`
     };
 
-    return this.http.get<ResponseDto<{ content: Category[] }>>(this.categoryUrl, { params: httpParams }).pipe(
-      map((response) => response.data?.content),
-      tap((data) => this.setCategories(data)),
+    return this.http.get<ResponseDto<PageResponse<Category>>>(this.categoryUrl, { params: httpParams }).pipe(
+      map((response) => response.data),
+      tap((pageData) => {
+        this.setCategories(pageData?.content || []);
+        this.pageInfo.next({
+          first: pageData?.first ?? true,
+          last: pageData?.last ?? true,
+          totalPages: pageData?.totalPages ?? 0
+        });
+      }),
+      map((pageData) => pageData?.content || []),
       catchError((err) => {
         this.notificationService.error(err.error?.message || 'Could not fetch categories');
         return of(this.categories.value);

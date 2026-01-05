@@ -68,6 +68,7 @@
         <button 
             class="btn-pagination"
             (click)="onPageChange(pagination().page + 1)"
+            [disabled]="pageInfo().last"
         >
             Next
         </button>

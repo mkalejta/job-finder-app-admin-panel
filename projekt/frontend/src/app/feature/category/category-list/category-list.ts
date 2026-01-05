@@ -29,6 +29,9 @@ export class CategoryList implements OnInit, OnDestroy {
   private destroy$ = new Subject<void>();
   
   categories = toSignal(this.categoryService.categories$, { initialValue: [] });
+  pageInfo = toSignal(this.categoryService.pageInfo$, {
+    initialValue: { first: true, last: true, totalPages: 0 }
+  });
   pagination = toSignal(this.paginationService.pagination$, {
     initialValue: { page: 0, size: 20 }
   });
@@ -47,6 +50,7 @@ export class CategoryList implements OnInit, OnDestroy {
   };
 
   ngOnInit(): void {
+    this.paginationService.reset();
     this.categoryService.loadCategories();
   }
 

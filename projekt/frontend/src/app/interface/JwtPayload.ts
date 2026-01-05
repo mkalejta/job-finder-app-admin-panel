@@ -4,6 +4,7 @@ export interface JwtPayload {
   sub?: UUIDTypes;
   email?: string;
   username?: string;
+  role?: string;
   firstName?: string;
   lastName?: string;
   phoneNumber?: number;
