@@ -1,17 +1,17 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpParams } from '@angular/common/http';
 import { inject, Injectable } from '@angular/core';
 import { BehaviorSubject } from 'rxjs/internal/BehaviorSubject';
 import { environment } from '../../../environments/environment';
 import { catchError, combineLatest, map, Observable, of, tap } from 'rxjs';
-import ResponseDto from '../../interface/ResponseDto';
-import PageResponse from '../../interface/PageResponse';
-import TagCreateDto from '../../interface/tag/TagCreateDto';
+import { ResponseDto } from '../../interface/ResponseDto';
+import { PageResponse } from '../../interface/PageResponse';
+import { TagCreateDto } from '../../interface/tag/TagCreateDto';
 import { UUIDTypes, v4 as uuidv4 } from 'uuid';
-import SortingParams from '../../interface/SortingParams';
-import PaginationParams from '../../interface/PaginationParams';
+import { SortingParams } from '../../interface/SortingParams';
+import { PaginationParams } from '../../interface/PaginationParams';
 import { PaginationService } from '../../shared/pagination/pagination.service';
 import { FilteringParams } from '../../interface/FilteringParams';
-import Tag from '../../interface/tag/Tag';
+import { Tag } from '../../interface/tag/Tag';
 import { NotificationService } from '../../core/services/notification.service';
 
 export interface TagFilters {
@@ -35,10 +35,10 @@ export class TagsService {
   private tagAdminUrl = environment.apiUrl + '/admin/tag';
   private sortParams = new BehaviorSubject<SortingParams>({});
   private filteringParams = new BehaviorSubject<TagFilteringParams>({ filters: {} });
-  tags$: Observable<Tag[] | []> = this.tags.asObservable();
-  pageInfo$: Observable<{ first: boolean; last: boolean; totalPages: number }> = this.pageInfo.asObservable();
+  public tags$: Observable<Tag[] | []> = this.tags.asObservable();
+  public pageInfo$: Observable<{ first: boolean; last: boolean; totalPages: number }> = this.pageInfo.asObservable();
 
-  constructor() {
+  public constructor() {
     combineLatest([
       this.sortParams.asObservable(),
       this.paginationService.pagination$,
@@ -48,86 +48,105 @@ export class TagsService {
     });
   }
 
-  private fetchTags(sortParams: SortingParams, paginationParams: PaginationParams, filteringParams: TagFilteringParams): Observable<Tag[]> {
-    const sortField = sortParams?.sort || 'name';
-    const sortDirection = (sortParams?.direction || 'ASC').toUpperCase();
-    const page = paginationParams?.page || 0;
-    const size = paginationParams?.size || 20;
-    const filters = filteringParams?.filters || {};
+  private buildHttpParams(sortParams: SortingParams, paginationParams: PaginationParams, filteringParams: TagFilteringParams): HttpParams {
+    const sortField = sortParams.sort && sortParams.sort.trim() ? sortParams.sort : 'name';
+    const sortDirection = (sortParams.direction || 'ASC').toUpperCase();
+    const page = paginationParams.page || 0;
+    const size = paginationParams.size || 20;
+  
+    let params = new HttpParams()
+      .set('page', page.toString())
+      .set('size', size.toString())
+      .set('sort', `${sortField},${sortDirection.toLowerCase()}`);
+  
+    params = this.applyNameFilter(params, filteringParams.filters);
+    params = this.applyCategoriesFilter(params, filteringParams.filters);
+  
+    return params;
+  }
+  
+  private applyNameFilter(params: HttpParams, filters: TagFilters): HttpParams {
+    if (typeof filters.name === 'string' && filters.name.trim()) {
+      return params.set('name', filters.name.trim());
+    }
 
-    const httpParams = {
-      ...(filters.name && typeof filters.name === 'string' && filters.name.trim() !== '' ? { name: filters.name.trim() } : {}),
-      ...(filters.categories && Array.isArray(filters.categories) && filters.categories.length > 0 ? { categories: filters.categories.join(',') } : {}),
-      page: page.toString(),
-      size: size.toString(),
-      sort: `${sortField},${sortDirection.toLowerCase()}`
+    return params;
+  }
+  
+  private applyCategoriesFilter(params: HttpParams, filters: TagFilters): HttpParams {
+    if (Array.isArray(filters.categories) && filters.categories.length > 0) {
+      return params.set('categories', filters.categories.join(','));
+    }
+
+    return params;
+  }
+
+  private handleError<T>(fallback: T, message: string) {
+    return (err: unknown): Observable<T> => {
+      const apiMessage = (err as { error?: { message?: string } }).error?.message;
+      this.notificationService.error(apiMessage || message);
+
+      return of(fallback);
     };
+  }
 
-    return this.http.get<ResponseDto<PageResponse<Tag>>>(this.tagUrl, { params: httpParams }).pipe(
-      map((response) => response.data),
+  private fetchTags(sortParams: SortingParams, paginationParams: PaginationParams, filteringParams: TagFilteringParams): Observable<Tag[]> {
+    const params = this.buildHttpParams(sortParams, paginationParams, filteringParams);
+
+    return this.http.get<ResponseDto<PageResponse<Tag>>>(this.tagUrl, { params }).pipe(
+      map((response) => ({
+        content: response.data.content,
+        first: response.data.first,
+        last: response.data.last,
+        totalPages: response.data.totalPages
+      })),
       tap((pageData) => {
-        this.setTags(pageData?.content || []);
+        this.setTags(pageData.content);
         this.pageInfo.next({
-          first: pageData?.first ?? true,
-          last: pageData?.last ?? true,
-          totalPages: pageData?.totalPages ?? 0
+          first: pageData.first,
+          last: pageData.last,
+          totalPages: pageData.totalPages
         });
       }),
-      map((pageData) => pageData?.content || []),
-      catchError((err) => {
-        this.notificationService.error(err.error?.message || 'Failed to fetch the list of tags');
-        return of(this.tags.value);
-      })
+      map((pageData) => pageData.content),
+      catchError(this.handleError(this.tags.value, 'Failed to fetch the list of tags'))
     );
   }
 
   private createTagRequest(tag: TagCreateDto): Observable<Tag> {
     return this.http.post<ResponseDto<Tag>>(this.tagAdminUrl, tag).pipe(
       map((response) => response.data),
-      tap((newTag) => {
-        if (newTag) {
-          this.notificationService.success('Tag has been created successfully');
-          this.loadTags();
-        }
+      tap(() => {
+        this.notificationService.success('Tag has been created successfully');
+        this.loadTags();
       }),
-      catchError((err) => {
-        this.notificationService.error(err.error?.message || 'Failed to create the tag');
-        return of(err.error);
-      })
+      catchError(this.handleError({} as Tag, 'Failed to create the tag'))
     );
   }
 
   private updateTagRequest(tag: TagCreateDto, tagId: UUIDTypes): Observable<Tag> {
-    return this.http.put<ResponseDto<Tag>>(`${this.tagAdminUrl}/${tagId}`, tag).pipe(
+    return this.http.put<ResponseDto<Tag>>(`${this.tagAdminUrl}/${String(tagId)}`, tag).pipe(
       map((response) => response.data),
-      tap((updatedTag) => {
-        if (updatedTag) {
-          this.notificationService.success('Tag has been updated successfully');
-          this.loadTags();
-        }
+      tap(() => {
+        this.notificationService.success('Tag has been updated successfully');
+        this.loadTags();
       }),
-      catchError((err) => {
-        this.notificationService.error(err.error?.message || 'Failed to update the tag');
-        return of(err.error);
-      })
+      catchError(this.handleError({} as Tag, 'Failed to update the tag'))
     );
   }
 
   private deleteTagRequest(tagId: UUIDTypes): Observable<void> {
-    return this.http.delete<ResponseDto<void>>(`${this.tagAdminUrl}/${tagId}`).pipe(
+    return this.http.delete<ResponseDto<void>>(`${this.tagAdminUrl}/${String(tagId)}`).pipe(
       map((response) => response.data),
       tap(() => {
         this.notificationService.success('Tag has been deleted successfully');
         this.loadTags();
       }),
-      catchError((err) => {
-        this.notificationService.error(err.error?.message || 'Failed to delete the tag');
-        return of(err.error);
-      })
+      catchError(this.handleError(undefined, 'Failed to delete the tag'))
     );
   }
     
-  loadTags(sortParams?: SortingParams, filteringParams?: TagFilteringParams): void {
+  public loadTags(sortParams?: SortingParams, filteringParams?: TagFilteringParams): void {
     if (sortParams) {
       this.sortParams.next(sortParams);
     }
@@ -136,51 +155,48 @@ export class TagsService {
     }
   }
 
-  setSortParams(params: SortingParams): void {
+  public setSortParams(params: SortingParams): void {
     this.sortParams.next(params);
   }
 
-  setFilteringParams(params: TagFilteringParams): void {
+  public setFilteringParams(params: TagFilteringParams): void {
     this.filteringParams.next(params);
   }
 
-  setTags(tags: Tag[]): void {
-    if (!tags) return;
+  public setTags(tags: Tag[]): void {
     this.tags.next(tags);
   }
 
-  getTags(): Tag[] {
+  public getTags(): Tag[] {
     return this.tags.value;
   }
 
-  createTag(tag: TagCreateDto): Observable<Tag> {
+  public createTag(tag: TagCreateDto): Observable<Tag> {
     return this.createTagRequest(tag);
   }
 
-  updateTag(updatedTag: TagCreateDto, tagId: UUIDTypes): Observable<Tag> {
+  public updateTag(updatedTag: TagCreateDto, tagId: UUIDTypes): Observable<Tag> {
     return this.updateTagRequest(updatedTag, tagId);
   }
 
-  deleteTag(tagId: UUIDTypes): Observable<void> {
+  public deleteTag(tagId: UUIDTypes): Observable<void> {
     return this.deleteTagRequest(tagId);
   }
 
-  generateId(): UUIDTypes {
+  public generateId(): UUIDTypes {
     return uuidv4();
   }
 
-  getTagIndexById(tagId: UUIDTypes): number {
+  public getTagIndexById(tagId: UUIDTypes): number {
     const currentTags = this.tags.value;
-    return currentTags.findIndex(tag => tag.id === tagId);
+
+    return currentTags.findIndex((tag) => tag.id === tagId);
   }
 
-  getTagsByCategoryId(categoryId: UUIDTypes): Observable<Tag[]> {
-    return this.http.get<ResponseDto<{ content: Tag[] }>>(`${this.tagUrl}/category/${categoryId}`).pipe(
-      map((response) => response.data?.content || []),
-      catchError((err) => {
-        this.notificationService.error(err.error?.message || 'Failed to fetch tags for the category');
-        return of([]);
-      })
+  public getTagsByCategoryId(categoryId: UUIDTypes): Observable<Tag[]> {
+    return this.http.get<ResponseDto<{ content: Tag[] }>>(`${this.tagUrl}/category/${String(categoryId)}`).pipe(
+      map((response) => response.data.content),
+      catchError(this.handleError<Tag[]>([], 'Failed to fetch tags for the category'))
     );
   }
 }

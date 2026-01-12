@@ -1,25 +1,25 @@
 import { Routes } from '@angular/router';
-import { TagList } from './tag-list/tag-list';
-import { TagForm } from './tag-form/tag-form';
-import { TagDetails } from './tag-details/tag-details';
+import { TagListComponent } from './tag-list/tag-list';
+import { TagFormComponent } from './tag-form/tag-form';
+import { TagDetailsComponent } from './tag-details/tag-details';
 
 export const TAG_ROUTES: Routes = [
     {
         path: '',
-        component: TagList
+        component: TagListComponent
     },
     {
         path: 'form',
-        component: TagForm,
+        component: TagFormComponent,
         title: 'Create Tag'
     },
     {
         path: ':id/details',
-        component: TagDetails
+        component: TagDetailsComponent
     },
     {
         path: ':id/form',
-        component: TagForm,
+        component: TagFormComponent,
         title: 'Edit Tag'
     }
 ];

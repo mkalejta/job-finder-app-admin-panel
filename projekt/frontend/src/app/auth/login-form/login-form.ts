@@ -1,8 +1,13 @@
 import { Component, inject, OnInit } from '@angular/core';
 import { AuthService } from '../auth.service';
 import { Router } from '@angular/router';
-import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
+import { FormBuilder, FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { NotificationService } from '../../core/services/notification.service';
+
+interface LoginFormGroup {
+  username: FormControl<string | null>;
+  password: FormControl<string | null>;
+}
 
 @Component({
   selector: 'app-login-form',
@@ -10,35 +15,36 @@ import { NotificationService } from '../../core/services/notification.service';
   templateUrl: './login-form.html',
   styleUrl: './login-form.scss',
 })
-export class LoginForm implements OnInit {
-  private fb = inject(FormBuilder);
-  private authService = inject(AuthService);
-  private router = inject(Router);
-  private notificationService = inject(NotificationService);
-  loginForm!: FormGroup;
+export class LoginFormComponent implements OnInit {
+  private readonly fb = inject(FormBuilder);
+  private readonly authService = inject(AuthService);
+  private readonly router = inject(Router);
+  private readonly notificationService = inject(NotificationService);
+  public loginForm!: FormGroup<LoginFormGroup>;
 
-  ngOnInit(): void {
-    this.loginForm = this.fb.group({
-      username: ['', [Validators.required, Validators.minLength(4)]],
-      password: ['', [Validators.required, Validators.minLength(8)]],
+  public ngOnInit(): void {
+    this.loginForm = this.fb.group<LoginFormGroup>({
+      username: new FormControl('', [Validators.required, Validators.minLength(4)]),
+      password: new FormControl('', [Validators.required, Validators.minLength(8)]),
     });
   }
 
-  onSubmit(): void {
+  public onSubmit(): void {
     if (this.loginForm.invalid) {
       this.loginForm.markAllAsTouched();
       this.notificationService.warning('Please fill in the form correctly.');
+
       return;
     }
 
     const formValue = this.loginForm.value;
 
-    this.authService.login({ loginData: formValue.username, password: formValue.password }).subscribe({
+    this.authService.login({ loginData: String(formValue.username), password: String(formValue.password) }).subscribe({
       next: () => {
         this.notificationService.success('Successfully logged in');
         this.router.navigate(['/']);
       },
-      error: (err) => {
+      error: (err: Error) => {
         if (err instanceof Error && err.message === 'FORBIDDEN_ROLE') {
           return;
         }
@@ -47,11 +53,11 @@ export class LoginForm implements OnInit {
     });
   }
 
-  get username() {
-    return this.loginForm.get('username');
+  public get username(): FormControl<string | null> {
+    return this.loginForm.controls.username;
   }
 
-  get password() {
-    return this.loginForm.get('password');
+  public get password(): FormControl<string | null> {
+    return this.loginForm.controls.password;
   }
 }

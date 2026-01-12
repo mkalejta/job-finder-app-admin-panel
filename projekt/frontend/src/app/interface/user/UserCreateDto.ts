@@ -1,4 +1,4 @@
-export default interface UserCreateDto {
+export interface UserCreateDto {
   username: string;
   email: string;
   phoneNumber: string;
@@ -6,4 +6,4 @@ export default interface UserCreateDto {
   firstName: string;
   lastName: string;
   profileDescription: string;
-}
+};

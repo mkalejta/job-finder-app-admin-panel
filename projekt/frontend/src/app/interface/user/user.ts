@@ -1,6 +1,6 @@
 import { UUIDTypes } from "uuid";
 
-export default interface User {
+export interface User {
     id: UUIDTypes;
     username: string;
     email: string;
@@ -12,4 +12,4 @@ export default interface User {
     profilePhoto?: string;
     createdAt: Date;
     updatedAt: Date;
-}
+};

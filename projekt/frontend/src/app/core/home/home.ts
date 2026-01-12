@@ -9,17 +9,17 @@ import { MatIconModule } from '@angular/material/icon';
   templateUrl: './home.html',
   styleUrl: './home.scss',
 })
-export class Home {
+export class HomeComponent {
   private router = inject(Router);
   private authService = inject(AuthService);
-  isAuth = !!this.authService.getToken();
-  user = this.authService.getUserData();
+  public isAuth = !!this.authService.getToken();
+  public user = this.authService.getUserData();
 
-  goToLoginForm(): void {
+  public goToLoginForm(): void {
     this.router.navigate(['/login']);
   }
 
-  logout(): void {
+  public logout(): void {
     this.authService.logout();
   }
 }

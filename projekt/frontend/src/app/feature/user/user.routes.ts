@@ -1,25 +1,25 @@
 import { Routes } from '@angular/router';
-import { UsersList } from './users-list/users-list';
-import { UserDetails } from './user-details/user-details';
-import { UserForm } from './user-form/user-form';
+import { UsersListComponent } from './users-list/users-list';
+import { UserDetailsComponent } from './user-details/user-details';
+import { UserFormComponent } from './user-form/user-form';
 
 export const USER_ROUTES: Routes = [
     {
         path: '',
-        component: UsersList
+        component: UsersListComponent
     },
     {
         path: 'form',
-        component: UserForm,
+        component: UserFormComponent,
         title: 'Create User'
     },
     {
         path: ':id/details',
-        component: UserDetails
+        component: UserDetailsComponent
     },
     {
         path: ':id/form',
-        component: UserForm,
+        component: UserFormComponent,
         title: 'Edit User'
     }
 ];

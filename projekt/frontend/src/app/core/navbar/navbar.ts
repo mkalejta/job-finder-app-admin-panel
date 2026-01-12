@@ -1,8 +1,8 @@
 import { Component, OnInit, OnDestroy, inject, signal } from '@angular/core';
 import { RouterLink, RouterLinkActive } from "@angular/router";
 import { UserInitial } from '../../interface/user/UserInitials';
-import { UserInitials } from '../../shared/user-initials/user-initials';
-import User from '../../interface/user/User';
+import { UserInitialsComponent } from '../../shared/user-initials/user-initials';
+import { User } from '../../interface/user/User';
 import { AuthService } from '../../auth/auth.service';
 import { ThemeService } from '../services/theme.service';
 import { Subject } from 'rxjs';
@@ -14,25 +14,25 @@ const USERNAME = "username";
 
 @Component({
   selector: 'app-navbar',
-  imports: [RouterLink, RouterLinkActive, UserInitials, MatIconModule],
+  imports: [RouterLink, RouterLinkActive, UserInitialsComponent, MatIconModule],
   templateUrl: './navbar.html',
   styleUrl: './navbar.scss',
 })
-export class Navbar implements OnInit, OnDestroy {
+export class NavbarComponent implements OnInit, OnDestroy {
   private authService = inject(AuthService);
   protected themeService = inject(ThemeService);
   private destroy$ = new Subject<void>();
 
-  userInitials?: UserInitial;
-  user?: User;
-  usernameOrInitials = signal<typeof USER_INITIALS | typeof USERNAME>(USER_INITIALS);
+  public userInitials?: UserInitial;
+  public user?: User;
+  public usernameOrInitials = signal<'userInitials' | 'username'>(USER_INITIALS);
 
-  ngOnInit(): void {
+  public ngOnInit(): void {
     this.extractUsernameOrInitials();
     
     this.authService.userData$
       .pipe(takeUntil(this.destroy$))
-      .subscribe((user) => {
+      .subscribe((user: User | null) => {
         if (user) {
           this.user = user;
           this.userInitials = {
@@ -46,7 +46,7 @@ export class Navbar implements OnInit, OnDestroy {
       });
   }
 
-  ngOnDestroy(): void {
+  public ngOnDestroy(): void {
     this.destroy$.next();
     this.destroy$.complete();
   }
@@ -54,16 +54,16 @@ export class Navbar implements OnInit, OnDestroy {
   private extractUsernameOrInitials(): void {
     const usernameOrInitials = localStorage.getItem('usernameOrInitials');
     if (usernameOrInitials) {
-      this.usernameOrInitials.set(JSON.parse(usernameOrInitials));
+      this.usernameOrInitials.set(JSON.parse(usernameOrInitials) as 'userInitials' | 'username');
     }
   }
 
-  toggleUsernameOrInitials() {
+  public toggleUsernameOrInitials(): void {
     this.usernameOrInitials.set(this.usernameOrInitials() === USER_INITIALS ? USERNAME : USER_INITIALS);
     localStorage.setItem('usernameOrInitials', JSON.stringify(this.usernameOrInitials()));
   }
 
-  toggleTheme() {
+  public toggleTheme(): void {
     this.themeService.toggleTheme();
   }
 }

@@ -1,4 +1,4 @@
-export default interface UserUpdateDto {
+export interface UserUpdateDto {
     username: string;
     email: string;
     phoneNumber: string;

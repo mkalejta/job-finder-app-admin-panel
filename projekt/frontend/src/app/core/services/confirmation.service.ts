@@ -33,7 +33,7 @@ export class ConfirmationService {
     return `${Date.now()}_${Math.random().toString(36).substr(2, 9)}`;
   }
 
-  confirm(config: ConfirmationConfig): Observable<boolean> {
+  public confirm(config: ConfirmationConfig): Observable<boolean> {
     const subject = new Subject<boolean>();
     
     const dialogData: ConfirmationDialogData = {
@@ -53,7 +53,7 @@ export class ConfirmationService {
     return subject.asObservable();
   }
 
-  confirmDanger(title: string, message: string, requireText = false): Observable<boolean> {
+  public confirmDanger(title: string, message: string, requireText: boolean = false): Observable<boolean> {
     return this.confirm({
       title,
       message,
@@ -65,7 +65,7 @@ export class ConfirmationService {
     });
   }
 
-  confirmWarning(title: string, message: string): Observable<boolean> {
+  public confirmWarning(title: string, message: string): Observable<boolean> {
     return this.confirm({
       title,
       message,
@@ -75,7 +75,7 @@ export class ConfirmationService {
     });
   }
 
-  confirmInfo(title: string, message: string): Observable<boolean> {
+  public confirmInfo(title: string, message: string): Observable<boolean> {
     return this.confirm({
       title,
       message,
@@ -85,7 +85,7 @@ export class ConfirmationService {
     });
   }
 
-  handleConfirm(): void {
+  public handleConfirm(): void {
     const dialog = this.currentDialog();
     if (dialog) {
       dialog.subject.next(true);
@@ -94,7 +94,7 @@ export class ConfirmationService {
     }
   }
 
-  handleCancel(): void {
+  public handleCancel(): void {
     const dialog = this.currentDialog();
     if (dialog) {
       dialog.subject.next(false);
@@ -103,7 +103,7 @@ export class ConfirmationService {
     }
   }
 
-  close(): void {
+  public close(): void {
     this.handleCancel();
   }
 }

@@ -18,7 +18,7 @@ import { Notification, NotificationService } from '../services/notification.serv
     ])
   ]
 })
-export class ToastNotification {
+export class ToastNotificationComponent {
   private notificationService = inject(NotificationService);
   protected notifications = this.notificationService.notifications$;
 
@@ -33,6 +33,7 @@ export class ToastNotification {
       warning: 'fa-solid fa-triangle-exclamation',
       info: 'fa-solid fa-circle-info'
     };
-    return iconMap[notification.type] || 'fa-solid fa-circle-info';
+    
+return iconMap[notification.type] || 'fa-solid fa-circle-info';
   }
 }

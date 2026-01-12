@@ -2,7 +2,7 @@ export interface FieldValidationErrorDto {
   code: ErrorCode;
   field: string;
   message: string;
-}
+};
 
 export type SuccessCode = string;
 
@@ -12,10 +12,10 @@ export interface ErrorCode {
     message: string;
 };
 
-export default interface ResponseDto<T> {
+export interface ResponseDto<T> {
   code: SuccessCode;
   message: string;
   timestamp: string;
   error?: FieldValidationErrorDto[] | null;
   data: T;
-}
+};

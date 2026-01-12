@@ -1,6 +1,6 @@
 import { UUIDTypes } from "uuid";
 
-export default interface TagCreateDto {
+export interface TagCreateDto {
     name: string;
     categoryId: UUIDTypes;
-}
+};

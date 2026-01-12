@@ -12,4 +12,4 @@ export interface JwtPayload {
   profilePhoto?: string;
   exp?: number;
   iat?: number;
-}
+};

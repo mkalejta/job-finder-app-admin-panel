@@ -1,18 +1,30 @@
 import { Component, inject, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup, FormArray, ReactiveFormsModule, Validators } from '@angular/forms';
+import { FormBuilder, FormControl, FormGroup, FormArray, ReactiveFormsModule, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { CategoryService } from '../category.service';
 import { TagsService } from '../../tag/tag.service';
 import { UUIDTypes } from 'uuid';
-import CategoryCreateDto from '../../../interface/category/CategoryCreateDto';
-import { Location } from '@angular/common';
-import Category from '../../../interface/category/Category';
-import { CategoryColor } from '../../../shared/enums/CategoryColor';
-import { CommonModule } from '@angular/common';
+import { CategoryCreateDto } from '../../../interface/category/CategoryCreateDto';
+import { Location, CommonModule } from '@angular/common';
 import { categoryAndTagValidator } from '../../../shared/validators/category-and-tag.validator';
 import { NotificationService } from '../../../core/services/notification.service';
 import { ConfirmationService } from '../../../core/services/confirmation.service';
 import { MatIconModule } from '@angular/material/icon';
+import { CategoryColor } from '../../../shared/enums/CategoryColor';
+import { Category } from '../../../interface/category/Category';
+import { Tag } from '../../../interface/tag/Tag';
+
+interface TagFormGroup {
+  id: FormControl<UUIDTypes | null>;
+  name: FormControl<string | null>;
+}
+
+interface CategoryFormGroup {
+  name: FormControl<string | null>;
+  categoryColor: FormControl<CategoryColor | null>;
+  tags: FormArray<FormGroup<TagFormGroup>>;
+  newTagName: FormControl<string | null>;
+}
 
 @Component({
   selector: 'app-category-form',
@@ -20,7 +32,7 @@ import { MatIconModule } from '@angular/material/icon';
   templateUrl: './category-form.html',
   styleUrl: './category-form.scss',
 })
-export class CategoryForm implements OnInit {
+export class CategoryFormComponent implements OnInit {
   private fb = inject(FormBuilder);
   private route = inject(ActivatedRoute);
   private router = inject(Router);
@@ -30,17 +42,17 @@ export class CategoryForm implements OnInit {
   private notificationService = inject(NotificationService);
   private confirmationService = inject(ConfirmationService);
   
-  categoryForm!: FormGroup;
-  category?: Category;
-  isEditMode = false;
-  categoryId?: UUIDTypes;
-  categoryColors = Object.values(CategoryColor);
+  public categoryForm!: FormGroup<CategoryFormGroup>;
+  public category?: Category;
+  public isEditMode = false;
+  public categoryId?: UUIDTypes;
+  public categoryColors = Object.values(CategoryColor);
 
-  ngOnInit(): void {
+  public ngOnInit(): void {
     this.initForm();
 
     this.route.params.subscribe((params) => {
-      const id = params['id'];
+      const id = params['id'] as UUIDTypes;
       if (id) {
         this.isEditMode = true;
         this.categoryId = id;
@@ -60,17 +72,15 @@ export class CategoryForm implements OnInit {
 
   private loadExistingTags(categoryId: UUIDTypes): void {
     this.tagsService.getTagsByCategoryId(categoryId).subscribe({
-      next: (tags) => {
+      next: (tags: Tag[]) => {
         const tagsArray = this.tags;
-        while (tagsArray.length > 0) {
-          tagsArray.removeAt(0);
-        }
+        tagsArray.clear();
         
-        tags.forEach(tag => {
+        tags.forEach((tag: Tag) => {
           tagsArray.push(this.fb.group({
             id: [tag.id],
             name: [tag.name]
-          }));
+          }) as FormGroup<TagFormGroup>);
         });
       },
       error: () => {
@@ -79,26 +89,27 @@ export class CategoryForm implements OnInit {
     });
   }
 
-  initForm(): void {
+  public initForm(): void {
     this.categoryForm = this.fb.group({
       name: ['', [Validators.required, categoryAndTagValidator()]],
       categoryColor: ['', [Validators.required]],
       tags: this.fb.array([]),
       newTagName: ['', [categoryAndTagValidator()]]
-    });
+    }) as unknown as FormGroup<CategoryFormGroup>;
   }
 
-  onSubmit(): void {
+  public onSubmit(): void {
     if (this.categoryForm.invalid) {
       this.categoryForm.markAllAsTouched();
       this.notificationService.warning('Please fill out all required fields correctly.');
+
       return;
     }
 
     const formValue = this.categoryForm.value;
     const categoryValues: CategoryCreateDto = {
-      name: formValue.name,
-      color: formValue.categoryColor
+      name: formValue.name!,
+      color: formValue.categoryColor!
     };
 
     if (this.isEditMode && this.categoryId && this.category) {
@@ -122,32 +133,34 @@ export class CategoryForm implements OnInit {
     }
   }
 
-  goBack(): void {
+  public goBack(): void {
     this.location.back();
   }
 
-  get name() {
-    return this.categoryForm.get('name');
+  public get name(): FormControl<string | null> {
+    return this.categoryForm.get('name') as FormControl<string | null>;
   }
 
-  get categoryColor() {
-    return this.categoryForm.get('categoryColor');
+  public get categoryColor(): FormControl<CategoryColor | null> {
+    return this.categoryForm.get('categoryColor') as FormControl<CategoryColor | null>;
   }
 
-  get newTagName() {
-    return this.categoryForm.get('newTagName');
+  public get newTagName(): FormControl<string | null> {
+    return this.categoryForm.get('newTagName') as FormControl<string | null>;
   }
 
-  onAddTag(): void {
-    const tagName = this.newTagName?.value?.trim();
-    
+  public onAddTag(): void {
+    const tagName = this.newTagName.value?.trim();
+
     if (!tagName) {
       this.notificationService.warning('Please enter a tag name.');
+
       return;
     }
 
-    if (this.newTagName?.invalid) {
+    if (this.newTagName.invalid) {
       this.notificationService.warning('Tag name must start with capital letter and contain only small letters.');
+
       return;
     }
 
@@ -162,7 +175,7 @@ export class CategoryForm implements OnInit {
 
     this.tagsService.createTag(tagDto).subscribe({
       next: () => {
-        this.newTagName?.reset();
+        this.newTagName.reset();
         this.loadExistingTags(this.categoryId!);
       },
       error: () => {
@@ -171,7 +184,7 @@ export class CategoryForm implements OnInit {
     });
   }
 
-  onDeleteTag(tagId: UUIDTypes, tagName: string): void {
+  public onDeleteTag(tagId: UUIDTypes, tagName: string): void {
     if (!this.categoryId) {
       return;
     }
@@ -179,8 +192,10 @@ export class CategoryForm implements OnInit {
     this.confirmationService.confirmDanger(
       'Delete tag',
       `Are you sure you want to delete the tag "${tagName}"? This action is irreversible.`
-    ).subscribe(confirmed => {
-      if (!confirmed) return;
+    ).subscribe((confirmed) => {
+      if (!confirmed) {
+        return;
+      }
       
       this.tagsService.deleteTag(tagId).subscribe({
         next: () => {
@@ -193,7 +208,7 @@ export class CategoryForm implements OnInit {
     });
   }
 
-  get tags(): FormArray {
-    return this.categoryForm.get('tags') as FormArray;
+  public get tags(): FormArray<FormGroup<TagFormGroup>> {
+    return this.categoryForm.get('tags') as FormArray<FormGroup<TagFormGroup>>;
   }
 }

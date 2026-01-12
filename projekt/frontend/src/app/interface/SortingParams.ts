@@ -1,4 +1,4 @@
-export default interface SortingParams {
+export interface SortingParams {
     sort?: string;
     direction?: 'ASC' | 'DESC';
-}
+};

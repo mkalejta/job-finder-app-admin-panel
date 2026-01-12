@@ -1,12 +1,12 @@
 import { Component, inject, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
-import User from '../../../interface/user/User';
+import { FormBuilder, FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
+import { User } from '../../../interface/user/User';
 import { ActivatedRoute, Router } from '@angular/router';
 import { UsersService } from '../user.service';
 import { Location } from '@angular/common';
 import { UUIDTypes } from 'uuid';
-import UserCreateDto from '../../../interface/user/UserCreateDto';
-import UserUpdateDto from '../../../interface/user/UserUpdateDto';
+import { UserCreateDto } from '../../../interface/user/UserCreateDto';
+import { UserUpdateDto } from '../../../interface/user/UserUpdateDto';
 import { passwordValidator } from '../../../shared/validators/password.validator';
 import { usernameValidator } from '../../../shared/validators/username.validator';
 import { emailValidator } from '../../../shared/validators/email.validator';
@@ -15,29 +15,39 @@ import { NotificationService } from '../../../core/services/notification.service
 import { profileInfoValidator } from '../../../shared/validators/profile-info.validator';
 import { MatIconModule } from '@angular/material/icon';
 
+interface UserFormGroup {
+  username: FormControl<string | null>;
+  email: FormControl<string | null>;
+  phoneNumber: FormControl<string | null>;
+  password: FormControl<string | null>;
+  firstName: FormControl<string | null>;
+  lastName: FormControl<string | null>;
+  profileDescription: FormControl<string | null>;
+}
+
 @Component({
   selector: 'app-user-form',
   imports: [ReactiveFormsModule, MatIconModule],
   templateUrl: './user-form.html',
   styleUrl: './user-form.scss',
 })
-export class UserForm implements OnInit {
+export class UserFormComponent implements OnInit {
   private fb = inject(FormBuilder);
   private route = inject(ActivatedRoute);
   private router = inject(Router);
   private location = inject(Location);
   private usersService = inject(UsersService);
   private notificationService = inject(NotificationService);
-  userForm!: FormGroup;
-  user?: User;
-  isEditMode = false;
-  userId?: UUIDTypes;
+  public userForm!: FormGroup<UserFormGroup>;
+  public user?: User;
+  public isEditMode = false;
+  public userId?: UUIDTypes;
 
-  ngOnInit(): void {
+  public ngOnInit(): void {
     this.initForm();
 
     this.route.params.subscribe((params) => {
-      const id = params['id'];
+      const id = params['id'] as UUIDTypes;
       if (id) {
         this.isEditMode = true;
         this.userId = id;
@@ -50,7 +60,7 @@ export class UserForm implements OnInit {
           this.userForm.patchValue({
             username: this.user.username,
             email: this.user.email,
-            phoneNumber: this.user.phoneNumber,
+            phoneNumber: String(this.user.phoneNumber),
             firstName: this.user.firstName,
             lastName: this.user.lastName,
             profileDescription: this.user.profileDescription,
@@ -60,7 +70,7 @@ export class UserForm implements OnInit {
     });
   }
 
-  initForm(): void {
+  public initForm(): void {
     this.userForm = this.fb.group({
       username: ['', [Validators.required, usernameValidator()]],
       email: ['', [Validators.required, emailValidator()]],
@@ -72,10 +82,11 @@ export class UserForm implements OnInit {
     });
   }
 
-  onSubmit(): void {
+  public onSubmit(): void {
     if (this.userForm.invalid) {
       this.userForm.markAllAsTouched();
       this.notificationService.warning('Please fill out all required fields correctly.');
+
       return;
     }
 
@@ -83,12 +94,12 @@ export class UserForm implements OnInit {
 
     if (this.isEditMode && this.userId && this.user) {
       const updatedUser: UserUpdateDto = {
-        username: formValue.username,
-        email: formValue.email,
-        phoneNumber: formValue.phoneNumber,
-        firstName: formValue.firstName,
-        lastName: formValue.lastName,
-        profileDescription: formValue.profileDescription
+        username: formValue.username!,
+        email: formValue.email!,
+        phoneNumber: formValue.phoneNumber!,
+        firstName: formValue.firstName!,
+        lastName: formValue.lastName!,
+        profileDescription: formValue.profileDescription!
       };
       this.usersService.updateUser(updatedUser, this.userId).subscribe({
         next: () => {
@@ -100,13 +111,13 @@ export class UserForm implements OnInit {
       });
     } else {
       const newUser: UserCreateDto = {
-        username: formValue.username,
-        email: formValue.email,
-        phoneNumber: formValue.phoneNumber,
-        password: formValue.password,
-        firstName: formValue.firstName,
-        lastName: formValue.lastName,
-        profileDescription: formValue.profileDescription
+        username: formValue.username!,
+        email: formValue.email!,
+        phoneNumber: formValue.phoneNumber!,
+        password: formValue.password!,
+        firstName: formValue.firstName!,
+        lastName: formValue.lastName!,
+        profileDescription: formValue.profileDescription!
       };
       this.usersService.createUser(newUser).subscribe({
         next: () => {
@@ -119,35 +130,35 @@ export class UserForm implements OnInit {
     }
   }
 
-  goBack(): void {
+  public goBack(): void {
     this.location.back();
   }
 
-  get username() {
-    return this.userForm.get('username');
+  public get username(): FormControl<string | null> {
+    return this.userForm.get('username') as FormControl<string | null>;
   }
 
-  get email() {
-    return this.userForm.get('email');
+  public get email(): FormControl<string | null> {
+    return this.userForm.get('email') as FormControl<string | null>;
   }
   
-  get phoneNumber() {
-    return this.userForm.get('phoneNumber');
+  public get phoneNumber(): FormControl<string | null> {
+    return this.userForm.get('phoneNumber') as FormControl<string | null>;
   }
 
-  get password() {
-    return this.userForm.get('password');
+  public get password(): FormControl<string | null> {
+    return this.userForm.get('password') as FormControl<string | null>;
   }
 
-  get firstName() {
-    return this.userForm.get('firstName');
+  public get firstName(): FormControl<string | null> {
+    return this.userForm.get('firstName') as FormControl<string | null>;
   }
 
-  get lastName() {
-    return this.userForm.get('lastName');
+  public get lastName(): FormControl<string | null> {
+    return this.userForm.get('lastName') as FormControl<string | null>;
   }
 
-  get profileDescription() {
-    return this.userForm.get('profileDescription');
+  public get profileDescription(): FormControl<string | null> {
+    return this.userForm.get('profileDescription') as FormControl<string | null>;
   }
 }

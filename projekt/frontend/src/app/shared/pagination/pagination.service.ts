@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { BehaviorSubject, Observable } from 'rxjs';
-import PaginationParams from '../../interface/PaginationParams';
+import { PaginationParams } from '../../interface/PaginationParams';
 
 @Injectable({
   providedIn: 'root',
@@ -13,27 +13,27 @@ export class PaginationService {
     size: this.defaultPageSize,
   });
 
-  pagination$: Observable<PaginationParams> = this.paginationSubject.asObservable();
+  public pagination$: Observable<PaginationParams> = this.paginationSubject.asObservable();
 
-  setPagination(params: PaginationParams): void {
+  public setPagination(params: PaginationParams): void {
     this.paginationSubject.next(params);
   }
 
-  getPagination(): PaginationParams {
+  public getPagination(): PaginationParams {
     return this.paginationSubject.value;
   }
 
-  setPage(page: number): void {
+  public setPage(page: number): void {
     const current = this.paginationSubject.value;
     this.paginationSubject.next({ ...current, page });
   }
 
-  setPageSize(size: number): void {
+  public setPageSize(size: number): void {
     const current = this.paginationSubject.value;
     this.paginationSubject.next({ ...current, size });
   }
 
-  reset(): void {
+  public reset(): void {
     this.paginationSubject.next({
       page: this.defaultPage,
       size: this.defaultPageSize,

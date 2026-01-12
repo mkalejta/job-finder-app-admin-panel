@@ -7,12 +7,12 @@ import { UserInitial } from '../../interface/user/UserInitials';
   templateUrl: './user-initials.html',
   styleUrls: ['./user-initials.scss'],
 })
-export class UserInitials implements OnInit, OnChanges {
-  @Input() userInitials: UserInitial = { firstName: '', lastName: '', size: 40 };
+export class UserInitialsComponent implements OnInit, OnChanges {
+  @Input() public userInitials: UserInitial = { firstName: '', lastName: '', size: 40 };
 
-  backgroundColor = '';
-  initials = '';
-  avatarSize = 40;
+  public backgroundColor = '';
+  public initials = '';
+  public avatarSize = 40;
 
   private colors: string[] = [
     '#e74c3c',
@@ -29,31 +29,31 @@ export class UserInitials implements OnInit, OnChanges {
     '#9b59b6',
   ];
 
-  ngOnInit(): void {
+  public ngOnInit(): void {
     this.updateAvatar();
   }
 
-  ngOnChanges(_changes: SimpleChanges): void {
+  public ngOnChanges(_changes: SimpleChanges): void {
     void _changes;
     this.updateAvatar();
   }
 
   private updateAvatar(): void {
-    if (!this.userInitials) return;
-
     this.avatarSize = this.userInitials.size ?? 40;
     this.initials = this.getInitials();
     this.backgroundColor = this.getRandomColor();
   }
 
   private getInitials(): string {
-    const firstInitial = this.userInitials.firstName?.charAt(0)?.toUpperCase() || '';
-    const lastInitial = this.userInitials.lastName?.charAt(0)?.toUpperCase() || '';
+    const firstInitial = this.userInitials.firstName.charAt(0).toUpperCase() || '';
+    const lastInitial = this.userInitials.lastName.charAt(0).toUpperCase() || '';
+
     return `${firstInitial}${lastInitial}`;
   }
 
   private getRandomColor(): string {
     const randomIndex = Math.floor(Math.random() * this.colors.length);
+
     return this.colors[randomIndex];
   }
 }

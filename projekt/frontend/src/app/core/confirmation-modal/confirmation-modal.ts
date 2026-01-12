@@ -11,7 +11,7 @@ import { MatIconModule } from '@angular/material/icon';
   templateUrl: './confirmation-modal.html',
   styleUrl: './confirmation-modal.scss'
 })
-export class ConfirmationModal {
+export class ConfirmationModalComponent {
   private confirmationService = inject(ConfirmationService);
   protected dialog = this.confirmationService.currentDialog$;
   protected userInput = signal('');
@@ -19,7 +19,7 @@ export class ConfirmationModal {
 
   protected readonly ConfirmationType = ConfirmationType;
 
-  constructor() {
+  public constructor() {
     effect(() => {
       const currentDialog = this.dialog();
       if (currentDialog?.requireTextConfirmation && currentDialog.confirmationText) {
@@ -66,6 +66,7 @@ export class ConfirmationModal {
       [ConfirmationType.WARNING]: 'error',
       [ConfirmationType.INFO]: 'info'
     };
-    return iconMap[dialog.type || ConfirmationType.INFO];
+    
+return iconMap[dialog.type || ConfirmationType.INFO];
   }
 }

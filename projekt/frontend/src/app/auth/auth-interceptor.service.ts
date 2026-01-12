@@ -2,46 +2,48 @@ import { HttpErrorResponse, HttpEvent, HttpHandler, HttpInterceptor, HttpRequest
 import { inject, Injectable } from '@angular/core';
 import { catchError, switchMap, throwError, BehaviorSubject, filter, take, Observable, of } from 'rxjs';
 import { AuthService } from './auth.service';
-import ErrorAccessTokenResponseDto from '../interface/ErrorAccessTokenResponseDto';
+import { ErrorAccessTokenResponseDto } from '../interface/ErrorAccessTokenResponseDto';
 
 @Injectable()
 export class AuthInterceptor implements HttpInterceptor {
-  private authService = inject(AuthService);
+  private readonly authService = inject(AuthService);
   private isRefreshing = false;
-  private refreshTokenSubject: BehaviorSubject<string | null> = new BehaviorSubject<string | null>(null);
+  private readonly refreshTokenSubject: BehaviorSubject<string | null> = new BehaviorSubject<string | null>(null);
 
-  intercept(req: HttpRequest<unknown>, next: HttpHandler): Observable<HttpEvent<unknown>> {
+  public intercept(req: HttpRequest<unknown>, next: HttpHandler): Observable<HttpEvent<unknown>> {
     const isLogin = req.url.includes('/auth/login');
     const isRotate = req.url.includes('/refresh-token/rotate');
     const token = localStorage.getItem('accessToken');
+    let modifiedReq = req;
 
     if (!isLogin && !isRotate && token) {
-      req = this.addTokenToRequest(req, token);
+      modifiedReq = this.addTokenToRequest(req, token);
     }
 
-    return next.handle(req).pipe(
-      switchMap((event) => {
+    return next.handle(modifiedReq).pipe(
+      switchMap((event: HttpEvent<unknown>) => {
         if (
           event instanceof HttpResponse &&
           !isLogin &&
           !isRotate &&
-          !req.headers.has('x-refresh-retry')
+          !modifiedReq.headers.has('x-refresh-retry')
         ) {
-          const body: ErrorAccessTokenResponseDto = event.body;
-          const invalidCode = body && body.code === 'INVALID_ACCESS_TOKEN';
+          const body = event.body as ErrorAccessTokenResponseDto;
+          const invalidCode = body.code === 'INVALID_ACCESS_TOKEN';
 
           if (invalidCode) {
-            return this.handle401Error(req, next);
+            return this.handle401Error(modifiedReq, next);
           }
         }
 
         return of(event);
       }),
       catchError((error: HttpErrorResponse) => {
-        const shouldAttemptRefresh = !isLogin && !isRotate && ((error.status === 401 || error.status === 403) || error.error?.code === 'INVALID_ACCESS_TOKEN');
+        const errorBody = error.error as ErrorAccessTokenResponseDto | undefined;
+        const shouldAttemptRefresh = !isLogin && !isRotate && ((error.status === 401 || error.status === 403) || errorBody?.code === 'INVALID_ACCESS_TOKEN');
 
         if (shouldAttemptRefresh) {
-          return this.handle401Error(req, next);
+          return this.handle401Error(modifiedReq, next);
         }
 
         return throwError(() => error);
@@ -61,14 +63,15 @@ export class AuthInterceptor implements HttpInterceptor {
         return this.authService.rotateTokens({ refreshToken, refreshTokenId }).pipe(
           switchMap((response) => {
             this.isRefreshing = false;
-            const newToken = response.data!.accessToken;
+            const newToken = response.data.accessToken;
             this.refreshTokenSubject.next(newToken);
 
             return next.handle(this.addTokenToRequest(request, newToken, true));
           }),
-          catchError((error) => {
+          catchError((error: Error) => {
             this.isRefreshing = false;
             this.authService.logout();
+
             return throwError(() => error);
           })
         );
@@ -76,17 +79,18 @@ export class AuthInterceptor implements HttpInterceptor {
 
       this.isRefreshing = false;
       this.authService.logout();
+
       return throwError(() => new Error('Brak tokenu odświeżania'));
     }
 
     return this.refreshTokenSubject.pipe(
-      filter(token => token !== null),
+      filter((token: string | null): token is string => token !== null),
       take(1),
-      switchMap(token => next.handle(this.addTokenToRequest(request, token!, true)))
+      switchMap((token: string) => next.handle(this.addTokenToRequest(request, token, true)))
     );
   }
 
-  private addTokenToRequest(request: HttpRequest<unknown>, token: string, markRetry = false): HttpRequest<unknown> {
+  private addTokenToRequest(request: HttpRequest<unknown>, token: string, markRetry: boolean = false): HttpRequest<unknown> {
     return request.clone({
       setHeaders: {
         Authorization: `Bearer ${token}`,

@@ -1,17 +1,17 @@
 import { HttpClient } from '@angular/common/http';
 import { inject, Injectable } from '@angular/core';
 import { BehaviorSubject, catchError, combineLatest, map, Observable, of, tap } from 'rxjs';
-import Category from '../../interface/category/Category';
+import { Category } from '../../interface/category/Category';
 import { environment } from '../../../environments/environment';
-import ResponseDto from '../../interface/ResponseDto';
+import { ResponseDto }from '../../interface/ResponseDto';
 import { FilteringParams } from '../../interface/FilteringParams';
-import PageResponse from '../../interface/PageResponse';
-import SortingParams from '../../interface/SortingParams';
-import PaginationParams from '../../interface/PaginationParams';
+import { PageResponse } from '../../interface/PageResponse';
+import { SortingParams } from '../../interface/SortingParams';
 import { PaginationService } from '../../shared/pagination/pagination.service';
 import { UUIDTypes } from 'uuid';
-import CategoryCreateDto from '../../interface/category/CategoryCreateDto';
+import { CategoryCreateDto } from '../../interface/category/CategoryCreateDto';
 import { NotificationService } from '../../core/services/notification.service';
+import { PaginationParams } from '../../interface/PaginationParams';
 
 export interface CategoryFilters {
   [key: string]: unknown;
@@ -33,10 +33,10 @@ export class CategoryService {
   private categoryAdminUrl = environment.apiUrl + '/admin/category';
   private sortParams = new BehaviorSubject<SortingParams>({});
   private filteringParams = new BehaviorSubject<CategoryFilteringParams>({ filters: {} });
-  categories$: Observable<Category[] | []> = this.categories.asObservable();
-  pageInfo$: Observable<{ first: boolean; last: boolean; totalPages: number }> = this.pageInfo.asObservable();
+  public categories$: Observable<Category[] | []> = this.categories.asObservable();
+  public pageInfo$: Observable<{ first: boolean; last: boolean; totalPages: number }> = this.pageInfo.asObservable();
 
-  constructor() {
+  public constructor() {
     combineLatest([
       this.sortParams.asObservable(),
       this.paginationService.pagination$,
@@ -47,114 +47,126 @@ export class CategoryService {
   }
 
   private fetchCategories(sortParams: SortingParams, paginationParams: PaginationParams, filteringParams: CategoryFilteringParams): Observable<Category[]> {
-    const sortField = sortParams?.sort || 'name';
-    const sortDirection = (sortParams?.direction || 'ASC').toUpperCase();
-    const page = paginationParams?.page || 0;
-    const size = paginationParams?.size || 20;
-    const filters = filteringParams?.filters || {};
+    const sortField = sortParams.sort || 'name';
+    const sortDirection = (sortParams.direction || 'ASC').toUpperCase();
+    const page = paginationParams.page || 0;
+    const size = paginationParams.size || 20;
+    const filters = filteringParams.filters;
 
-    const httpParams = {
-      ...(filters.name && typeof filters.name === 'string' && filters.name.trim() !== '' ? { name: filters.name.trim() } : {}),
-      page: page.toString(),
-      size: size.toString(),
-      sort: `${sortField},${sortDirection.toLowerCase()}`
-    };
+    const httpParams = this.buildHttpParams(filters, page, size, sortField, sortDirection);
 
     return this.http.get<ResponseDto<PageResponse<Category>>>(this.categoryUrl, { params: httpParams }).pipe(
       map((response) => response.data),
       tap((pageData) => {
-        this.setCategories(pageData?.content || []);
-        this.pageInfo.next({
-          first: pageData?.first ?? true,
-          last: pageData?.last ?? true,
-          totalPages: pageData?.totalPages ?? 0
-        });
+        this.updatePageData(pageData);
       }),
-      map((pageData) => pageData?.content || []),
-      catchError((err) => {
+      map((pageData) => pageData.content ),
+      catchError((err: { error?: { message?: string } }) => {
         this.notificationService.error(err.error?.message || 'Could not fetch categories');
+
         return of(this.categories.value);
       })
     );
   }
 
+  private buildHttpParams(filters: CategoryFilters, page: number, size: number, sortField: string, sortDirection: string): Record<string, string> {
+    const params: Record<string, string> = {
+      page: page.toString(),
+      size: size.toString(),
+      sort: `${sortField},${sortDirection.toLowerCase()}`
+    };
+
+    if (filters.name && typeof filters.name === 'string' && filters.name.trim() !== '') {
+      params['name'] = filters.name.trim();
+    }
+
+    return params;
+  }
+
+  private updatePageData(pageData: PageResponse<Category>): void {
+    this.setCategories(pageData.content );
+    this.pageInfo.next({
+      first: pageData.first,
+      last: pageData.last,
+      totalPages: pageData.totalPages
+    });
+  }
+
   private createCategoryRequest(category: CategoryCreateDto): Observable<Category> {
     return this.http.post<ResponseDto<Category>>(this.categoryAdminUrl, category).pipe(
       map((response) => response.data),
-      tap((newCategory) => {
-        if (newCategory) {
-          this.notificationService.success('Category created successfully');
-          this.loadCategories();
-        }
+      tap(() => {
+        this.notificationService.success('Category created successfully');
+        this.loadCategories();
       }),
-      catchError((err) => {
+      catchError((err: { error?: { message?: string } }) => {
         this.notificationService.error(err.error?.message || 'Could not create category');
-        return of(err.error);
+
+        return of({} as Category);
       })
     );
   }
 
-  private updateCategoryRequest(category: CategoryCreateDto, categoryId: UUIDTypes): Observable<Category> {
+  private updateCategoryRequest(category: CategoryCreateDto, categoryId: string): Observable<Category> {
     return this.http.put<ResponseDto<Category>>(`${this.categoryAdminUrl}/${categoryId}`, category).pipe(
       map((response) => response.data),
-      tap((updatedCategory) => {
-        if (updatedCategory) {
-          this.notificationService.success('Category updated successfully');
-          this.loadCategories();
-        }
+      tap(() => {
+        this.notificationService.success('Category updated successfully');
+        this.loadCategories();
       }),
-      catchError((err) => {
+      catchError((err: { error?: { message?: string } }) => {
         this.notificationService.error(err.error?.message || 'Could not update category');
-        return of(err.error);
+
+        return of({} as Category);
       })
     );
   }
 
-  private deleteCategoryRequest(categoryId: UUIDTypes): Observable<void> {
+  private deleteCategoryRequest(categoryId: string): Observable<void> {
     return this.http.delete<ResponseDto<void>>(`${this.categoryAdminUrl}/${categoryId}`).pipe(
       map((response) => response.data),
       tap(() => {
         this.notificationService.success('Category deleted successfully');
         this.loadCategories();
       }),
-      catchError((err) => {
+      catchError((err: { error?: { message?: string } }) => {
         this.notificationService.error(err.error?.message || 'Could not delete category');
-        return of(err.error);
+
+        return of(undefined as void);
       })
     );
   }
 
-  loadCategories(): void {
+  public loadCategories(): void {
     this.setSortParams({});
     this.setFilteringParams({ filters: {} });
   }
 
-  setSortParams(params: SortingParams): void {
+  public setSortParams(params: SortingParams): void {
     this.sortParams.next(params);
   }
 
-  setFilteringParams(params: CategoryFilteringParams): void {
+  public setFilteringParams(params: CategoryFilteringParams): void {
     this.filteringParams.next(params);
   }
 
-  getCategories(): Category[] {
+  public getCategories(): Category[] {
     return this.categories.value;
   }
 
-  setCategories(categories: Category[]): void {
-    if (!categories) return;
+  public setCategories(categories: Category[]): void {
     this.categories.next(categories);
   }
 
-  createCategory(category: CategoryCreateDto): Observable<Category> {
+  public createCategory(category: CategoryCreateDto): Observable<Category> {
     return this.createCategoryRequest(category);
   }
 
-  updateCategory(updatedCategory: CategoryCreateDto, categoryId: UUIDTypes): Observable<Category> {
-    return this.updateCategoryRequest(updatedCategory, categoryId);
+  public updateCategory(updatedCategory: CategoryCreateDto, categoryId: UUIDTypes): Observable<Category> {
+    return this.updateCategoryRequest(updatedCategory, categoryId as string);
   }
 
-  deleteCategory(categoryId: UUIDTypes): Observable<void> {
-    return this.deleteCategoryRequest(categoryId);
+  public deleteCategory(categoryId: UUIDTypes): Observable<void> {
+    return this.deleteCategoryRequest(categoryId as string);
   }
 }

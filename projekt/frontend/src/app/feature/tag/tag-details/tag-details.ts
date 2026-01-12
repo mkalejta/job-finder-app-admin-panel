@@ -1,11 +1,11 @@
 import { Component, inject, OnInit } from '@angular/core';
-import { ActivatedRoute, Router, RouterOutlet } from '@angular/router';
+import { ActivatedRoute, Params, Router, RouterOutlet } from '@angular/router';
 import { TagsService } from '../tag.service';
 import { UUIDTypes } from 'uuid';
 import { CommonModule } from '@angular/common';
 import { CategoryColorService } from '../../category-color.service';
 import { CategoryColor } from '../../../shared/enums/CategoryColor';
-import Tag from '../../../interface/tag/Tag';
+import { Tag } from '../../../interface/tag/Tag';
 import { ConfirmationService } from '../../../core/services/confirmation.service';
 import { MatIconModule } from '@angular/material/icon';
 
@@ -15,61 +15,77 @@ import { MatIconModule } from '@angular/material/icon';
   templateUrl: './tag-details.html',
   styleUrl: './tag-details.scss',
 })
-export class TagDetails implements OnInit {
+export class TagDetailsComponent implements OnInit {
   private categoryColorService = inject(CategoryColorService);
   private router = inject(Router);
   private route = inject(ActivatedRoute);
   private tagsService = inject(TagsService);
   private confirmationService = inject(ConfirmationService);
-  tag?: Tag;
-  tags: Tag[] | [] = [];
-  currentIndex?: number;
+  public tag?: Tag;
+  public tags: Tag[] | [] = [];
+  public currentIndex?: number;
 
-  ngOnInit(): void {
+  public ngOnInit(): void {
     this.tags = this.tagsService.getTags();
-    this.route.params.subscribe((params) => {
-      const id = params['id'];
+    this.route.params.subscribe((params: Params) => {
+      const id = params['id'] as UUIDTypes;
       this.tag = this.tags.find((tag) => tag.id === id);
       this.currentIndex = this.tagsService.getTagIndexById(id);
     });
   }
 
-  goBack(): void {
+  public goBack(): void {
     this.router.navigate(['tags']);
   }
 
-  nextTag(): void {
-    if (!this.tag || this.currentIndex === undefined) return;
-    if (this.currentIndex === this.tags.length - 1) return;
+  public nextTag(): void {
+    if (!this.tag || this.currentIndex === undefined) {
+      return;
+    }
+
+    if (this.currentIndex === this.tags.length - 1) {
+      return;
+    }
+
     this.router.navigate(['tags', this.tags[this.currentIndex + 1].id, 'details']);
   }
 
-  previousTag(): void {
-    if (!this.tag || this.currentIndex === undefined) return;
-    if (this.currentIndex === 0) return;
+  public previousTag(): void {
+    if (!this.tag || this.currentIndex === undefined) {
+      return;
+    }
+
+    if (this.currentIndex === 0) {
+      return;
+    }
+
     this.router.navigate(['tags', this.tags[this.currentIndex - 1].id, 'details']);
   }
 
-  isFirstTag(): boolean {
+  public isFirstTag(): boolean {
     return !this.tag || this.currentIndex === 0;
   }
 
-  isLastTag(): boolean {
+  public isLastTag(): boolean {
     return !this.tag || this.currentIndex === this.tags.length - 1;
   }
 
-  goToTagForm(tag: Tag): void {
+  public goToTagForm(tag: Tag): void {
     this.router.navigate([tag.id, 'form'], { relativeTo: this.route.parent });
   }
 
-  deleteTag(tagId: UUIDTypes): void {
-    if (this.currentIndex === undefined) return;
+  public deleteTag(tagId: UUIDTypes): void {
+    if (this.currentIndex === undefined) {
+      return;
+    }
     
     this.confirmationService.confirmDanger(
       'Delete tag',
       `Are you sure you want to delete the tag "${this.tag?.name}"? This action is irreversible.`
-    ).subscribe(confirmed => {
-      if (!confirmed) return;
+    ).subscribe((confirmed) => {
+      if (!confirmed) {
+        return;
+      }
       
       const nextIndex = this.currentIndex! < this.tags.length - 1 
         ? this.currentIndex! 
@@ -91,11 +107,11 @@ export class TagDetails implements OnInit {
     });
   }
 
-  getTagBackgroundColor(categoryColor: CategoryColor): string {
+  public getTagBackgroundColor(categoryColor: CategoryColor): string {
     return this.categoryColorService.resolveCategoryColor(categoryColor);
   }
   
-  getTagTextColor(categoryColor: CategoryColor): string {
+  public getTagTextColor(categoryColor: CategoryColor): string {
     return this.categoryColorService.resolveTextColor(categoryColor);
   }
 }

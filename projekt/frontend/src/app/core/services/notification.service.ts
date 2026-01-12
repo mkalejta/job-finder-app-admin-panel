@@ -25,7 +25,7 @@ export class NotificationService {
     return `${Date.now()}_${Math.random().toString(36).substr(2, 9)}`;
   }
 
-  show(message: string, type: NotificationType = NotificationType.INFO, duration = 5000): void {
+  public show(message: string, type: NotificationType = NotificationType.INFO, duration: number = 5000): void {
     const notification: Notification = {
       id: this.generateId(),
       message,
@@ -33,7 +33,7 @@ export class NotificationService {
       duration
     };
 
-    this.notifications.update(current => [...current, notification]);
+    this.notifications.update((current) => [...current, notification]);
 
     if (duration > 0) {
       setTimeout(() => {
@@ -42,29 +42,29 @@ export class NotificationService {
     }
   }
 
-  success(message: string, duration?: number): void {
+  public success(message: string, duration?: number): void {
     this.show(message, NotificationType.SUCCESS, duration);
   }
 
-  error(message: string, duration?: number): void {
+  public error(message: string, duration?: number): void {
     this.show(message, NotificationType.ERROR, duration);
   }
 
-  warning(message: string, duration?: number): void {
+  public warning(message: string, duration?: number): void {
     this.show(message, NotificationType.WARNING, duration);
   }
 
-  info(message: string, duration?: number): void {
+  public info(message: string, duration?: number): void {
     this.show(message, NotificationType.INFO, duration);
   }
 
-  remove(id: string): void {
-    this.notifications.update(current => 
-      current.filter(notification => notification.id !== id)
+  public remove(id: string): void {
+    this.notifications.update((current) => 
+      current.filter((notification) => notification.id !== id)
     );
   }
 
-  clear(): void {
+  public clear(): void {
     this.notifications.set([]);
   }
 }

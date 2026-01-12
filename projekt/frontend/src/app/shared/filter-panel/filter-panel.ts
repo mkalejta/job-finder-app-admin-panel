@@ -11,21 +11,21 @@ import { FilterField } from '../../interface/FilterField';
   templateUrl: './filter-panel.html',
   styleUrl: './filter-panel.scss',
 })
-export class FilterPanel implements OnInit {
-  fields = input.required<FilterField[]>();
-  initialFilter = input<FilteringParams>({ filters: {} });
-  filterChange = output<FilteringParams>();
+export class FilterPanelComponent implements OnInit {
+  public fields = input.required<FilterField[]>();
+  public initialFilter = input<FilteringParams>({ filters: {} });
+  public filterChange = output<FilteringParams>();
 
-  isExpanded = signal(false);
-  filterValues: Record<string, unknown> = {};
+  public isExpanded = signal(false);
+  public filterValues: Record<string, unknown> = {};
   private initialFilterValues: Record<string, unknown> = {};
 
-  ngOnInit(): void {
+  public ngOnInit(): void {
     this.initializeFilterValues();
     this.applyFilters();
   }
 
-  toggleExpanded(): void {
+  public toggleExpanded(): void {
     this.isExpanded.update((state) => !state);
   }
 
@@ -43,12 +43,13 @@ export class FilterPanel implements OnInit {
     this.initialFilterValues = { ...this.filterValues };
   }
 
-  isChecked(fieldId: string, optionId: string): boolean {
+  public isChecked(fieldId: string, optionId: string): boolean {
     const value = this.filterValues[fieldId];
+
     return Array.isArray(value) && value.includes(optionId);
   }
 
-  onCheckboxChange(fieldId: string, optionId: string, event: Event): void {
+  public onCheckboxChange(fieldId: string, optionId: string, event: Event): void {
     const checkbox = event.target as HTMLInputElement;
     const currentValue = this.filterValues[fieldId] as string[];
     
@@ -59,7 +60,7 @@ export class FilterPanel implements OnInit {
     }
   }
 
-  applyFilters(): void {
+  public applyFilters(): void {
     const filters = { ...this.filterValues };
     
     Object.keys(filters).forEach((key) => {
@@ -78,7 +79,7 @@ export class FilterPanel implements OnInit {
     this.filterChange.emit({ filters });
   }
 
-  resetFilters(): void {
+  public resetFilters(): void {
     this.fields().forEach((field) => {
       if (field.type === 'checkbox') {
         this.filterValues[field.id] = [];

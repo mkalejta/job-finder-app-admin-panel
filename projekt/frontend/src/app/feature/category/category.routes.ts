@@ -1,25 +1,25 @@
 import { Routes } from '@angular/router';
-import { CategoryForm } from './category-form/category-form';
-import { CategoryList } from './category-list/category-list';
-import { CategoryDetails } from './category-details/category-details';
+import { CategoryFormComponent } from './category-form/category-form';
+import { CategoryListComponent } from './category-list/category-list';
+import { CategoryDetailsComponent } from './category-details/category-details';
 
 export const CATEGORY_ROUTES: Routes = [
     {
         path: '',
-        component: CategoryList
+        component: CategoryListComponent
     },
     {
         path: 'form',
-        component: CategoryForm,
+        component: CategoryFormComponent,
         title: 'Create Category'
     },
     {
         path: ':id/details',
-        component: CategoryDetails
+        component: CategoryDetailsComponent
     },
     {
         path: ':id/form',
-        component: CategoryForm,
+        component: CategoryFormComponent,
         title: 'Edit Category'
     }
 ];

@@ -23,14 +23,15 @@ export class CategoryColorService {
     [CategoryColor.WHITE]: '#f9fafb',
   };
   
-  resolveCategoryColor(color: CategoryColor): string {
-    return this.categoryColorMap[color] ?? '#f5f5f5';
+  public resolveCategoryColor(color: CategoryColor): string {
+    return this.categoryColorMap[color] || '#f5f5f5';
   }
 
-  resolveTextColor(color: CategoryColor): string {
+  public resolveTextColor(color: CategoryColor): string {
     const hex = this.resolveCategoryColor(color).replace('#', '');
     const [r, g, b] = [0, 2, 4].map((start) => parseInt(hex.substring(start, start + 2), 16));
     const luminance = (0.299 * r + 0.587 * g + 0.114 * b) / 255;
+
     return luminance > 0.65 ? '#1a1a1a' : '#ffffff';
   }
 }

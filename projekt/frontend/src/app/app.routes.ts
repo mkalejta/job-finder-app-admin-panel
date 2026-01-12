@@ -1,18 +1,18 @@
 import { Routes } from '@angular/router';
-import { Home } from './core/home/home';
-import { NotFound } from './core/not-found/not-found';
-import { LoginForm } from './auth/login-form/login-form';
+import { HomeComponent } from './core/home/home';
+import { NotFoundComponent } from './core/not-found/not-found';
+import { LoginFormComponent } from './auth/login-form/login-form';
 import { AuthGuardService } from './auth/auth-guard.service';
 
 export const routes: Routes = [
     {
         path: '',
         pathMatch: 'full',
-        component: Home
+        component: HomeComponent
     },
     {
         path: 'login',
-        component: LoginForm
+        component: LoginFormComponent
     },
     {
         path: 'users',
@@ -34,6 +34,6 @@ export const routes: Routes = [
     },
     {
         path: '**',
-        component: NotFound
+        component: NotFoundComponent
     }
 ];

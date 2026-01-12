@@ -34,15 +34,15 @@
                 <select 
                     id="category"
                     formControlName="categoryId"
-                    [class.invalid]="categorId?.invalid && categorId?.touched">
+                    [class.invalid]="categoryIdControl?.invalid && categoryIdControl?.touched">
                     <option value="" disabled selected>Select category</option>
                     @for (category of categories(); track category.id) {
                         <option [value]="category.id">{{ category.name }}</option>
                     }
                 </select>
-                @if (categorId?.invalid && categorId?.touched) {
+                @if (categoryIdControl?.invalid && categoryIdControl?.touched) {
                     <div class="error-message">
-                        @if (categorId?.errors?.['required']) {
+                        @if (categoryIdControl?.errors?.['required']) {
                             <span>Category is required</span>
                         }
                     </div>

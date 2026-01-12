@@ -1,7 +1,7 @@
 import { Component, input, output, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import SortingParams from '../../interface/SortingParams';
+import { SortingParams } from '../../interface/SortingParams';
 
 export interface SortField {
   id: string;
@@ -15,21 +15,21 @@ export interface SortField {
   templateUrl: './sort-panel.html',
   styleUrl: './sort-panel.scss',
 })
-export class SortPanel implements OnInit {
-  fields = input.required<SortField[]>();
-  initialSort = input<SortingParams>({ sort: '', direction: 'ASC' });
-  sortChange = output<SortingParams>();
+export class SortPanelComponent implements OnInit {
+  public fields = input.required<SortField[]>();
+  public initialSort = input<SortingParams>({ sort: '', direction: 'ASC' });
+  public sortChange = output<SortingParams>();
 
-  selectedField = '';
-  selectedDirection: 'ASC' | 'DESC' = 'ASC';
+  public selectedField = '';
+  public selectedDirection: 'ASC' | 'DESC' = 'ASC';
   
-  ngOnInit(): void {
+  public ngOnInit(): void {
     const initial = this.initialSort();
     this.selectedField = initial.sort || '';
     this.selectedDirection = initial.direction || 'ASC';
   }
 
-  applySort(): void {
+  public applySort(): void {
     if (this.selectedField) {
       this.sortChange.emit({
         sort: this.selectedField,

@@ -1,4 +1,4 @@
-export default interface PageResponse<T> {
+export interface PageResponse<T> {
   content: T[];
   pageable: {
     pageNumber: number;
@@ -25,4 +25,4 @@ export default interface PageResponse<T> {
   };
   numberOfElements: number;
   empty: boolean;
-}
+};
