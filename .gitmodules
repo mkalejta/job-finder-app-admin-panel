@@ -1,0 +1,3 @@
+[submodule "projekt/backend"]
+	path = projekt/backend
+	url = git@github.com:jankotanime/job-finder-app.git
