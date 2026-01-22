@@ -184,8 +184,8 @@ export class CategoryFormComponent implements OnInit {
     });
   }
 
-  public onDeleteTag(tagId: UUIDTypes, tagName: string): void {
-    if (!this.categoryId) {
+  public onDeleteTag(tagId: UUIDTypes | null | undefined, tagName: string | null | undefined): void {
+    if (!this.categoryId || !tagId || !tagName) {
       return;
     }
 

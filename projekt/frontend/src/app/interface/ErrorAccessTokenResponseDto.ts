@@ -1,12 +1,12 @@
 export interface ErrorAccessTokenResponseDto {
-    code: string;
-    message: string;
-    timestamp: string;
-    errors: FieldValidationErrorsDto[];
+    readonly code: string;
+    readonly message: string;
+    readonly timestamp: string;
+    readonly errors: FieldValidationErrorsDto[];
 };
 
 export interface FieldValidationErrorsDto {
-    code: string;
-    field: string;
-    message: string;
+    readonly code: string;
+    readonly field: string;
+    readonly message: string;
 };

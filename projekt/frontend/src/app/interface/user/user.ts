@@ -1,15 +1,15 @@
 import { UUIDTypes } from "uuid";
 
 export interface User {
-    id: UUIDTypes;
-    username: string;
-    email: string;
-    firstName: string;
-    lastName: string;
-    role: string;
-    phoneNumber: number;
-    profileDescription: string;
-    profilePhoto?: string;
-    createdAt: Date;
-    updatedAt: Date;
+    readonly id: UUIDTypes;
+    readonly username: string;
+    readonly email: string;
+    readonly firstName: string;
+    readonly lastName: string;
+    readonly role: string;
+    readonly phoneNumber: number;
+    readonly profileDescription: string;
+    readonly profilePhoto?: string;
+    readonly createdAt: Date;
+    readonly updatedAt: Date;
 };

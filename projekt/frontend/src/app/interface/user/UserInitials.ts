@@ -1,5 +1,5 @@
 export interface UserInitial {
-    firstName: string;
-    lastName: string;
-    size?: number;
+    readonly firstName: string;
+    readonly lastName: string;
+    readonly size?: number;
 };

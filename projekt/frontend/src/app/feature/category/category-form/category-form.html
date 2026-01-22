@@ -16,13 +16,13 @@
                     id="name" 
                     formControlName="name"
                     placeholder="Enter category name"
-                    [class.invalid]="name?.invalid && name?.touched">
-                @if (name?.invalid && name?.touched) {
+                    [class.invalid]="name.invalid && name.touched">
+                @if (name.invalid && name.touched) {
                     <div class="error-message">
-                        @if (name?.errors?.['required']) {
+                        @if (name.errors?.['required']) {
                             <span>Name is required</span>
                         }
-                        @if (name?.errors?.['CategoryAndTagValidator']) {
+                        @if (name.errors?.['CategoryAndTagValidator']) {
                             <span>Name must start with big letter and then only small letters</span>
                         }
                     </div>
@@ -34,15 +34,15 @@
                 <select 
                     id="color"
                     formControlName="categoryColor"
-                    [class.invalid]="categoryColor?.invalid && categoryColor?.touched">
+                    [class.invalid]="categoryColor.invalid && categoryColor.touched">
                     <option value="" disabled selected>Select color</option>
                     @for (color of categoryColors; track color) {
                         <option [value]="color">{{ color }}</option>
                     }
                 </select>
-                @if (categoryColor?.invalid && categoryColor?.touched) {
+                @if (categoryColor.invalid && categoryColor.touched) {
                     <div class="error-message">
-                        @if (categoryColor?.errors?.['required']) {
+                        @if (categoryColor.errors?.['required']) {
                             <span>Color is required</span>
                         }
                     </div>

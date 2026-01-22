@@ -1,8 +1,8 @@
 export interface UserUpdateDto {
-    username: string;
-    email: string;
-    phoneNumber: string;
-    firstName: string;
-    lastName: string;
-    profileDescription: string;
+    readonly username: string;
+    readonly email: string;
+    readonly phoneNumber: string;
+    readonly firstName: string;
+    readonly lastName: string;
+    readonly profileDescription: string;
 }

@@ -1,28 +1,28 @@
 export interface PageResponse<T> {
-  content: T[];
-  pageable: {
-    pageNumber: number;
-    pageSize: number;
-    sort: {
-      empty: boolean;
-      sorted: boolean;
-      unsorted: boolean;
+  readonly content: T[];
+  readonly pageable: {
+    readonly pageNumber: number;
+    readonly pageSize: number;
+    readonly sort: {
+      readonly empty: boolean;
+      readonly sorted: boolean;
+      readonly unsorted: boolean;
     };
-    offset: number;
-    paged: boolean;
-    unpaged: boolean;
+    readonly offset: number;
+    readonly paged: boolean;
+    readonly unpaged: boolean;
   };
-  last: boolean;
-  totalPages: number;
-  totalElements: number;
-  first: boolean;
-  size: number;
-  number: number;
-  sort: {
-    empty: boolean;
-    sorted: boolean;
-    unsorted: boolean;
+  readonly last: boolean;
+  readonly totalPages: number;
+  readonly totalElements: number;
+  readonly first: boolean;
+  readonly size: number;
+  readonly number: number;
+  readonly sort: {
+    readonly empty: boolean;
+    readonly sorted: boolean;
+    readonly unsorted: boolean;
   };
-  numberOfElements: number;
-  empty: boolean;
+  readonly numberOfElements: number;
+  readonly empty: boolean;
 };

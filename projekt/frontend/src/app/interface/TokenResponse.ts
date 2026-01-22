@@ -1,5 +1,5 @@
 export interface TokenResponse {
-  accessToken: string;
-  refreshToken: string;
-  refreshTokenId: string;
+  readonly accessToken: string;
+  readonly refreshToken: string;
+  readonly refreshTokenId: string;
 };

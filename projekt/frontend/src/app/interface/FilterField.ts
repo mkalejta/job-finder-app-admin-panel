@@ -1,11 +1,11 @@
 export interface FilterOption {
-  id: string;
-  label: string;
+  readonly id: string;
+  readonly label: string;
 };
 
 export interface FilterField {
-  id: string;
-  label: string;
-  type: 'text' | 'checkbox' | 'select' | 'date';
-  options?: FilterOption[];
+  readonly id: string;
+  readonly label: string;
+  readonly type: 'text' | 'checkbox' | 'select' | 'date';
+  readonly options?: FilterOption[];
 };

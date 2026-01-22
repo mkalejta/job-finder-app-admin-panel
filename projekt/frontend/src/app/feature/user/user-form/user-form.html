@@ -16,13 +16,13 @@
                     id="username" 
                     formControlName="username"
                     placeholder="Enter username"
-                    [class.invalid]="username?.invalid && username?.touched">
-                @if (username?.invalid && username?.touched) {
+                    [class.invalid]="username.invalid && username.touched">
+                @if (username.invalid && username.touched) {
                     <div class="error-message">
-                        @if (username?.errors?.['required']) {
+                        @if (username.errors?.['required']) {
                             <span>Username is required</span>
                         }
-                        @if (username?.errors?.['UsernameValidator']) {
+                        @if (username.errors?.['UsernameValidator']) {
                             <span>Username must contain at least one letter</span>
                         }
                     </div>
@@ -36,13 +36,13 @@
                     id="email" 
                     formControlName="email"
                     placeholder="Enter email"
-                    [class.invalid]="email?.invalid && email?.touched">
-                @if (email?.invalid && email?.touched) {
+                    [class.invalid]="email.invalid && email.touched">
+                @if (email.invalid && email.touched) {
                     <div class="error-message">
-                        @if (email?.errors?.['required']) {
+                        @if (email.errors?.['required']) {
                             <span>Email is required</span>
                         }
-                        @if (email?.errors?.['EmailValidator']) {
+                        @if (email.errors?.['EmailValidator']) {
                             <span>Email must be in format: user@domain.com (letters, numbers, and valid domain)</span>
                         }
                     </div>
@@ -56,13 +56,13 @@
                 id="phoneNumber" 
                 formControlName="phoneNumber"
                 placeholder="Enter phoneNumber"
-                [class.invalid]="phoneNumber?.invalid && phoneNumber?.touched">
-                @if (phoneNumber?.invalid && phoneNumber?.touched) {
+                [class.invalid]="phoneNumber.invalid && phoneNumber.touched">
+                @if (phoneNumber.invalid && phoneNumber.touched) {
                     <div class="error-message">
-                        @if (phoneNumber?.errors?.['required']) {
+                        @if (phoneNumber.errors?.['required']) {
                             <span>Phone number is required</span>
                         }
-                        @if (phoneNumber?.errors?.['PhoneNumberValidator']) {
+                        @if (phoneNumber.errors?.['PhoneNumberValidator']) {
                             <span>Phone number must contain only digits</span>
                         }
                     </div>
@@ -78,13 +78,13 @@
                     id="password" 
                     formControlName="password"
                     placeholder="Enter password"
-                    [class.invalid]="password?.invalid && password?.touched">
-                @if (password?.invalid && password?.touched) {
+                    [class.invalid]="password.invalid && password.touched">
+                @if (password.invalid && password.touched) {
                     <div class="error-message">
-                        @if (password?.errors?.['required']) {
+                        @if (password.errors?.['required']) {
                             <span>Password is required</span>
                         }
-                        @if (password?.errors?.['PasswordValidator']) {
+                        @if (password.errors?.['PasswordValidator']) {
                             <span>Password must have at least 8 characters, one uppercase letter, one lowercase letter, and one digit</span>
                         }
                     </div>
@@ -100,13 +100,13 @@
                 id="firstName" 
                 formControlName="firstName"
                 placeholder="Enter firstName"
-                [class.invalid]="firstName?.invalid && firstName?.touched">
-                @if (firstName?.invalid && firstName?.touched) {
+                [class.invalid]="firstName.invalid && firstName.touched">
+                @if (firstName.invalid && firstName.touched) {
                     <div class="error-message">
-                        @if (firstName?.errors?.['required']) {
+                        @if (firstName.errors?.['required']) {
                             <span>First name is required</span>
                         }
-                        @if (firstName?.errors?.['ProfileInfoValidator']) {
+                        @if (firstName.errors?.['ProfileInfoValidator']) {
                             <span>First name must contain only characters</span>
                         }
                     </div>
@@ -120,13 +120,13 @@
                 id="lastName" 
                 formControlName="lastName"
                 placeholder="Enter lastName"
-                [class.invalid]="lastName?.invalid && lastName?.touched">
-                @if (lastName?.invalid && lastName?.touched) {
+                [class.invalid]="lastName.invalid && lastName.touched">
+                @if (lastName.invalid && lastName.touched) {
                     <div class="error-message">
-                        @if (lastName?.errors?.['required']) {
+                        @if (lastName.errors?.['required']) {
                             <span>Last name is required</span>
                         }
-                        @if (lastName?.errors?.['ProfileInfoValidator']) {
+                        @if (lastName.errors?.['ProfileInfoValidator']) {
                             <span>Last name must contain only characters</span>
                         }
                     </div>
@@ -140,13 +140,13 @@
                 id="profileDescription" 
                 formControlName="profileDescription"
                 placeholder="Enter profileDescription"
-                [class.invalid]="profileDescription?.invalid && profileDescription?.touched">
-                @if (profileDescription?.invalid && profileDescription?.touched) {
+                [class.invalid]="profileDescription.invalid && profileDescription.touched">
+                @if (profileDescription.invalid && profileDescription.touched) {
                     <div class="error-message">
-                        @if (profileDescription?.errors?.['required']) {
+                        @if (profileDescription.errors?.['required']) {
                             <span>Profile description is required</span>
                         }
-                        @if (profileDescription?.errors?.['ProfileInfoValidator']) {
+                        @if (profileDescription.errors?.['ProfileInfoValidator']) {
                             <span>Profile description must contain only characters</span>
                         }
                     </div>

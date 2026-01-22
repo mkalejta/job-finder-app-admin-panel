@@ -1,4 +1,4 @@
 export interface SortingParams {
-    sort?: string;
-    direction?: 'ASC' | 'DESC';
+    readonly sort?: string;
+    readonly direction?: 'ASC' | 'DESC';
 };

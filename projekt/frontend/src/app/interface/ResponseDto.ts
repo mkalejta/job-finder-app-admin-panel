@@ -1,21 +1,21 @@
 export interface FieldValidationErrorDto {
-  code: ErrorCode;
-  field: string;
-  message: string;
+  readonly code: ErrorCode;
+  readonly field: string;
+  readonly message: string;
 };
 
 export type SuccessCode = string;
 
 export interface ErrorCode {
-    name: string;
-    httpStatus: number;
-    message: string;
+    readonly name: string;
+    readonly httpStatus: number;
+    readonly message: string;
 };
 
 export interface ResponseDto<T> {
-  code: SuccessCode;
-  message: string;
-  timestamp: string;
-  error?: FieldValidationErrorDto[] | null;
-  data: T;
+  readonly code: SuccessCode;
+  readonly message: string;
+  readonly timestamp: string;
+  readonly error?: FieldValidationErrorDto[] | null;
+  readonly data: T;
 };

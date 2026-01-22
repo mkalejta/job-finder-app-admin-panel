@@ -1,15 +1,15 @@
 import { UUIDTypes } from "uuid";
 
 export interface JwtPayload {
-  sub?: UUIDTypes;
-  email?: string;
-  username?: string;
-  role?: string;
-  firstName?: string;
-  lastName?: string;
-  phoneNumber?: number;
-  profileDescription?: string;
-  profilePhoto?: string;
-  exp?: number;
-  iat?: number;
+  readonly sub?: UUIDTypes;
+  readonly email?: string;
+  readonly username?: string;
+  readonly role?: string;
+  readonly firstName?: string;
+  readonly lastName?: string;
+  readonly phoneNumber?: number;
+  readonly profileDescription?: string;
+  readonly profilePhoto?: string;
+  readonly exp?: number;
+  readonly iat?: number;
 };

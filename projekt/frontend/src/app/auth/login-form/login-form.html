@@ -10,13 +10,13 @@
                 id="username" 
                 formControlName="username"
                 placeholder="Enter username"
-                [class.invalid]="username?.invalid && username?.touched">
-                @if (username?.invalid && username?.touched) {
+                [class.invalid]="username.invalid && username.touched">
+                @if (username.invalid && username.touched) {
                     <div class="error-message">
-                        @if (username?.errors?.['required']) {
+                        @if (username.errors?.['required']) {
                             <span>Username is required</span>
                         }
-                        @if (username?.errors?.['minlength']) {
+                        @if (username.errors?.['minlength']) {
                             <span>Username needs to be at least 4 characters long</span>
                         }
                     </div>
@@ -30,13 +30,13 @@
                 id="password" 
                 formControlName="password"
                 placeholder="Enter password"
-                [class.invalid]="password?.invalid && password?.touched">
-                @if (password?.invalid && password?.touched) {
+                [class.invalid]="password.invalid && password.touched">
+                @if (password.invalid && password.touched) {
                     <div class="error-message">
-                        @if (password?.errors?.['required']) {
+                        @if (password.errors?.['required']) {
                             <span>Password is required</span>
                         }
-                        @if (password?.errors?.['minlength']) {
+                        @if (password.errors?.['minlength']) {
                             <span>Password needs to be at least 8 characters long</span>
                         }
                     </div>
