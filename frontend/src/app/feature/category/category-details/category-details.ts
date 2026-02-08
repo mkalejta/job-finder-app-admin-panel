@@ -5,7 +5,7 @@ import { UUIDTypes } from 'uuid';
 import { CommonModule } from '@angular/common';
 import { CategoryColorService } from '../../category-color.service';
 import { CategoryColor } from '../../../shared/enums/CategoryColor';
-import { Category } from '../../../interface/category/Category';
+import { Category } from '../../../interface/category/category';
 import { ConfirmationService } from '../../../core/services/confirmation.service';
 import { MatIconModule } from '@angular/material/icon';
 

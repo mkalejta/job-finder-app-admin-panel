@@ -1,6 +1,6 @@
 import { inject, Injectable } from '@angular/core';
 import { BehaviorSubject, Observable, catchError, combineLatest, map, of, tap } from 'rxjs';
-import { User } from '../../interface/user/User';
+import { User } from '../../interface/user/user';
 import { ResponseDto } from '../../interface/ResponseDto';
 import { PageResponse } from '../../interface/PageResponse';
 import { UUIDTypes, v4 as uuidv4 } from 'uuid';

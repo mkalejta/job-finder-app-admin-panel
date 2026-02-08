@@ -5,7 +5,7 @@ import { TagsService } from '../tag.service';
 import { UUIDTypes } from 'uuid';
 import { TagCreateDto } from '../../../interface/tag/TagCreateDto';
 import { Location } from '@angular/common';
-import { Tag } from '../../../interface/tag/Tag';
+import { Tag } from '../../../interface/tag/tag';
 import { CategoryService } from '../../category/category.service';
 import { toSignal } from '@angular/core/rxjs-interop';
 import { categoryAndTagValidator } from '../../../shared/validators/category-and-tag.validator';

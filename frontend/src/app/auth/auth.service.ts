@@ -5,7 +5,7 @@ import { environment } from '../../environments/environment';
 import { TokenResponse } from '../interface/TokenResponse';
 import { ResponseDto } from '../interface/ResponseDto';
 import { JwtHelperService } from '@auth0/angular-jwt';
-import { User } from '../interface/user/User';
+import { User } from '../interface/user/user';
 import { JwtPayload } from '../interface/JwtPayload';
 import { NotificationService } from '../core/services/notification.service';
 

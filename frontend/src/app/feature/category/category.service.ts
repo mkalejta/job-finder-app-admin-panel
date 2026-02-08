@@ -1,7 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { inject, Injectable } from '@angular/core';
 import { BehaviorSubject, catchError, combineLatest, map, Observable, of, tap } from 'rxjs';
-import { Category } from '../../interface/category/Category';
+import { Category } from '../../interface/category/category';
 import { environment } from '../../../environments/environment';
 import { ResponseDto }from '../../interface/ResponseDto';
 import { FilteringParams } from '../../interface/FilteringParams';

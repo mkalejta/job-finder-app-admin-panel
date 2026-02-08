@@ -2,7 +2,7 @@ import { Component, OnInit, OnDestroy, inject, signal } from '@angular/core';
 import { RouterLink, RouterLinkActive } from "@angular/router";
 import { UserInitial } from '../../interface/user/UserInitials';
 import { UserInitialsComponent } from '../../shared/user-initials/user-initials';
-import { User } from '../../interface/user/User';
+import { User } from '../../interface/user/user';
 import { AuthService } from '../../auth/auth.service';
 import { ThemeService } from '../services/theme.service';
 import { Subject } from 'rxjs';

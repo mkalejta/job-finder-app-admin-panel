@@ -11,7 +11,7 @@ import { SortingParams } from '../../interface/SortingParams';
 import { PaginationParams } from '../../interface/PaginationParams';
 import { PaginationService } from '../../shared/pagination/pagination.service';
 import { FilteringParams } from '../../interface/FilteringParams';
-import { Tag } from '../../interface/tag/Tag';
+import { Tag } from '../../interface/tag/tag';
 import { NotificationService } from '../../core/services/notification.service';
 
 export interface TagFilters {

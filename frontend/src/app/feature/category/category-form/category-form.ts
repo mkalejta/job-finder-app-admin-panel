@@ -11,8 +11,8 @@ import { NotificationService } from '../../../core/services/notification.service
 import { ConfirmationService } from '../../../core/services/confirmation.service';
 import { MatIconModule } from '@angular/material/icon';
 import { CategoryColor } from '../../../shared/enums/CategoryColor';
-import { Category } from '../../../interface/category/Category';
-import { Tag } from '../../../interface/tag/Tag';
+import { Category } from '../../../interface/category/category';
+import { Tag } from '../../../interface/tag/tag';
 
 interface TagFormGroup {
   id: FormControl<UUIDTypes | null>;

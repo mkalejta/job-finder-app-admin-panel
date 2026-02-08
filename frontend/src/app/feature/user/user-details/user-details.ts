@@ -1,6 +1,6 @@
 import { Component, inject, OnInit } from '@angular/core';
 import { ActivatedRoute, Router, RouterOutlet } from '@angular/router';
-import { User } from '../../../interface/user/User';
+import { User } from '../../../interface/user/user';
 import { UsersService } from '../user.service';
 import { UserInitialsComponent } from '../../../shared/user-initials/user-initials';
 import { UserInitial } from '../../../interface/user/UserInitials';
